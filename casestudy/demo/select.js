@@ -1,12 +1,23 @@
 // data source
 let loc = "https://SCS-Technology-and-Innovation.github.io/casestudy/demo/dataset.csv";
 
-// rng setup
+// default rng setup
 const a = 7;
 const c = 5;
 const m = 1097;
-const s = 8;
-const n = 12; 
+let s = 8;
+let n = 12; 
+
+const url = window.location.href;
+const params = url.split('?')[1];
+console.log(params);
+let values = new URLSearchParams(params);
+if (values.has('s')) {
+    s = values.get('s');
+}
+if (values.has('n')) {
+    n = values.get('n');
+}
 
 let x = s;
 let selection = [];
@@ -31,7 +42,6 @@ data.onreadystatechange = function() {
 		}
 		i++; // increment the counter
 	    }
-	    console.log(output);
 	    var link = document.createElement('a');
 	    link.style.display = 'none'; // nightblade mode (hiding)	    
 	    link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
