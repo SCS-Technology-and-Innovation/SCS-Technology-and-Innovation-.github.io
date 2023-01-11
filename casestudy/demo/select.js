@@ -55,8 +55,8 @@ data.onreadystatechange = function() {
 	    }
 	    var link = document.createElement('a');
 	    link.style.display = 'none'; // nightblade mode (hiding)	    
-	    link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
-	    link.setAttribute('download', 'casestudy.csv'); // output file name
+	    link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));	  
+	    link.setAttribute('download', 'casestudy' + s + '.csv'); // output file name needs to contain the seed to avoid cache problems
 	    document.body.appendChild(link);
 	    link.click(); // download
 	} 
