@@ -2,11 +2,11 @@
 let loc = "https://SCS-Technology-and-Innovation.github.io/casestudy/demo/dataset.csv";
 
 // default rng setup
-const a = 7;
-const c = 5;
-const m = 1097;
-let s = 8;
-let n = 12; 
+let a = 7;
+let c = 5;
+let m = 1097;
+let s = 10; // default for debugging
+let n = 10; // note: may be smaller if the LCG is not set up right
 
 const url = window.location.href;
 const params = url.split('?')[1];
@@ -18,6 +18,16 @@ if (values.has('s')) {
 if (values.has('n')) {
     n = values.get('n');
 }
+if (values.has('a')) {
+    a = values.get('a');
+}
+if (values.has('c')) {
+    c = values.get('c');
+}
+if (values.has('m')) {
+    m = values.get('m');
+}
+
 
 let x = s;
 let selection = [];
@@ -26,6 +36,7 @@ for (let i = 0; i < n; i++) {
     x = (a * x + c) % m;
     selection.push(x);
 }
+console.log(selection);
 
 let output = 'x,y'; // header row
 var data = new XMLHttpRequest();
