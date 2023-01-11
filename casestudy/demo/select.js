@@ -47,9 +47,10 @@ data.onreadystatechange = function() {
         if (data.status === 200) { 
             const lines = data.responseText.split('\n');
 	    let i = 0;
-	    for (const line of lines) { 
+	    for (const line of lines) {
 		if (selection.includes(i)) {
 		    output = output + '\n' +  line; // include this data point
+		    console.log(i + ' ' + line); 
 		}
 		i++; // increment the counter
 	    }
