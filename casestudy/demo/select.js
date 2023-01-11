@@ -34,7 +34,7 @@ let selection = [];
 
 for (let i = 0; i < n; i++) {
     x = (a * x + c) % m;
-    selection.push(x);
+    selection.push(x + 1); // line 0 is header
 }
 console.log(selection);
 
@@ -48,9 +48,12 @@ data.onreadystatechange = function() {
             const lines = data.responseText.split('\n');
 	    let i = 0;
 	    for (const line of lines) {
-		if (selection.includes(i)) {
-		    output = output + '\n' +  line; // include this data point
-		    console.log(i + ' ' + line); 
+		// first line is header line
+		if (i > 0) {
+		    if (selection.includes(i)) {
+			console.log('using ' + i + ' ' + line); 			
+			output = output + '\n' +  line; // include this data point
+		    }
 		}
 		i++; // increment the counter
 	    }
