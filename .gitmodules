@@ -1,0 +1,6 @@
+[submodule "Glossary"]
+	path = Glossary
+	url = git@github.com:SCS-Technology-and-Innovation/Glossary.git
+[submodule "DACS"]
+	path = DACS
+	url = git@github.com:SCS-Technology-and-Innovation/DACS.git
