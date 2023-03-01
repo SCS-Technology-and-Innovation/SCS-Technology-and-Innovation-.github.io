@@ -8,7 +8,7 @@ let ct = document.getElementById("clientstats");
 let workers = null;
 let loungechairs = null;
 
-let sc = 1;
+let scount = 1;
 
 TAKEN = '#990033';
 BUSY = '#993333';
@@ -257,21 +257,23 @@ function updateStats() {
 	ic.push(w.idle);
 	bc.push(w.busy);
 	sc.push(w.served);
+    }
+    for (let i = 0; i < workers.length; i++) {	
 	let r = ws.rows[i];
-	r.cells[2].innerHTML = w.idle;
+	let w = workers[i];	
 	if (i == 0) {
+	    r.cells[2].innerHTML = w.idle;	    	    
+	    r.cells[3].innerHTML = average(ic).toFixed(2);
 	    r.cells[4].innerHTML = w.busy;
+	    r.cells[5].innerHTML = average(bc).toFixed(2);	    
 	    r.cells[6].innerHTML = w.served;
+	    r.cells[7].innerHTML = average(sc).toFixed(2);    	    
 	} else {
-	    r.cells[3].innerHTML = w.busy;	    
-	    r.cells[4].innerHTML = w.served;
+	    r.cells[1].innerHTML = w.idle;	    
+	    r.cells[2].innerHTML = w.busy;	    
+	    r.cells[3].innerHTML = w.served;
 	}
     }
-    let r = ws.rows[0];
-    r.cells[3].innerHTML = average(ic).toFixed(2);
-    r.cells[5].innerHTML = average(bc).toFixed(2);
-    r.cells[7].innerHTML = average(sc).toFixed(2);    
-    
     let cs = ct.getElementsByTagName('tbody')[0];
     r = cs.rows[0];
     r.cells[1].innerHTML = satisfied;
@@ -285,61 +287,67 @@ function updateStats() {
 function data() {
     let stat = wt.getElementsByTagName('tbody');    
     let tb = stat[0];
-    // populate with the required number of rows
-    for (let i = 0; i < workers.length; i++) {
-	let l = i + 1;
-	let row = tb.insertRow(i);
-	let slabel = row.insertCell(0);
-	slabel.innerHTML = 'Simulation ' + sc;
-	let wlabel = row.insertCell(1);
-	wlabel.innerHTML = 'Worker ' + l;	
-
-	let idleown = row.insertCell(2);
-	idleown.innerHTML = "";
-	let p = 3;
+    // add with the required number of rows for the workers
+    let n = workers.length;
+    console.log('Adding', n, 'new rows to the worker stats table');    
+    for (let i = 0; i < n; i++) {
+	tb.insertRow(i);
+    }
+    for (let i = 0; i < n; i++) {    
+	let row = tb.rows[i]; 
+	let p = 0;
 	if (i == 0) {
-	    let idleavg = row.insertCell(p);
-	    p++;
+	    let slabel = row.insertCell(p++);
+	    slabel.innerHTML = 'Simulation ' + scount;
+	    let sl = 'sl' + scount;
+	    slabel.id = sl;
+	}
+	let wlabel = row.insertCell(p++);
+	wlabel.innerHTML = 'Worker ' + (i + 1);	
+
+	let idleown = row.insertCell(p++);
+	idleown.innerHTML = "";
+	if (i == 0) {
+	    let idleavg = row.insertCell(p++);
 	    idleavg.innerHTML = "";	    
-	    let sl = 'ia' + sc;
+	    let sl = 'ia' + scount;
 	    idleavg.id = sl;
-	    document.getElementById(sl).rowSpan = '"' + workers.length + '"';
 	}
 
-	let busyown = row.insertCell(p);
-	p++;
+	let busyown = row.insertCell(p++);
 	busyown.innerHTML = "";
 	if (i == 0) {
-	    let busyavg = row.insertCell(p);
-	    p++;
+	    let busyavg = row.insertCell(p++);
 	    busyavg.innerHTML = "";	    
-	    let sl = 'ba' + sc;
+	    let sl = 'ba' + scount;
 	    busyavg.id = sl;
-	    document.getElementById(sl).rowSpan = '"' + workers.length + '"';
 	}
 
-	let servedown = row.insertCell(p);
+	let servedown = row.insertCell(p++);
 	servedown.innerHTML = 0;
-	p++;
 	if (i == 0) {
-	    let savg = row.insertCell(p);
+	    let savg = row.insertCell(p++);
 	    savg.innerHTML = "";	    
-	    let sl = 'sa' + sc;
+	    let sl = 'sa' + scount;
 	    savg.id = sl;
-	    document.getElementById(sl).rowSpan = '"' + workers.length + '"';
 	}	
     }
 
+    document.getElementById('sl' + scount).rowSpan = n;
+    document.getElementById('ia' + scount).rowSpan = n;
+    document.getElementById('ba' + scount).rowSpan = n;
+    document.getElementById('sa' + scount).rowSpan = n;
+
     stat = ct.getElementsByTagName('tbody');    
     row = (stat[0]).insertRow(0);
-    slabel = row.insertCell(0);	    
+    let slabel = row.insertCell(0);	    
     let s = row.insertCell(1);
     let c = row.insertCell(2);
     let l = row.insertCell(3);
     let a = row.insertCell(4);
     let me = row.insertCell(5);
     let ma = row.insertCell(6);	
-    slabel.innerHTML = 'Simulation ' + sc;
+    slabel.innerHTML = 'Simulation ' + scount;
     s.innerHTML = 0;
     c.innerHTML = 0;
     l.innerHTML = 0;
@@ -347,9 +355,8 @@ function data() {
     me.innerHTML = '';
     ma.innerHTML = '';
 
-    sc++; // new stats
+    scount++; // new stats each time
 }
-
 
 let t = 0; // time remaining
 let button = document.getElementById('sim');	
