@@ -261,14 +261,14 @@ function updateStats() {
     for (let i = 0; i < workers.length; i++) {	
 	let r = ws.rows[i];
 	let w = workers[i];	
-	if (i == 0) {
+	if (i == 0) { // simulation label AND worker label come first
 	    r.cells[2].innerHTML = w.idle;	    	    
 	    r.cells[3].innerHTML = average(ic).toFixed(2);
 	    r.cells[4].innerHTML = w.busy;
 	    r.cells[5].innerHTML = average(bc).toFixed(2);	    
 	    r.cells[6].innerHTML = w.served;
 	    r.cells[7].innerHTML = average(sc).toFixed(2);    	    
-	} else {
+	} else { // cell zero has the worker label
 	    r.cells[1].innerHTML = w.idle;	    
 	    r.cells[2].innerHTML = w.busy;	    
 	    r.cells[3].innerHTML = w.served;
