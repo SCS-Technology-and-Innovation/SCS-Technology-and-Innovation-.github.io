@@ -95,6 +95,7 @@ let mb = document.getElementById('match');
 
 let vl = null;
 let il = null;
+
 function vertexlabels() {
     let v = 0;
     vl = {};
@@ -118,12 +119,6 @@ function vertexlabels() {
 	let value = vl[l];
 	il[value] = l;
     }
-}
-
-function prep() {
-    vl = null;
-    tabulate(); // prep the tables
-    db.disabled = false;        
 }
 
 var canvas = document.getElementById('network');
@@ -221,14 +216,12 @@ reset();
 
 // assign zero flow in both directions
 function reset() {
-    flow = {};        
+    flow = {};
     for (let edge in network) {
 	let vertices = edge.split(',');
 	let from = vertices[0];
 	let to = vertices[1];
-	// let redge = to + ',' + from;
 	flow[edge] = 0;
-	// flow[redge] = 0;
     }
 }
 
@@ -246,7 +239,6 @@ function line(start, end, sl, el) {
     ctx.lineTo(end.x, end.y);
     ctx.stroke(); 	
 }
-
 
 function edges() {
     network = {};
@@ -367,10 +359,6 @@ function show() {
 }
 
 function visualize() {
-    if (vl == null) {
-	vertexlabels();
-    }
-    mb.disabled = false;
     nodes();
     canvas.width = w;
     canvas.height = h;
@@ -379,23 +367,31 @@ function visualize() {
     show();
 }
 
+const verbose = false;
+
 function augpath() {
-    let queue = [vl['s']]; // start at the source
+    let queue = [ vl['s'] ]; // start at the source
     let used = [];
     let path = [];
     while (queue.length > 0) {
         let current = queue.shift(); // pop the first
         used.push(current);
-	// console.log('Advancing at', current);
+	if (verbose) {
+	    console.log('Advancing at', current);
+	}
         for (let edge in network) {
 	    let vertices = edge.split(',');
 	    let from = vertices[0];
 	    let to = vertices[1];
             if (from == current && queue.indexOf(to) == -1 && used.indexOf(to) == -1) {
-		// console.log('Chose', edge);
+		if (verbose) {
+		    console.log('Contemplating edge (' + from + ',' + to + ')');
+		}
                 let available = network[edge] - flow[edge];
                 if (available > 0) {
-		    //console.log('Contemplating (' + from + ',' + to + ') with ' + available + ' units');
+		    if (verbose) {
+			console.log(edge, 'has',  available, ' units left');
+		    }
                     queue.push(to);
 		    let step = {};
 		    step.from = from;
@@ -406,9 +402,13 @@ function augpath() {
 	    }
 	}
     }
-    //console.log('Augmenting path of', path.length, 'edges');
+    if (verbose) {
+	console.log('Augmenting path of', path.length, 'edges');
+    }
     if (used.indexOf(vl['t']) >= 0) {
-	// console.log('Contains the sink');
+	if (verbose) {
+	    console.log('Contains the sink');
+	}
 	return path;
     } else {
 	return null;
@@ -427,19 +427,22 @@ function minimum(path) {
 }
 
 function match() {
-    reset();
     while (true) {
         let path = augpath();
 	if (path == null) {
-	    // console.log('No augmenting path available');
+	    if (verbose) {
+		console.log('No augmenting path available');
+	    }
             break;
 	}
         let incr = minimum(path);
 	// console.log('Bottleneck is', incr);
 	// backtrack from t
         let curr = vl['t'];
-        while (true) { // inefficient, yes
-	    // console.log('Backtracking at',  current);
+        while (true) { // inefficient, yes, this is javascript :(
+	    if (verbose) {
+		console.log('Ford-Fulkerson at',  curr);
+	    }
 	    let found = false;
 	    for (let i = 0; i < path.length; i++) {
 		let step = path[i];
@@ -457,7 +460,6 @@ function match() {
 	    }
 	}
     }
-    report();
 }
 
 let assignment = {};
@@ -556,8 +558,13 @@ function backtrack() {
 }
 
 function report() {
+    reset();
+    console.log('Computing the maximum flow');
+    match();
+    console.log('Visualizating the flow');        
+    visualize();
+    console.log('Recovering the assignment');    
     backtrack();
-    visualize(); // redraw    
     // result table header
     let s = rt.getElementsByTagName('thead')[0];
     s.textContent = '';
@@ -590,10 +597,19 @@ function report() {
     }
 }
 
+
+function prep() {
+    network = {};
+    tabulate(); // prep the tables
+    vertexlabels();
+    visualize();
+}
+
 function everything() {
     prep();
-    visualize();
-    match();
+    report();
 }
 
 everything();
+
+
