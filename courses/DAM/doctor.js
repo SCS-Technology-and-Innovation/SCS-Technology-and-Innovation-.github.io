@@ -16,6 +16,7 @@ function tabulate() {
     let p = parseInt(document.getElementById('rate').value) / 100;    
     // patient table header
     let s = pt.getElementsByTagName('thead')[0];
+    s.textContent = '';    
     let r = s.insertRow(0);
     let c = r.insertCell(0);
     c.innerHTML = 'P/M';
@@ -24,7 +25,8 @@ function tabulate() {
 	c.innerHTML = 'M' + j;
     }
     // patient table body    
-    s = pt.getElementsByTagName('tbody')[0];    
+    s = pt.getElementsByTagName('tbody')[0];
+    s.textContent = '';    
     for (let i = 0; i < npat; i++) {
 	r = s.insertRow(i);
 	c = r.insertCell(0);
@@ -48,6 +50,7 @@ function tabulate() {
     }
     // doctor table header
     s = dt.getElementsByTagName('thead')[0];
+    s.textContent = '';    
     r = s.insertRow(0);
     c = r.insertCell(0);
     c.innerHTML = 'D/M';
@@ -58,15 +61,17 @@ function tabulate() {
     c = r.insertCell(nopt + 1);
     c.innerHTML = 'Cap';
     // doctor table body    
-    s = dt.getElementsByTagName('tbody')[0];    
-    for (let i = 0; i < npat; i++) {
+    s = dt.getElementsByTagName('tbody')[0];
+    s.textContent = '';    
+    for (let i = 0; i < ndoc; i++) {
 	r = s.insertRow(i);
 	c = r.insertCell(0);
-	c.innerHTML = 'D' + (i + 1);
+	let dl = 'D' + (i + 1);
+	c.innerHTML = dl;
 	for (let j = 1; j <= nopt; j++) {
 	    c = r.insertCell(j);
 	    var box = document.createElement('input');
-	    box.id = 'D' + (i + 1) + 'M' + j;
+	    box.id = dl + 'M' + j;
 	    box.type = 'checkbox';
 	    if (fill && Math.random() < p) {
 		box.checked = true;
@@ -75,7 +80,7 @@ function tabulate() {
 	}
 	c = r.insertCell(nopt + 1);
 	var k = document.createElement('input');
-	k.id = 'D' + i
+	k.id = dl;
 	if (fill) {
 	    k.value = randint(cmin, cmax);
 	}
@@ -88,7 +93,35 @@ let pb = document.getElementById('prep');
 let db = document.getElementById('vis');	
 let mb = document.getElementById('match');	
 
+let vl = null;
+let il = null;
+function vertexlabels() {
+    let v = 0;
+    vl = {};
+    vl['s'] = '' + v++;
+    for (let i = 0; i < npat; i++) {
+	let pl = 'P' + (i + 1);	
+	vl[pl] = '' + v++;
+    }
+    for (let j = 0; j < nopt; j++) {
+	let ml = 'M' + (j + 1);	
+	vl[ml] = '' + v++;
+    }
+    for (let i = 0; i < ndoc; i++) {
+	let dl = 'D' + (i + 1);
+	vl[dl] = '' + v++;
+    }
+    vl['t'] = '' + v++;
+
+    il = {};
+    for (let l in vl) { // inverse lookup
+	let value = vl[l];
+	il[value] = l;
+    }
+}
+
 function prep() {
+    vl = null;
     tabulate(); // prep the tables
     db.disabled = false;        
 }
@@ -182,7 +215,6 @@ function nodes() {
     }
 }
 
-let vl = null; // vertex labels
 let network = null; // edge capacities
 let flow = null;
 reset();
@@ -194,14 +226,15 @@ function reset() {
 	let vertices = edge.split(',');
 	let from = vertices[0];
 	let to = vertices[1];
-	let redge = to + ',' + from;
+	// let redge = to + ',' + from;
 	flow[edge] = 0;
-	flow[redge] = 0;
+	// flow[redge] = 0;
     }
 }
 
-function line(start, end, used) {
-    if (used) {
+function line(start, end, sl, el) {
+    let edge = sl + ',' + el;
+    if (flow[edge] > 0) {
 	ctx.fillStyle = cf;
 	ctx.strokeStyle = cf;
     } else {
@@ -214,40 +247,28 @@ function line(start, end, used) {
     ctx.stroke(); 	
 }
 
+
 function edges() {
-    let v = 0;
-    vl = {};
-    vl['s'] = '' + v++;
     network = {};
     ctx.lineWidth = LW;
     let sp = pos['s'];
     for (let i = 0; i < npat; i++) {
 	let pl = 'P' + (i + 1);
-	vl[pl] = '' + v++;
 	let ip = pos[pl]
 	let el = vl['s'] + ',' + vl[pl];
 	network[el] = 1; // source to pl
-	let used = flow[el] > 0;
-	line(sp, ip, used);
+	line(sp, ip, vl['s'], vl[pl]);
 	for (let j = 0; j < nopt; j++) {
-	    ml = 'M' + (j + 1);
-	    if (i == 0) {
-		vl[ml] = '' + v++;
-	    }
+	    let ml = 'M' + (j + 1);
 	    let jp = pos[ml];
 	    let req = document.getElementById('P' + (i + 1) + 'M' + (j + 1));
 	    if (req.checked) { // edge present
 		el = vl[pl] + ',' + vl[ml];
 		network[el] = 1;
-		line(ip, jp, (flow[el] > 0));
+		line(ip, jp, vl[pl], vl[ml]);
 	    }
 	}
     }
-    for (let i = 0; i < ndoc; i++) {
-	let dl = 'D' + (i + 1);
-	vl[dl] = '' + v++;
-    }
-    vl['t'] = '' + v++;
     let tp = pos['t'];
     for (let i = 0; i < ndoc; i++) {
 	let dl = 'D' + (i + 1);	
@@ -257,7 +278,7 @@ function edges() {
 	ctx.lineWidth = ic * LW;
 	let el = vl[dl] + ',' + vl['t'];
 	network[el] = ic; // doctor to sink
-	line(ip, tp, (flow[el] > 0));
+	line(ip, tp, vl[dl], vl['t']);
 	for (let j = 0; j < nopt; j++) {
 	    let ml = 'M' + (j + 1); // already in vl
 	    let jp = pos[ml];
@@ -265,7 +286,7 @@ function edges() {
 	    if (req.checked) { // edge present
 		el = vl[ml] + ',' + vl[dl];
 		network[el] = ic;
-		line(ip, jp, (flow[el] > 0));
+		line(ip, jp, vl[ml], vl[dl]);
 	    }
 	}
     }
@@ -346,6 +367,9 @@ function show() {
 }
 
 function visualize() {
+    if (vl == null) {
+	vertexlabels();
+    }
     mb.disabled = false;
     nodes();
     canvas.width = w;
@@ -356,9 +380,7 @@ function visualize() {
 }
 
 function augpath() {
-    let s = vl['s'];
-    let t = vl['t'];        
-    let queue = [s];
+    let queue = [vl['s']]; // start at the source
     let used = [];
     let path = [];
     while (queue.length > 0) {
@@ -366,16 +388,14 @@ function augpath() {
         used.push(current);
 	// console.log('Advancing at', current);
         for (let edge in network) {
-	    let capacity = network[edge];
 	    let vertices = edge.split(',');
 	    let from = vertices[0];
 	    let to = vertices[1];
             if (from == current && queue.indexOf(to) == -1 && used.indexOf(to) == -1) {
 		// console.log('Chose', edge);
-                let value = flow[edge];
-                let available = capacity - value;
+                let available = network[edge] - flow[edge];
                 if (available > 0) {
-		    // console.log('Using (' + from + ',' + to + ') for ' + available + ' nits');
+		    //console.log('Contemplating (' + from + ',' + to + ') with ' + available + ' units');
                     queue.push(to);
 		    let step = {};
 		    step.from = from;
@@ -387,8 +407,7 @@ function augpath() {
 	}
     }
     //console.log('Augmenting path of', path.length, 'edges');
-
-    if (used.indexOf(t) >= 0) {
+    if (used.indexOf(vl['t']) >= 0) {
 	// console.log('Contains the sink');
 	return path;
     } else {
@@ -418,20 +437,19 @@ function match() {
         let incr = minimum(path);
 	// console.log('Bottleneck is', incr);
 	// backtrack from t
-        let current = vl['t'];
+        let curr = vl['t'];
         while (true) { // inefficient, yes
 	    // console.log('Backtracking at',  current);
 	    let found = false;
-	    for (let i = 1; i < path.length; i++) {
+	    for (let i = 0; i < path.length; i++) {
 		let step = path[i];
-		if (step.to == current) {
+		if (step.to == curr) {
 		    found = true;
-		    let previous = step.from;		    
-		    let edge = previous + ',' + current;
-		    let redge = current + ',' + previous;
+		    let prev = step.from;		    
+		    let e = prev + ',' + curr;
+		    let edge = prev + ',' + curr;
 		    flow[edge] += incr;
-		    flow[redge] -= incr;
-		    current = previous; // keep going backwards
+		    curr = prev; // keep going backwards
 		}
 	    }
 	    if (!found) {
@@ -439,13 +457,110 @@ function match() {
 	    }
 	}
     }
-    return;
+    report();
+}
+
+let assignment = {};
+let consumed = {};
+let check = {};
+
+function backtrack() {
+    consumed = {};        
+    for (let edge in network) {
+	let vertices = edge.split(',');
+	let from = vertices[0];
+	let to = vertices[1];
+	let redge = to + ',' + from;
+	consumed[edge] = 0;
+	consumed[redge] = 0;
+    }
+
+    let s = [ vl['s'] ];
+    let t = vl['t'];
+
+    // adjacency tables
+    check = {};
+    let p = [];
+    for (let i = 0; i < npat; i++) {
+	let pl = 'P' + (i + 1);
+	let pv = vl[pl];
+	p.push(pv);
+	check[pv] = s;
+    }
+    let m = [];
+    for (let i = 0; i < nopt; i++) {
+	let ml = 'M' + (i + 1);
+	let mv = vl[ml];
+	m.push(mv);
+	check[mv] = p;
+    }
+    let d = [];
+    let left = 0;
+    for (let i = 0; i < ndoc; i++) {
+	let dl = 'D' + (i + 1);
+	let dv = vl[dl];
+	d.push(dv);
+	check[dv] = m;
+	left += flow[dv + ',' + t];
+	// console.log(dv, t, left);
+    }
+    check[t] = d;
+
+    while (left > 0) {
+	// console.log('Assigning', left, 'doctor-patient pairs');
+	let curr = vl['t'];
+	let pat = null;
+	let doc = null;
+	let done = false;
+	while (!done) {
+	    let moved = false;
+	    // console.log('Backtracking at', curr);
+	    for (let i = 0; i < check[curr].length; i++) {
+		let prev = check[curr][i];
+		let edge = prev + ',' + curr;
+		let f = flow[edge];
+		let c = consumed[edge];
+		let ito = il[curr];
+		let ifrom = il[prev];		    
+		// console.log('Examining', edge, ifrom, ito, 'with flow of', f, 'of which', c, 'is taken');		
+		if (f > c) {
+		    consumed[edge]++;
+		    // console.log('Proceeding along', edge, ito, ifrom);
+		    if (ito.includes('D')) { // doctor
+			console.log('Connecting a doctor', ito, '...');
+			doc = ito;
+		    } else if (ito.includes('P')) { // patient
+			console.log('... to patient', ito);
+			pat = ito;
+			assignment[pat + ',' + doc] = true;
+			left--; // consumed one
+			done = true;
+			break; // at the source now
+		    }
+		    if (done) {
+			console.log('Arrived at the source');
+			break;
+		    }
+		    curr = prev;
+		    moved = true;
+		}
+	    }
+	    if (done) {
+		break;
+	    } else if (!moved) {
+		console.log('Nowhere to go. Giving up.');
+		return;
+	    }
+	}
+    }
 }
 
 function report() {
-    visualize(); // redraw
+    backtrack();
+    visualize(); // redraw    
     // result table header
     let s = rt.getElementsByTagName('thead')[0];
+    s.textContent = '';
     let r = s.insertRow(0);
     let c = r.insertCell(0);
     c.innerHTML = 'P/D';
@@ -453,20 +568,32 @@ function report() {
 	c = r.insertCell(j);
 	c.innerHTML = 'D' + j;
     }
+    
     // result table body    
-    s = rt.getElementsByTagName('tbody')[0];    
+    s = rt.getElementsByTagName('tbody')[0];
+    s.textContent = '';    
     for (let i = 0; i < npat; i++) {
 	r = s.insertRow(i);
 	c = r.insertCell(0);
-	c.innerHTML = 'P' + (i + 1);
+	let pl = 'P' + (i + 1);	
+	c.innerHTML = pl;
 	for (let j = 1; j <= ndoc; j++) {
+	    let dl = 'D' + j;		    
 	    c = r.insertCell(j);
-	    c.innerHTML = '?';
+	    let el = pl + ',' + dl;
+	    if (assignment.hasOwnProperty(el)) {
+		c.innerHTML = '&#x2713;';
+	    } else {
+		c.innerHTML = '&ndash;';
+	    }
 	}
     }
 }
 
-prep();
-visualize();
-match();
-report();
+function everything() {
+    prep();
+    visualize();
+    match();
+}
+
+everything();
