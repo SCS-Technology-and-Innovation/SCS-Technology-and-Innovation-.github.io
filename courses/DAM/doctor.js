@@ -13,7 +13,8 @@ function tabulate() {
     ndoc = parseInt(document.getElementById('ndoc').value);
     nopt = parseInt(document.getElementById('nopt').value);
     let f = document.getElementById('fill').checked;
-    let p = parseInt(document.getElementById('rate').value) / 100;    
+    let pp = parseInt(document.getElementById('prate').value) / 100;
+    let dp = parseInt(document.getElementById('drate').value) / 100;    
     // patient table header
     let s = pt.getElementsByTagName('thead')[0];
     s.textContent = '';    
@@ -36,7 +37,7 @@ function tabulate() {
 	    var box = document.createElement('input');
 	    box.id = 'P' + (i + 1) + 'M' + j;
 	    box.type = 'checkbox';
-	    if (fill && Math.random() < p) {
+	    if (fill && Math.random() < pp) {
 		box.checked = true;
 	    }
 	    c.appendChild(box);
@@ -73,7 +74,7 @@ function tabulate() {
 	    var box = document.createElement('input');
 	    box.id = dl + 'M' + j;
 	    box.type = 'checkbox';
-	    if (fill && Math.random() < p) {
+	    if (fill && Math.random() < dp) {
 		box.checked = true;
 	    }
 	    c.appendChild(box);
@@ -225,7 +226,8 @@ function reset() {
     }
 }
 
-function line(start, end, sl, el) {
+function line(start, end, sl, el, w) {
+    ctx.lineWidth = w * LW;    
     let edge = sl + ',' + el;
     if (flow[edge] > 0) {
 	ctx.fillStyle = cf;
@@ -247,19 +249,20 @@ function edges() {
     for (let i = 0; i < npat; i++) {
 	let pl = 'P' + (i + 1);
 	let ip = pos[pl]
-	let el = vl['s'] + ',' + vl[pl];
-	network[el] = 1; // source to pl
-	line(sp, ip, vl['s'], vl[pl]);
+	let count = 0;
 	for (let j = 0; j < nopt; j++) {
 	    let ml = 'M' + (j + 1);
 	    let jp = pos[ml];
 	    let req = document.getElementById('P' + (i + 1) + 'M' + (j + 1));
 	    if (req.checked) { // edge present
-		el = vl[pl] + ',' + vl[ml];
+		let el = vl[pl] + ',' + vl[ml];
 		network[el] = 1;
-		line(ip, jp, vl[pl], vl[ml]);
+		line(ip, jp, vl[pl], vl[ml], 1);
+		count++;
 	    }
 	}
+	line(sp, ip, vl['s'], vl[pl], count);
+	network[vl['s'] + ',' + vl[pl]] = count; // source to pl
     }
     let tp = pos['t'];
     for (let i = 0; i < ndoc; i++) {
@@ -267,18 +270,17 @@ function edges() {
 	let ip = pos[dl];
 	let cap = document.getElementById(dl);
 	let ic =  parseInt(cap.value);
-	ctx.lineWidth = ic * LW;
 	let el = vl[dl] + ',' + vl['t'];
 	network[el] = ic; // doctor to sink
-	line(ip, tp, vl[dl], vl['t']);
+	line(ip, tp, vl[dl], vl['t'], ic);
 	for (let j = 0; j < nopt; j++) {
 	    let ml = 'M' + (j + 1); // already in vl
 	    let jp = pos[ml];
-	    let req = document.getElementById('P' + (i + 1) + 'M' + (j + 1));
+	    let req = document.getElementById('D' + (i + 1) + 'M' + (j + 1));
 	    if (req.checked) { // edge present
 		el = vl[ml] + ',' + vl[dl];
 		network[el] = ic;
-		line(ip, jp, vl[ml], vl[dl]);
+		line(ip, jp, vl[ml], vl[dl], ic);
 	    }
 	}
     }
@@ -534,7 +536,12 @@ function backtrack() {
 		    } else if (ito.includes('P')) { // patient
 			console.log('... to patient', ito);
 			pat = ito;
-			assignment[pat + ',' + doc] = true;
+			let pair = pat + ',' + doc;
+			if (assignment.hasOwnProperty(pair)) {
+			    assignment[pair]++;
+			} else {
+			    assignment[pair] = 1;
+			}
 			left--; // consumed one
 			done = true;
 			break; // at the source now
@@ -589,7 +596,12 @@ function report() {
 	    c = r.insertCell(j);
 	    let el = pl + ',' + dl;
 	    if (assignment.hasOwnProperty(el)) {
-		c.innerHTML = '&#x2713;';
+		let count = assignment[el];
+		if (count > 1) {
+		    c.innerHTML = count;
+		} else {
+		    c.innerHTML = '&#x2713;';
+		}
 	    } else {
 		c.innerHTML = '&ndash;';
 	    }

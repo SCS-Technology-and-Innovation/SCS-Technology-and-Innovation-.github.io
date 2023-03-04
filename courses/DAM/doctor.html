@@ -38,7 +38,11 @@
     <input type="checkbox" id="fill" name="fill" checked>    
     </p>
     <p>
-      Selection rate <input type="range" min="1" max="100" value="50" class="slider" id="rate"> 
+      Patient requirement probability <input type="range" min="1" max="100" value="30" class="slider" id="prate">
+    </p>
+    <p>
+      Doctor expertise probability <input type="range" min="1" max="100" value="60" class="slider" id="drate">
+    </p>
     <p>
       Minimum doctor capacity:
       <input type="number" min="1" step="1" id="cmin" value="2">
@@ -75,7 +79,7 @@
       <button id="compute" onclick="report()">Update assignment</button> <small>(based on the populated tables)</small>
     </p>
     <h2>Assignment</h2>
-    <p>Which doctors will each patient see?</p>
+    <p>Which doctors will each patient see? Do they need more than one appointment?</p>
     <table id="result">
       <thead>
       </thead>
