@@ -57,14 +57,14 @@
       <input type="checkbox" id="retain" name="retain" value="">
     </p>
     <p>
-      <label for="churn">Churn time</label>
+      <label for="churn">Churn threshold</label>
       <input type="number" min="1" step="1" id="churn" value="3">
-      (after how much waiting will a client leave)
+      (after how much waiting will a client leave the lounge)
     </p>
     <p>
       <label for="lounge">Capacity of waiting lounge</label>
       <input type="number" min="1" step="1" id="lounge" value="5">
-      (how many people can stay waiting at any given time)
+      (how many people fit in the lounge simultaneosly; when the lounge is full, incoming clients will be turned away)
     </p>        
     
     <p>
@@ -94,7 +94,7 @@
 	<tr>
 	  <th>Simulation</th>
 	  <th>Clients served</th>	  
-	  <th>Clients lost due to churn</th>
+	  <th>Clients who waited too long</th>
 	  <th>Clients lost due to lounge capacity</th>
 	  <th>Average waiting time</th>
 	  <th>Median waiting time</th>
