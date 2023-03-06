@@ -465,11 +465,11 @@ function match() {
 }
 
 let assignment = {};
-let consumed = {};
-let check = {};
 
 function backtrack() {
-    consumed = {};        
+    assignment = {};
+    let consumed = {};
+    let check = {};
     for (let edge in network) {
 	let vertices = edge.split(',');
 	let from = vertices[0];
@@ -537,6 +537,9 @@ function backtrack() {
 			}
 			doc = ito;
 		    } else if (ito.includes('M')) { // method
+			if (verbose) {
+			    console.log('...for method', ito, '...');
+			}			
 			method = ito;
 		    } else if (ito.includes('P')) { // patient
 			if (verbose) {
@@ -629,6 +632,9 @@ function report() {
 		wants = true;
 	    }	    
 	    if (assignment.hasOwnProperty(pl + ',' + ml)) {
+		if (verbose) {
+		    console.log(pl, ml, assignment[pl + ',' + ml]);
+		}
 		received++;
 	    } else if (wants) {
 		missing += ml + ' ';
@@ -636,7 +642,9 @@ function report() {
 	}
 	c = r.insertCell(ndoc + 1);
 	if (requested > 0) {
-	    console.log(pl, 'received', received, 'of the', requested, 'methods');
+	    if (verbose) {
+		console.log(pl, 'received', received, 'of the', requested, 'methods');
+	    }
 	    c.innerHTML = (100 * received / requested).toFixed(0) + '%';
 	} else {
 	    c.innerHTML = 'N/A';
