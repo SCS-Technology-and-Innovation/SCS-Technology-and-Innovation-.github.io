@@ -591,7 +591,9 @@ function report() {
 	c.innerHTML = 'D' + j;
     }
     c = r.insertCell(ndoc + 1);
-    c.innerHTML = 'Coverage';    
+    c.innerHTML = 'Coverage';
+    c = r.insertCell(ndoc + 2);
+    c.innerHTML = 'Missing';    
     
     // result table body    
     s = rt.getElementsByTagName('tbody')[0];
@@ -618,13 +620,18 @@ function report() {
 	}
 	let received = 0;
 	let requested = 0;
+	let missing = '';
 	for (let j = 1; j < nopt; j++) {
 	    let ml = 'M' + j;
+	    let wants = false;
 	    if (network.hasOwnProperty(vl[pl] + ',' + vl[ml])) {
 		requested++;
+		wants = true;
 	    }	    
 	    if (assignment.hasOwnProperty(pl + ',' + ml)) {
 		received++;
+	    } else if (wants) {
+		missing += ml + ' ';
 	    }
 	}
 	c = r.insertCell(ndoc + 1);
@@ -634,6 +641,8 @@ function report() {
 	} else {
 	    c.innerHTML = 'N/A';
 	}
+	c = r.insertCell(ndoc + 2);
+	c.innerHTML = missing;
     }
 }
 
