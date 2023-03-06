@@ -514,6 +514,7 @@ function backtrack() {
 	// console.log('Assigning', left, 'doctor-patient pairs');
 	let curr = vl['t'];
 	let pat = null;
+	let method = null;
 	let doc = null;
 	let done = false;
 	while (!done) {
@@ -531,10 +532,16 @@ function backtrack() {
 		    consumed[edge]++;
 		    // console.log('Proceeding along', edge, ito, ifrom);
 		    if (ito.includes('D')) { // doctor
-			console.log('Connecting a doctor', ito, '...');
+			if (verbose) {
+			    console.log('Connecting a doctor', ito, '...');
+			}
 			doc = ito;
+		    } else if (ito.includes('M')) { // method
+			method = ito;
 		    } else if (ito.includes('P')) { // patient
-			console.log('... to patient', ito);
+			if (verbose) {
+			    console.log('... to patient', ito);
+			}
 			pat = ito;
 			let pair = pat + ',' + doc;
 			if (assignment.hasOwnProperty(pair)) {
@@ -542,6 +549,7 @@ function backtrack() {
 			} else {
 			    assignment[pair] = 1;
 			}
+			assignment[pat + ',' + method] = true;
 			left--; // consumed one
 			done = true;
 			break; // at the source now
@@ -582,6 +590,8 @@ function report() {
 	c = r.insertCell(j);
 	c.innerHTML = 'D' + j;
     }
+    c = r.insertCell(ndoc + 1);
+    c.innerHTML = 'Coverage';    
     
     // result table body    
     s = rt.getElementsByTagName('tbody')[0];
@@ -592,9 +602,9 @@ function report() {
 	let pl = 'P' + (i + 1);	
 	c.innerHTML = pl;
 	for (let j = 1; j <= ndoc; j++) {
-	    let dl = 'D' + j;		    
-	    c = r.insertCell(j);
+	    let dl = 'D' + j;		    	    
 	    let el = pl + ',' + dl;
+	    c = r.insertCell(j);
 	    if (assignment.hasOwnProperty(el)) {
 		let count = assignment[el];
 		if (count > 1) {
@@ -606,9 +616,26 @@ function report() {
 		c.innerHTML = '&ndash;';
 	    }
 	}
+	let received = 0;
+	let requested = 0;
+	for (let j = 1; j < nopt; j++) {
+	    let ml = 'M' + j;
+	    if (network.hasOwnProperty(vl[pl] + ',' + vl[ml])) {
+		requested++;
+	    }	    
+	    if (assignment.hasOwnProperty(pl + ',' + ml)) {
+		received++;
+	    }
+	}
+	c = r.insertCell(ndoc + 1);
+	if (requested > 0) {
+	    console.log(pl, 'received', received, 'of the', requested, 'methods');
+	    c.innerHTML = (100 * received / requested).toFixed(0) + '%';
+	} else {
+	    c.innerHTML = 'N/A';
+	}
     }
 }
-
 
 function prep() {
     network = {};
