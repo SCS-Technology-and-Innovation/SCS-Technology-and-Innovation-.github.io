@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Appointments</title>
+    <style>      
+          canvas {
+              background-color: black;
+          }
+
+          table,
+          td,
+          th {
+              border: 0px;
+              padding: 0px;
+          }
+	</style>
+  </head>
+  <body>
+    <h1>When will the doctor see the patient?</h1>
+    <h2>Which room as the right equipment for what they need to do?</h2>
+
+    <p>
+      Number of patients:
+      <input type="number" min="5" step="5" id="npat" value="12"><br>
+      <small>(the total number of patients whose appointments are to be scheduled)</small>      
+    </p>
+    <p>
+      Number of priority categories:
+      <input type="number" min="1" step="1" id="pc" value="3"><br>
+      <small>(1 is the most urgent, but not all appointments need to be equally time-sensitive)</small>            
+    </p>
+    <p>
+      Number of types diagnostic equipment:
+      <input type="number" min="2" step="1" id="nopt" value="4"><br>
+    </p>    
+    <p>
+      Number of doctors:
+      <input type="number" min="2" step="1" id="ndoc" value="5"><br>
+    </p>
+    <p>
+      Number of types of rooms:
+      <input type="number" min="2" step="1" id="nroom" value="5"><br>
+      <small>(a hospital might have more than one room set up in a specific way, at least in a utopia)</small>            
+    </p>
+    <p>
+      Number of time slots:
+      <input type="number" min="20" step="10" id="nslot" value="30"><br>
+      <small>(these could be hours or some other duration, spread over a day, a week, a month, or some other period)</small>            
+    </p>
+    
+    <h3>Pseudo-random data entry</h3>
+    <p>
+      Probability of equipment availability <input type="range" min="1" max="100" value="40" class="slider" id="pa">
+      <small>(how commonly is each equipment present in each room type)</small>
+    </p>
+    <p>
+      Probability of equipment requirement <input type="range" min="1" max="100" value="20" class="slider" id="pe">
+      <small>(how commonly is each equipment needed for each appointment)</small>
+    </p>
+    <p>
+      Probability of doctor availability <input type="range" min="1" max="100" value="30" class="slider" id="pd">
+      <small>(how commonly is each doctor otherwise engaged during a potential time slot)</small>
+    </p>
+    <p>
+      Minimum room multiplicity:
+      <input type="number" min="1" step="1" id="rmin" value="1">
+    </p>
+    <p>
+      Maximum room multiplicity:
+      <input type="number" min="1" step="1" id="rmax" value="4">
+    </p>
+    <p>
+      Minimum number of appointments per patient:
+      <input type="number" min="1" step="1" id="pmin" value="1">
+    </p>
+    <p>
+      Maximum number of appointments per patient:
+      <input type="number" min="1" step="1" id="pmax" value="3">
+    </p>
+    <p>
+      <button id="prep" onclick="prep()">Prepare data tables</button>
+    </p>
+    <h2>Room equipment</h2>
+    <p>Which types of rooms are equipped with which diagnostic equipment?</p>
+    <table id="drooms">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <h2>Appointment needs</h2>
+    <p>Which patient needs to see which doctor(s) and which diagnostic
+      equipment will they utilize at each appointment?<br>
+      <small>(Note that the same pair of people may need to meet more
+      than once.)</small>
+    </p>
+    <table id="dneeds">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <h2>Doctor availability</h2>
+    <p>
+      Which doctors are available at each time slot?<br>
+      <small>(Also medical
+      professional deserve downtime and they may have other duties, too.)</small>
+    </p>
+    <table id="adoc">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <p>
+      <button id="vis" onclick="visualize()">Update visualization model</button> <small>(based on the populated tables)</small>
+    </p>    
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <p>
+      <button id="compute" onclick="allocate()">Craft a proposed assignment</button> <small>(with a slow, greedy allocation)</small>
+    </p>
+    <h2>Schedule</h2>
+    <p>Which appointment will take place in which room at what time?</p>
+    <table id="result">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>    
+    
+    <h3>Observed shortages</h3>
+    
+    <table id="shortage">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+
+    <script src="appointment.js"></script>
+  </body>
+</html>

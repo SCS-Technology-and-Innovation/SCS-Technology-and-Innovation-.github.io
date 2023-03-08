@@ -3,8 +3,8 @@ let dt = document.getElementById("ddoc");
 let rt = document.getElementById("result");
 
 function randint(low, high) {
-    let span = high - low;
-    return Math.floor(low + span * Math.random());
+    let span = (high + 1) - low;
+    return Math.min(Math.floor(low + span * Math.random()), high);
 }
 
 function tabulate() {
