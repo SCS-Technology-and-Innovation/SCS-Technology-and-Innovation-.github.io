@@ -269,6 +269,7 @@ function visualize() {
 
 function allocate() {
     reset();
+    let success = 0;
     // result table header
     let s = outcome.getElementsByTagName('thead')[0];
     s.textContent = '';
@@ -342,6 +343,7 @@ function allocate() {
 					    bookings[dt] = true; // doctor no longer available at this time
 					    bookings[pt] = true; // patient no longer available at this time				
 					    found = true;
+					    success++;
 					    break;
 					}
 				    }
@@ -372,6 +374,9 @@ function allocate() {
 	}
     }
 
+    let perc = 100 * success / requests.length;
+    document.getElementById('perc').innerHTML = perc.toFixed(0) + '% of appointments were successfully scheduled.';
+    
     draw();
     // result table body    
     s = outcome.getElementsByTagName('tbody')[0];
