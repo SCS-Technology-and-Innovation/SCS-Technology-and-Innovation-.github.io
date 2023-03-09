@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Stocks</title>
+    <style>      
+          canvas {
+              background-color: black;
+          }
+
+          table,
+          td,
+          th {
+              border: 1px solid;
+              padding: 3px;
+          }
+          td {
+              text-align: right;
+          }
+	</style>
+  </head>
+  <body>
+    <h1>Buy, sell, hold</h1>
+    <h2>Stock-market data</h2>
+    <p>
+      <ol>
+	<li>Find a company the stock price of which you'd like to
+	  analyze.</li>
+	<li>Go
+      to <a href="https://ca.finance.yahoo.com/">Yahoo Finance</a>.</li>
+	<li>Locate and examine the data for that particular stock.<br>
+	  <small>For example, the
+      page for <em>Pharmala Biotech Holdings Inc. (MDMA.CN)´</em> is at
+	    <code><a href="https://ca.finance.yahoo.com/quote/MDMA.CN?p=MDMA.CN">ca.finance.yahoo.com/quote/MDMA.CN</a></code></small></li>
+	<li>Click on the option <em>Historical Data</em> on the tabs right
+	  underneath the current price.</li>
+	<li>This takes you to a raw-data page<br>
+	  <small>For example, <a href="https://ca.finance.yahoo.com/quote/MDMA.CN/history?p=MDMA.CN">MDMA.CN/history?p=MDMA.CN</a></small></li>
+	<li>From
+      the raw-data page, select the time period and
+	  the <strong>frequency</strong> of your interest.</li>
+	<li>Press the <em>Apply</em> button.</li>
+	<li>Click on
+	  <em>Download</em> (right underneath the button).</li>
+	<li>On your computer, there is now a a <code>.csv</code> file.<br>
+	  <small>(Most likely in your customary <em>Downloads</em> folder
+	  unless you specified another location)</small></li>
+	<li>Select and then process the data below.</li>
+	</ol>
+    </p>
+    <p>
+    <label for="data">Select datafile</label>
+    <input type="file" id="data" name="data" accept=".csv">
+    </p>
+    <p>
+      <button id="load" onclick="load()" disabled>Parse</button>
+    </p>
+    <p>
+      <label for="x">Horizontal</label>      
+      <select name="x" id="x"></select>
+      <label for="y">Vertical</label>      
+      <select name="y" id="y"></select>
+      Plot every <select name="every" id="every"></select> point(s)
+    </p>
+    <p>
+      Plot color <input type="color" id="color" name="color" value="#ffff00">
+      Marker size <input type="range" min="1" max="30" value="3" class="slider" id="size">
+    </p>
+    <p>
+      <label for="lines">Lines</label>
+      <input type="checkbox" id="lines" name="lines" value="">
+      Line thickness <input type="range" min="1" max="10" value="2" class="slider" id="thick">
+    </p>
+    <p>
+      <button id="draw" onclick="draw()" disabled>Plot</button>
+    </p>
+    <canvas id="canvas" width="10" height="10"></canvas>    
+    <script src="stockmarket.js"></script>
+  </body>
+</html>
