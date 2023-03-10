@@ -20,23 +20,21 @@ let radius = null;
 let unit = null;
 let BOTTOM = null;
 
-let available;
+let available = null;
 let pending = null;
 let wait = null;
 
 function tickWorkers() {
     for (const c of workers) {
 	if (!!c.occupant) { // serving a client
-	    // the longer it's been happening, easier it concludes
-	    let done = Math.min(c.duration * servicerate, 1);
-	    console.log('Probability of conclusion for coiffeur', c.label, 'is', done);
-	    if (Math.random() < done) {
+	    if (Math.random() < servicerate) {
 		console.log('Coiffeur', c.label, 'finished serving client', c.occupant.label);
 		c.occupant = null;
 		c.served++;
 		c.duration = 0; // reset
 		satisfied++;
 		available.push(c.label); // go wait for a client
+		console.log('Coiffeur', c.label, 'is now available');
 	    } else {
 		c.duration++; // progress
 		c.busy++; // working
@@ -46,11 +44,17 @@ function tickWorkers() {
 	    c.idle++; // not working
 	}
     }
+    console.log('Availability', available);
 }
 
 let impatient = 0;
 let rejected = 0;
 let satisfied = 0;
+
+function randint(low, high) { 
+    let span = high + 1 - low;
+    return Math.min(Math.floor(low + span * Math.random()), high);
+}
 
 function tickLounge() {
     let discard = []; // keep track of people who free their chairs
@@ -82,12 +86,17 @@ function tickLounge() {
 			chosen = workers[available.pop(0)]; // FIFO
 			console.log('Coiffeur', chosen.label, 'is up next');
 		    } else {
-			let r = [Math.floor(Math.random() * available.length)];
+			console.log(available);
+			let r = randint(1, available.length - 1);
+			console.log('Picked position', r, 'from', available.length);
 			chosen = workers[available[r]];
+			console.log('Coiffeur', chosen.label, 'was picked at random');
+			available.splice(r, 1); // assign to this client
+			console.log(available);			
 		    }
 		}
 	    }
-	    if (!!chosen) {
+	    if (chosen != null) {
 		wait.push(c.waited); // record waiting time
 		let s = loungechairs.indexOf(c.seat); // where did they sit
 		console.log('Client', c.label, 'in seat', s, 'is now getting served by coiffeur', chosen.label);		
@@ -99,7 +108,7 @@ function tickLounge() {
 		discard.push(c);
 	    } else { // not getting served
 		c.waited++;
-		console.log('Client', c.label, 'waits some more');
+		console.log('Client', c.label, 'needs to wait');
 	    }
 	}
     }
@@ -129,6 +138,7 @@ function setup() {
 	workers.push(w);
 	available.push(w.label);
     }
+    console.log('Availability', available);
     people = (n + 1) * MARGIN + n * unit;
 
     n = parseInt(document.getElementById('lounge').value);
@@ -398,6 +408,8 @@ function step() {
 		    pending.push(client); // they wait
 		    console.log('Client', c, 'sits in chair', chair.label);
 		    break; // just needs one seat
+		} else {
+		    console.log('Seat', chair.label, 'is taken');
 		}
 	    }
 	    if (client.seat == null) {
@@ -438,7 +450,7 @@ function simulate() {
     } else {
 	console.log('Customers do not care which coiffeur serves them');
     }
-    arrivalrate = parseInt(document.getElementById('arrivalrate').value) / 10;
+    arrivalrate = parseInt(document.getElementById('arrivalrate').value) / 100;
     servicerate = parseInt(document.getElementById('servicerate').value) / 100;
     speed = 100 + (100 - parseInt(document.getElementById('speed').value)) * 10;
     impatient = 0;
