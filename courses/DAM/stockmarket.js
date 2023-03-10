@@ -145,8 +145,6 @@ function draw(event) {
     let chosen = event.target.id.substring(4);
     let col = document.getElementById('color' + chosen).value;
     console.log('Drawing', chosen, 'in', col);
-    
-    let data = dataset[chosen];
     let h = canvas.height;
     let w = canvas.width;
 
@@ -154,18 +152,23 @@ function draw(event) {
     let yv = document.getElementById('y' + chosen);
     let skip = document.getElementById('every' + chosen);
     
-    let xlabel = xv.value;
-    let ylabel = yv.value;
-    console.log('Plotting', xlabel, 'versus', ylabel, 'for', chosen);
+    let xd = xv.value.split('-');
+    let yd = yv.value.split('-');
+    let xsrc = xd[1];
+    let ysrc = yd[1];
+    let xlabel = xd[0];
+    let ylabel = yd[0];
+    console.log('Plotting', xlabel, 'from', xsrc + '...');
+    console.log('...versus', ylabel, 'from', ysrc);
 
-    let xrange = range(data[xlabel]);
+    let xrange = range(dataset[xsrc][xlabel]);
     if (verbose) {
 	console.log('Horizontal range is', xrange);
     }
     let k = parseInt(document.getElementById('xticks' + chosen).value);    
     ticks(xrange, k, col, false, xlabel == 'Date');
     
-    let yrange = range(data[ylabel]);
+    let yrange = range(dataset[ysrc][ylabel]);
     if (verbose) {
 	console.log('Vertical range is', yrange);
     }
@@ -189,8 +192,8 @@ function draw(event) {
     for (let i = 0; i < n; i += s) {
 	let p = i + sh;
 	if (p >= 0 && p < n) {
-	    let xv = data[xlabel][p]; 
-	    let yv = data[ylabel][i];
+	    let xv = dataset[xsrc][xlabel][p]; 
+	    let yv = dataset[ysrc][ylabel][i];
 	    let x = scale(xv, xrange, wr, false);
 	    let y = scale(yv, yrange, hr, true);
 	    if (connect && px != null) {
@@ -369,21 +372,22 @@ function controls(label) {
     
     ctrl.appendChild(d);
 
-    let cols = columns[label];
-    let cc = cols.length;
-    for (let i = 0; i < cc; i++) {
-	let fo = cols[i];
-	let fn = fo.replaceAll(' ', '');
-	var xo = document.createElement('option');
-	var yo = document.createElement('option');
-	xo.value = fn;
-	yo.value = fn;
-	xo.innerHTML = fo;
-	yo.innerHTML = fo;
-	xv.appendChild(xo);
-	yv.appendChild(yo);
+    for (let src in dataset) {
+	let cols = columns[src];
+	let k = cols.length;
+	for (let i = 0; i < k; i++) {
+	    let cn = cols[i];
+	    var xo = document.createElement('option');
+	    var yo = document.createElement('option');
+	    xo.value = cn + '-' + src;
+	    yo.value = cn + '-' + src;
+	    xo.innerHTML = cn + ' for ' + src;
+	    yo.innerHTML = cn + ' for ' + src;
+	    xv.appendChild(xo);
+	    yv.appendChild(yo);
+	}
     }
-    yv.value = cols[1]; 
+    yv.value = columns[label][1] + '-' + label;
 }
 
 function erase() {
