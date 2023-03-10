@@ -169,7 +169,7 @@ function drawLounge() {
 	ctx.fill();
 	ctx.stroke();
 	if (c.occupant != null) { // show client label	
-	    ctx.fillStyle = '#ffffff'
+	    ctx.fillStyle = '#ffffff';
 	    ctx.font = 'bold ' + fs + 'px Courier';	    
 	    ctx.fillText(c.occupant.label, x - fs, BOTTOM);
 	}
