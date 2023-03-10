@@ -32,15 +32,15 @@
     </p>
     <p>
       Number of types diagnostic equipment:
-      <input type="number" min="2" step="1" id="nopt" value="4"><br>
+      <input type="number" min="1" step="1" id="nopt" value="4"><br>
     </p>    
     <p>
       Number of doctors:
-      <input type="number" min="2" step="1" id="ndoc" value="5"><br>
+      <input type="number" min="1" step="1" id="ndoc" value="4"><br>
     </p>
     <p>
       Number of types of rooms:
-      <input type="number" min="2" step="1" id="nroom" value="5"><br>
+      <input type="number" min="1" step="1" id="nroom" value="3"><br>
       <small>(a hospital might have more than one room set up in a specific way, at least in a utopia)</small>            
     </p>
     <p>
@@ -68,7 +68,7 @@
     </p>
     <p>
       Maximum room multiplicity:
-      <input type="number" min="1" step="1" id="rmax" value="4">
+      <input type="number" min="1" step="1" id="rmax" value="2">
     </p>
     <p>
       Minimum number of appointments per patient:
@@ -114,7 +114,7 @@
       </tbody>
     </table>
     <p>
-      <button id="vis" onclick="visualize()">Update visualization model</button> <small>(based on the populated tables)</small>
+      <button id="vis" onclick="visualize()">Reset timetable</button> <small>(for each room)</small>
     </p>    
     <canvas id="canvas" width="800" height="600"></canvas>
     <p>
@@ -139,7 +139,7 @@
       </tbody>
     </table>
 
-
+    <script src="palette.js"></script>
     <script src="appointment.js"></script>
   </body>
 </html>

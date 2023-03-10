@@ -10,10 +10,12 @@ let ne = 0; // equipment
 let nr = 0; // rooms
 let ns = 0; // time slots
 let pc = 0; // priority categories
+let colors = null; 
 
 function counters() {
     np = parseInt(document.getElementById('npat').value);
     nd = parseInt(document.getElementById('ndoc').value);
+    colors = palette('tol-rainbow', nd);    
     ne = parseInt(document.getElementById('nopt').value);
     nr = parseInt(document.getElementById('nroom').value);
     ns = parseInt(document.getElementById('nslot').value);
@@ -191,8 +193,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
-const free = '#3333aa';
-const taken = '#ff6633';
+const free = '#888888';
 
 function draw() {
     let w = 0.9 * window.innerWidth;
@@ -219,8 +220,10 @@ function draw() {
 	for (let t = 1; t <= ns; t++) {
 	    let cl = rl + 'T' + t;
 	    if (bookings.hasOwnProperty(cl)) {
-		ctx.fillStyle = taken;
-		ctx.strokeStyle = taken;		
+		let al = bookings[cl];
+		let doctor = '#' + appts[al].color;
+		ctx.fillStyle = doctor;
+		ctx.strokeStyle = doctor;		
 	    } else {
 		ctx.fillStyle = free;
 		ctx.strokeStyle = free;
@@ -309,8 +312,8 @@ function allocate() {
 				if (verbose) {			    
 				    console.log(r.doctor, 'and', r.patient, 'are both free at', tl);
 				}
-				for (let r = 0; r < rooms.length; r++) { // find a room
-				    let rl = rooms[r];
+				for (let room = 0; room < rooms.length; room++) { // find a room
+				    let rl = rooms[room];
 				    let rt = rl.split('.')[0];
 				    let cl = rl + tl;				
 				    if (!bookings.hasOwnProperty(cl)) { // not yet taken
@@ -338,10 +341,11 @@ function allocate() {
 					    let reservation = {};
 					    reservation.room = rl;
 					    reservation.time = tl;
+					    reservation.color = colors[parseInt((r.doctor).substring(1)) - 1];
 					    appts[al] = reservation;
-					    bookings[cl] = true; // room no longer available at this time
-					    bookings[dt] = true; // doctor no longer available at this time
-					    bookings[pt] = true; // patient no longer available at this time				
+					    bookings[cl] = al; // room no longer available at this time
+					    bookings[dt] = al; // doctor no longer available at this time
+					    bookings[pt] = al; // patient no longer available at this time
 					    found = true;
 					    success++;
 					    break;
