@@ -387,6 +387,7 @@ function controls(label) {
 	    yv.appendChild(yo);
 	}
     }
+    xv.value = columns[label][0] + '-' + label;    
     yv.value = columns[label][1] + '-' + label;
 }
 
