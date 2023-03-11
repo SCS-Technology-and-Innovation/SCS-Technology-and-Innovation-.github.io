@@ -204,7 +204,11 @@ function draw(event) {
 		ctx.stroke(); 	
 	    }
 	    ctx.beginPath();
-	    ctx.arc(x, y, pointsize, 0, 2 * Math.PI);
+	    if (py != null && y > py) {
+		ctx.rect(x - pointsize, y - pointsize, 2 * pointsize, 2 * pointsize);
+	    } else { 
+		ctx.arc(x, y, pointsize, 0, 2 * Math.PI);
+	    }
 	    ctx.closePath();
 	    ctx.fill();
 	    ctx.stroke();
