@@ -8,6 +8,8 @@ const file = document.getElementById("data");
 const loadbutton = document.getElementById("load");
 const drawbutton = document.getElementById("draw");
 
+const lha = 'HeikenAshi';
+
 file.onchange = e => {
     if (verbose) {
 	console.log('A file has been chosen');
@@ -46,8 +48,38 @@ file.onchange = e => {
 	}
 	columns[label] = cols;
 	dataset[label] = data;
+	heikenashi(label);
 	controls(label);
     }
+}
+
+function heikenashi(l) {
+    let data = dataset[l];
+    let k = data['Date'].length;
+    let ha = [];
+    let HAO = null;
+    let HAC = null;
+    let HAH = null;
+    let HAL = null;
+    for (let i = 0; i < k; i++) {
+        let opening = parseFloat(data['Open'][i]);
+	let low = parseFloat(data['Low'][i]);
+	let high = parseFloat(data['High'][i]);
+	let closing = parseFloat(data['Close'][i]);        
+        if (HAO == null) {
+            HAO = opening;
+	}
+        if (HAC == null) {
+            HAC = closing;
+	}
+        HAC = (opening + high + low + closing) / 4;
+        HAO = (HAO + HAC) / 2;
+        HAH = Math.max(high, Math.max(HAO, HAC));
+        HAL = Math.min(low, Math.min(HAO, HAC));
+        ha.push([HAO, HAL, HAH, HAC]);
+    }
+    dataset[l][lha] = ha;
+    columns[l].push(lha);
 }
 
 let dataset = {};
@@ -141,6 +173,10 @@ function ticks(range, count, fontcolor, vertical, dates) {
     }
 }
 
+function plotha(x, y) {
+    console.log('ha', x, y);
+}
+
 function draw(event) {
     let chosen = event.target.id.substring(4);
     let col = document.getElementById('color' + chosen).value;
@@ -158,6 +194,27 @@ function draw(event) {
     let ysrc = yd[1];
     let xlabel = xd[0];
     let ylabel = yd[0];
+    let ha = false;
+    let timeseries = false;
+    if ((xlabel == 'Date' && ylabel != 'Date') || (ylabel == 'Date' && xlabel != 'Date')) {
+	timeseries = true;
+    }
+
+    if (xlabel == lha || ylabel == lha) {
+	if ((xlabel == lha && ylabel != 'Date') || (ylabel == lha && xlabel != 'Date')) {
+	    alert('Heiken-Ashi candles are only viable when the other axis is the date.');
+	    if (xlabel == lha) {
+		ylabel = 'Date';
+		yv.value = 'Date-' + xsrc;
+	    }
+	    if (ylabel == lha) {
+		xlabel = 'Date';
+		xv.value = 'Date-' + ysrc;		
+	    }
+	}
+	ha = true;
+    }
+    
     console.log('Plotting', xlabel, 'from', xsrc + '...');
     console.log('...versus', ylabel, 'from', ysrc);
 
@@ -179,7 +236,6 @@ function draw(event) {
     let linesize = parseInt(document.getElementById('thick' + chosen).value);
     let connect = document.getElementById('lines' + chosen).checked;    
     ctx.fillStyle = col;
-    ctx.strokeStyle = col;
     let px = null;
     let py = null;
     let s = parseInt(skip.value);
@@ -192,26 +248,40 @@ function draw(event) {
     for (let i = 0; i < n; i += s) {
 	let p = i + sh;
 	if (p >= 0 && p < n) {
-	    let xv = dataset[xsrc][xlabel][p]; 
-	    let yv = dataset[ysrc][ylabel][i];
+	    let xr = dataset[xsrc][xlabel][p]; 
+	    let yr = dataset[ysrc][ylabel][i];
+	    let xv = xr;
+	    let yv = yr;
+	    if (ha) {
+		if (xlabel == lha) { 
+		    xv = (xr[0] + xr[3]) / 2;
+		} else {
+		    yv = (yr[0] + yr[3]) / 2;
+		}
+	    } 
 	    let x = scale(xv, xrange, wr, false);
 	    let y = scale(yv, yrange, hr, true);
 	    if (connect && px != null) {
 		ctx.lineWidth = linesize;
 		ctx.beginPath();
 		ctx.moveTo(px, py);
-	    ctx.lineTo(x, y);
+		ctx.lineTo(x, y);
 		ctx.stroke(); 	
 	    }
 	    ctx.beginPath();
-	    if (py != null && y > py) {
-		ctx.rect(x - pointsize, y - pointsize, 2 * pointsize, 2 * pointsize);
-	    } else { 
-		ctx.arc(x, y, pointsize, 0, 2 * Math.PI);
+	    if (!ha) {
+		ctx.strokeStyle = col;
+		if (timeseries && py != null && y > py) {
+		    ctx.rect(x - pointsize, y - pointsize, 2 * pointsize, 2 * pointsize);
+		} else { 
+		    ctx.arc(x, y, pointsize, 0, 2 * Math.PI);
+		}
+		ctx.closePath();
+		ctx.fill();
+		ctx.stroke();
+	    } else {
+		plotha(xr, yr);
 	    }
-	    ctx.closePath();
-	    ctx.fill();
-	    ctx.stroke();
 	    px = x;
 	    py = y;
 	}
@@ -382,7 +452,7 @@ function controls(label) {
 	for (let i = 0; i < k; i++) {
 	    let cn = cols[i];
 	    var xo = document.createElement('option');
-	    var yo = document.createElement('option');
+	    var yo = document.createElement('option');	    	    
 	    xo.value = cn + '-' + src;
 	    yo.value = cn + '-' + src;
 	    xo.innerHTML = cn + ' for ' + src;
