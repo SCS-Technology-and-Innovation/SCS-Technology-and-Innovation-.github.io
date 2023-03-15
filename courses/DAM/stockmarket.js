@@ -91,14 +91,26 @@ var ctx = canvas.getContext('2d');
 ctx.textBaseline = 'middle';
 
 function range(values) {
-    let low = values[0];
-    let high = low;
+    let low = null;
+    let high = null;
     for (let i = 0; i < values.length; i++) {
-	let v = values[i];
-	if (v < low) {
-	    low = v;
-	} else if (v > high) {
-	    high = v;
+	if (values[i].constructor === Array) {
+	    let k = values[i].length;
+	    for (let j = 0; j < k; j++) {
+		let v = values[i][j];
+		if (low == null || v < low) {
+		    low = v;
+		} else if (high == null || v > high) {
+		    high = v;
+		}
+	    }
+	} else {
+	    let v = values[i];
+	    if (low == null || v < low) {
+		low = v;
+	    } else if (high == null || v > high) {
+		high = v;
+	    }
 	}
     }
     return [ low, high ];
@@ -111,11 +123,37 @@ function scale(value, valuerange, pixelrange, mirror) {
     let pmin = pixelrange[0];
     let pmax = pixelrange[1];
     let pspan = pmax - pmin;    
-    let prop = (value - vmin) / vspan;
-    if (mirror) {
-	prop = 1 - prop;
+    if (value.constructor === Array) {
+	if (verbose) {
+	    console.log('Scaling an array', value, 'from', valuerange, 'to', pixelrange);
+	}
+	let scaled = [];
+	let k = value.length;
+	for (let i = 0; i < k; i++) {
+	    let v = parseFloat(value[i]);
+	    let prop = (v - vmin) / vspan;
+	    if (verbose) {
+		console.log('Proportion', prop);
+	    }
+	    if (mirror) {
+		prop = 1 - prop;
+	    }
+	    scaled.push(Math.round(pmin + prop * pspan));
+	}
+	if (verbose) {
+	    console.log('The result is', scaled);
+	}
+	return scaled;
+    } else { // scalar
+	if (verbose) {
+	    console.log('Scaling a scalar', value);
+	}
+	let prop = (value - vmin) / vspan;
+	if (mirror) {
+	    prop = 1 - prop;
+	}
+	return Math.round(pmin + prop * pspan);
     }
-    return pmin + prop * (pspan);
 }
 
 function format(v, date) {
@@ -173,8 +211,56 @@ function ticks(range, count, fontcolor, vertical, dates) {
     }
 }
 
-function plotha(x, y) {
-    console.log('ha', x, y);
+function stick(xs, ys, xe, ye) {
+    ctx.beginPath();
+    if (verbose) {
+	console.log('line from', xs, ys, 'to', xe, ye);
+    }
+    ctx.moveTo(xs, ys);
+    ctx.lineTo(xe, ye);
+    ctx.stroke(); 	
+}
+
+function plotha(x, y, upright, ps, lw) {// y = open low high close
+    let barwidth = 2 * ps;
+    let half = ps;
+    ctx.strokeStyle = '#00ff00'; // green
+    let xb = null;
+    let yb = null;
+    let boxwidth = null;
+    let boxheight = null;
+    ctx.lineWidth = lw;
+    if (!upright) { // fixed y, spanning x
+	if (verbose) {
+	    console.log('horizontal H-A', x, y);
+	}
+	if (x[3] > x[0]) {
+	    ctx.strokeStyle = '#ff0000'; // red
+	}
+	stick(x[1], y, x[2], y);
+	xb = x[0];
+	yb = y - half;
+	boxwidth = x[3] - xb;
+	boxheight = barwidth;
+    } else { // fixed x, spanning y
+	if (y[3] > y[0]) {
+	    ctx.strokeStyle = '#ff0000'; // red	    
+	}
+	if (verbose) {
+	    console.log('vertical H-A', x, y);
+	}
+	stick(x, y[1], x, y[2]);
+	xb = x - half;
+	yb = y[0];
+	boxwidth = barwidth;
+	boxheight = y[3] - yb;
+	
+    }
+    ctx.beginPath();
+    ctx.rect(xb - lw, yb - lw, boxwidth + lw, boxheight + lw);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
 }
 
 function draw(event) {
@@ -195,11 +281,14 @@ function draw(event) {
     let xlabel = xd[0];
     let ylabel = yd[0];
     let ha = false;
+    let upright = false;
+    if (ylabel == lha) {
+	upright = true;
+    }    
     let timeseries = false;
     if ((xlabel == 'Date' && ylabel != 'Date') || (ylabel == 'Date' && xlabel != 'Date')) {
 	timeseries = true;
     }
-
     if (xlabel == lha || ylabel == lha) {
 	if ((xlabel == lha && ylabel != 'Date') || (ylabel == lha && xlabel != 'Date')) {
 	    alert('Heiken-Ashi candles are only viable when the other axis is the date.');
@@ -250,26 +339,26 @@ function draw(event) {
 	if (p >= 0 && p < n) {
 	    let xr = dataset[xsrc][xlabel][p]; 
 	    let yr = dataset[ysrc][ylabel][i];
-	    let xv = xr;
-	    let yv = yr;
-	    if (ha) {
-		if (xlabel == lha) { 
-		    xv = (xr[0] + xr[3]) / 2;
-		} else {
-		    yv = (yr[0] + yr[3]) / 2;
-		}
-	    } 
-	    let x = scale(xv, xrange, wr, false);
-	    let y = scale(yv, yrange, hr, true);
+	    let x = scale(xr, xrange, wr, false);
+	    let y = scale(yr, yrange, hr, true);
 	    if (connect && px != null) {
+		ctx.strokeStyle = col;		
 		ctx.lineWidth = linesize;
 		ctx.beginPath();
 		ctx.moveTo(px, py);
-		ctx.lineTo(x, y);
+		if (ha) {
+		    if (!upright) { // fixed y, spanning x
+			ctx.lineTo((x[1] + x[2]) / 2, y);
+		    } else {
+			ctx.lineTo(x, (y[1] + y[2]) / 2);
+		    }
+		} else {
+		    ctx.lineTo(x, y);
+		}
 		ctx.stroke(); 	
 	    }
-	    ctx.beginPath();
 	    if (!ha) {
+		ctx.beginPath();
 		ctx.strokeStyle = col;
 		if (timeseries && py != null && y > py) {
 		    ctx.rect(x - pointsize, y - pointsize, 2 * pointsize, 2 * pointsize);
@@ -279,11 +368,18 @@ function draw(event) {
 		ctx.closePath();
 		ctx.fill();
 		ctx.stroke();
+		px = x;
+		py = y;
 	    } else {
-		plotha(xr, yr);
+		plotha(x, y, upright, pointsize, linesize);
+		if (!upright) { // fixed y, spanning x
+		    px = (x[1] + x[2]) / 2;
+		    py = y;
+		} else {
+		    px = x;
+		    py = (y[1] + y[2]) / 2;
+		}
 	    }
-	    px = x;
-	    py = y;
 	}
     }
 }
@@ -351,16 +447,18 @@ function controls(label) {
 
     i = document.createElement('input');
     i.type = 'number';
-    i.value = 0;
-    i.min = Math.round(n / 2);
+    i.min = 5 * Math.round((n / 2) / 5);
     i.max = -1 * i.min;        
-    i.step = 5;
     i.id = 'shift' + label;
+    i.value = 0;
+    i.step = 10;
+    p.appendChild(i);
+
     l = document.createElement('label');
     l.htmlFor = i.id;
     l.innerHTML = 'Horizontal shift ';
     p.appendChild(l);
-    p.appendChild(i);
+
     
     d.appendChild(p);
 
@@ -382,6 +480,7 @@ function controls(label) {
 	skip.appendChild(o);
 	e *= 5;
     }
+    skip.value = 5;
     
     p = document.createElement('p');	     
     i = document.createElement('input');
@@ -402,8 +501,8 @@ function controls(label) {
     i.type = 'range';
     i.min = 1;
     i.max = 30;
-    i.value = 3
-    i.step = 1;;    
+    i.value = 3;
+    i.step = 1;    
     i.id = 'size' + label;
     l = document.createElement('label');
     l.htmlFor = i.id;
@@ -426,8 +525,8 @@ function controls(label) {
     i.type = 'range';
     i.min = 1;
     i.max = 10;
-    i.value = 2
-    i.step = 1;;    
+    i.value = 2;
+    i.step = 1;
     i.id = 'thick' + label;
     l = document.createElement('label');
     l.htmlFor = i.id;
