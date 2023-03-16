@@ -82,6 +82,97 @@ function heikenashi(l) {
     columns[l].push(lha);
 }
 
+function zigzag(t, v, ps, top) {
+    let threshold = {};
+    threshold[3] = top;
+    threshold[2] = threshold[3] / 2;
+    threshold[1] = threshold[3] / 10;
+    if (verbose) {
+	console.log('Placing semaphores...');
+    }
+    let n = v.length;
+    let curr = null;
+    let prev = null;
+    let hist = {};
+    let when = {};
+    let labels = {};
+    let peak = {};
+    let positions = {};    
+    for (let k = 3; k > 0; k--) {
+	hist[k] = [];
+	when[k] = [];
+    }
+    let counter = 0;
+    for (let i = 1; i < n; i++) {
+	prev = v[i-1];
+	curr = v[i];
+	if (verbose) {
+	    console.log(prev, 'vs', curr);
+	}
+	if (prev > 0) {
+            let d = Math.abs(curr - prev) / prev;
+	    for (let k = 3; k > 0; k--) {
+		if (d > threshold[k]) {
+		    if (verbose) {
+			console.log(d.toFixed(2), 'is above threshold for', k);
+		    }
+                    while (hist[k].length > 2) {
+			hist[k].shift();
+			when[k].shift();
+		    }
+                    hist[k].push(curr);
+                    when[k].push(t[i]);
+                    if (hist[k].length == 3) {
+			if (verbose) {
+			    console.log(d.toFixed(2), 'Enough backlog to place a semaphone for', k);
+			}
+			let loc = when[k][1];
+			let value = hist[k][1];
+			if ((hist[k][0] > hist[k][1]) && (hist[k][1] < hist[k][2])) {
+                            if (!labels.hasOwnProperty(loc) || labels[loc] < k) {
+				labels[loc] = k;
+				peak[loc] = true; // y coord mirrored
+				positions[loc] = value;
+				counter++;
+			    }
+			}
+			if ((hist[k][0] < hist[k][1]) && (hist[k][1] > hist[k][2])) {
+                            if (!labels.hasOwnProperty(loc) || labels[loc] < k) {
+				labels[loc] = k;
+				peak[loc] = false;
+				positions[loc] = value;
+				counter++;				
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+    console.log(peak);
+    let fs = Math.min(12, Math.round(200 - 2 * Math.sqrt(counter)));
+    let offset = 2 * ps + 2 * Math.round(Math.sqrt(fs));
+    ctx.font = 'bold ' + fs + 'px Courier';
+    console.log('Semaphone font size', fs, 'based on a count of', counter);
+    for (let t in labels) {
+	let k = labels[t];
+	let p = positions[t] + offset;
+	if (peak[t]) {
+	    ctx.fillStyle = '#009900';
+	    k += '+';
+	} else {
+	    ctx.fillStyle = '#ff0000';
+	    k += '-';	    
+	}
+	t = parseFloat(t) + offset;
+	ctx.textAlign = 'center';
+	ctx.fillText(k, t, p);
+	if (verbose) {
+	    console.log('Placed', k, 'at', p, t);
+	}
+    }
+}
+
 let dataset = {};
 let columns = {};
 let rowcount = {};
@@ -282,8 +373,8 @@ function draw(event) {
     let ylabel = yd[0];
     let ha = false;
     let upright = false;
-    if (ylabel == lha) {
-	upright = true;
+    if (xlabel == 'Date') {
+	upright = true; 
     }    
     let timeseries = false;
     if ((xlabel == 'Date' && ylabel != 'Date') || (ylabel == 'Date' && xlabel != 'Date')) {
@@ -323,7 +414,19 @@ function draw(event) {
     
     let pointsize = parseInt(document.getElementById('size' + chosen).value);
     let linesize = parseInt(document.getElementById('thick' + chosen).value);
-    let connect = document.getElementById('lines' + chosen).checked;    
+    let connect = document.getElementById('lines' + chosen).checked;
+    let zzs = document.getElementById('zigzag' + chosen).checked;
+
+    if (zzs) {
+	if ((ylabel == 'Date') && (xlabel == 'Date')) {
+	    alert('Zig-zag semaphores are meaningful when only one axis is a date.');
+	    zzs = false;
+	}
+	if ((ylabel != 'Date') && (xlabel != 'Date')) {
+	    alert('Zig-zag semaphores are only meaningful when one axis is a date.');
+	    zzs = false;
+	}
+    }
     ctx.fillStyle = col;
     let px = null;
     let py = null;
@@ -334,6 +437,8 @@ function draw(event) {
 	console.log('Plotting every', s, 'points');
     }
     console.log('Shifting by', sh, 'points');
+    let xs = [];
+    let ys = [];
     for (let i = 0; i < n; i += s) {
 	let p = i + sh;
 	if (p >= 0 && p < n) {
@@ -341,20 +446,26 @@ function draw(event) {
 	    let yr = dataset[ysrc][ylabel][i];
 	    let x = scale(xr, xrange, wr, false);
 	    let y = scale(yr, yrange, hr, true);
+	    let xc = null;
+	    let yc = null;
+	    if (ha) {
+		if (!upright) {
+		    xc = (x[1] + x[2]) / 2;
+		    yc = y;
+		} else {
+		    xc = x;
+		    yc = (y[1] + y[2]) / 2;
+		}
+	    } else {
+		xc = x;
+		yc = y;
+	    }
 	    if (connect && px != null) {
 		ctx.strokeStyle = col;		
 		ctx.lineWidth = linesize;
 		ctx.beginPath();
 		ctx.moveTo(px, py);
-		if (ha) {
-		    if (!upright) { // fixed y, spanning x
-			ctx.lineTo((x[1] + x[2]) / 2, y);
-		    } else {
-			ctx.lineTo(x, (y[1] + y[2]) / 2);
-		    }
-		} else {
-		    ctx.lineTo(x, y);
-		}
+		ctx.lineTo(xc, yc);
 		ctx.stroke(); 	
 	    }
 	    if (!ha) {
@@ -368,18 +479,27 @@ function draw(event) {
 		ctx.closePath();
 		ctx.fill();
 		ctx.stroke();
-		px = x;
-		py = y;
 	    } else {
 		plotha(x, y, upright, pointsize, linesize);
-		if (!upright) { // fixed y, spanning x
-		    px = (x[1] + x[2]) / 2;
-		    py = y;
-		} else {
-		    px = x;
-		    py = (y[1] + y[2]) / 2;
-		}
 	    }
+	    px = xc;
+	    py = yc;
+	    if (zzs) {
+		xs.push(xc);
+		ys.push(yc);
+	    }
+	}
+    }
+    if (zzs) {
+	if (verbose) {
+	    console.log(xlabel, xs);
+	    console.log(ylabel, ys);
+	}
+	let thr = parseFloat(document.getElementById('threshold' + chosen).value);        	
+	if (!upright) {
+	    zigzag(ys, xs, pointsize, thr);
+	} else {
+	    zigzag(xs, ys, pointsize, thr);
 	}
     }
 }
@@ -456,7 +576,7 @@ function controls(label) {
 
     l = document.createElement('label');
     l.htmlFor = i.id;
-    l.innerHTML = 'Horizontal shift ';
+    l.innerHTML = ' Horizontal shift ';
     p.appendChild(l);
 
     
@@ -535,6 +655,29 @@ function controls(label) {
     p.appendChild(i);
     d.appendChild(p);
 
+
+    p = document.createElement('p');	         
+    l = document.createElement('label');
+    i = document.createElement('input');
+    i.type = 'checkbox';
+    i.id = 'zigzag' + label;
+    l.htmlFor = i.id;
+    l.innerHTML = ' Zig-zag semaphones ';
+    p.appendChild(l);
+    p.appendChild(i);
+    i = document.createElement('input');
+    i.type = 'number';
+    i.value = 0.1;
+    i.min = 0;
+    i.step = 0.1;
+    i.id = 'threshold' + label;
+    l = document.createElement('label');
+    l.htmlFor = i.id;
+    l.innerHTML = ' using top threshold ';    
+    p.appendChild(l);
+    p.appendChild(i);
+    d.appendChild(p);
+    
     p = document.createElement('p');	         
     let b = document.createElement('button');
     b.innerHTML = 'Plot ' + label;
