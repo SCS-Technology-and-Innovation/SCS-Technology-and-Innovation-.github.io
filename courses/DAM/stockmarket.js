@@ -82,7 +82,7 @@ function heikenashi(l) {
     columns[l].push(lha);
 }
 
-function zigzag(t, v, ps, top) {
+function zigzag(t, v, ps, top, flip) {
     let threshold = {};
     threshold[3] = top;
     threshold[2] = threshold[3] / 2;
@@ -92,7 +92,6 @@ function zigzag(t, v, ps, top) {
     }
     let n = v.length;
     let curr = null;
-    let prev = null;
     let hist = {};
     let when = {};
     let labels = {};
@@ -103,8 +102,8 @@ function zigzag(t, v, ps, top) {
 	when[k] = [];
     }
     let counter = 0;
+    let prev = v[0];
     for (let i = 1; i < n; i++) {
-	prev = v[i-1];
 	curr = v[i];
 	if (verbose) {
 	    console.log(prev, 'vs', curr);
@@ -121,7 +120,7 @@ function zigzag(t, v, ps, top) {
 			when[k].shift();
 		    }
                     hist[k].push(curr);
-                    when[k].push(t[i]);
+		    when[k].push(t[i]);
                     if (hist[k].length == 3) {
 			if (verbose) {
 			    console.log(d.toFixed(2), 'Enough backlog to place a semaphone for', k);
@@ -148,27 +147,48 @@ function zigzag(t, v, ps, top) {
 		}
 	    }
 	}
+	prev = curr;
     }
-    console.log(peak);
-    let fs = Math.min(12, Math.round(200 - 2 * Math.sqrt(counter)));
-    let offset = 2 * ps + 2 * Math.round(Math.sqrt(fs));
+    let fs = Math.min(15, Math.round(200 - 2 * Math.sqrt(counter)));
+    let offset = 3 * ps + 2 * Math.round(Math.sqrt(fs));
     ctx.font = 'bold ' + fs + 'px Courier';
     console.log('Semaphone font size', fs, 'based on a count of', counter);
     for (let t in labels) {
 	let k = labels[t];
-	let p = positions[t] + offset;
+	let p = positions[t];
+	let o = offset;
 	if (peak[t]) {
 	    ctx.fillStyle = '#009900';
 	    k += '+';
 	} else {
 	    ctx.fillStyle = '#ff0000';
-	    k += '-';	    
+	    k += '-';
 	}
-	t = parseFloat(t) + offset;
-	ctx.textAlign = 'center';
-	ctx.fillText(k, t, p);
+	t = parseFloat(t);
+	ctx.textAlign = 'left';
+	let x = null;
+	let y = null;
+	if (flip) {
+	    if (peak[t]) {
+		o *= 2; 
+	    } else {
+		o *= -1;
+	    }	    
+	    y = scale(t, yrange, hr, true);
+	    x = scale(p, xrange, wr, false);
+	    ctx.fillText(k, x - o, y);	    	    
+	} else {
+	    if (peak[t]) {
+		o *= -1;	    
+	    } else {
+		o += 2 * ps;
+	    }
+	    x = scale(t, xrange, wr, false);
+	    y = scale(p, yrange, hr, true);
+	    ctx.fillText(k, x - ps, y + o);
+	}
 	if (verbose) {
-	    console.log('Placed', k, 'at', p, t);
+	    console.log('Placed', k, 'at', x, y);
 	}
     }
 }
@@ -207,7 +227,7 @@ function range(values) {
     return [ low, high ];
 }
 
-function scale(value, valuerange, pixelrange, mirror) {
+function scale(value, valuerange, pixelrange, flip) {
     let vmin = valuerange[0];
     let vmax = valuerange[1];
     let vspan = vmax - vmin;
@@ -223,11 +243,11 @@ function scale(value, valuerange, pixelrange, mirror) {
 	for (let i = 0; i < k; i++) {
 	    let v = parseFloat(value[i]);
 	    let prop = (v - vmin) / vspan;
+	    if (flip) {
+		prop = 1 - prop;
+	    }
 	    if (verbose) {
 		console.log('Proportion', prop);
-	    }
-	    if (mirror) {
-		prop = 1 - prop;
 	    }
 	    scaled.push(Math.round(pmin + prop * pspan));
 	}
@@ -240,7 +260,7 @@ function scale(value, valuerange, pixelrange, mirror) {
 	    console.log('Scaling a scalar', value);
 	}
 	let prop = (value - vmin) / vspan;
-	if (mirror) {
+	if (flip) {
 	    prop = 1 - prop;
 	}
 	return Math.round(pmin + prop * pspan);
@@ -354,6 +374,9 @@ function plotha(x, y, upright, ps, lw) {// y = open low high close
     ctx.stroke();
 }
 
+let xrange = null;
+let yrange = null;
+
 function draw(event) {
     let chosen = event.target.id.substring(4);
     let col = document.getElementById('color' + chosen).value;
@@ -372,9 +395,9 @@ function draw(event) {
     let xlabel = xd[0];
     let ylabel = yd[0];
     let ha = false;
-    let upright = false;
+    let ht = false; 
     if (xlabel == 'Date') {
-	upright = true; 
+	ht = true; // time is horizontal, data is vertical
     }    
     let timeseries = false;
     if ((xlabel == 'Date' && ylabel != 'Date') || (ylabel == 'Date' && xlabel != 'Date')) {
@@ -398,14 +421,14 @@ function draw(event) {
     console.log('Plotting', xlabel, 'from', xsrc + '...');
     console.log('...versus', ylabel, 'from', ysrc);
 
-    let xrange = range(dataset[xsrc][xlabel]);
+    xrange = range(dataset[xsrc][xlabel]);
     if (verbose) {
 	console.log('Horizontal range is', xrange);
     }
     let k = parseInt(document.getElementById('xticks' + chosen).value);    
     ticks(xrange, k, col, false, xlabel == 'Date');
     
-    let yrange = range(dataset[ysrc][ylabel]);
+    yrange = range(dataset[ysrc][ylabel]);
     if (verbose) {
 	console.log('Vertical range is', yrange);
     }
@@ -444,12 +467,27 @@ function draw(event) {
 	if (p >= 0 && p < n) {
 	    let xr = dataset[xsrc][xlabel][p]; 
 	    let yr = dataset[ysrc][ylabel][i];
+	    if (zzs) { // use raw data for zigzags
+		if (ha)  {
+		    if (!ht) { // time is not horizontal
+			xs.push((xr[1] + xr[2]) / 2);
+			ys.push(yr);
+		    } else {
+			xs.push(xr);
+			ys.push(yr[1] + yr[2]) / 2;
+		    }
+		} else {
+		    xs.push(xr);
+		    ys.push(yr);
+		}
+	    }	    
 	    let x = scale(xr, xrange, wr, false);
+	    // y needs to be always mirrored to have lower-left origin	    
 	    let y = scale(yr, yrange, hr, true);
 	    let xc = null;
 	    let yc = null;
 	    if (ha) {
-		if (!upright) {
+		if (!ht) {
 		    xc = (x[1] + x[2]) / 2;
 		    yc = y;
 		} else {
@@ -480,14 +518,10 @@ function draw(event) {
 		ctx.fill();
 		ctx.stroke();
 	    } else {
-		plotha(x, y, upright, pointsize, linesize);
+		plotha(x, y, ht, pointsize, linesize);
 	    }
 	    px = xc;
 	    py = yc;
-	    if (zzs) {
-		xs.push(xc);
-		ys.push(yc);
-	    }
 	}
     }
     if (zzs) {
@@ -496,10 +530,11 @@ function draw(event) {
 	    console.log(ylabel, ys);
 	}
 	let thr = parseFloat(document.getElementById('threshold' + chosen).value);        	
-	if (!upright) {
-	    zigzag(ys, xs, pointsize, thr);
+	if (!ht) {
+	    zigzag(ys, xs, pointsize, thr, true);
+	    console.log('Flipped zigzags done');		
 	} else {
-	    zigzag(xs, ys, pointsize, thr);
+	    zigzag(xs, ys, pointsize, thr, false);
 	}
     }
 }
@@ -725,8 +760,8 @@ function resize() {
     let t = 2 * margin; // space for ticks
     let fontsize = Math.ceil(t / 7); // tick font size
     ctx.font = 'bold ' + fontsize + 'px Courier';	    
-    wr = [margin + t, w - margin];
-    hr = [margin, h - margin - t];    
+    wr = [margin + t, w - margin - t];
+    hr = [margin + t, h - margin - t];    
 }
 
 resize();
