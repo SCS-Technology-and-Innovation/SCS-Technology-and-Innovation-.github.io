@@ -348,7 +348,7 @@ function plotha(x, y, upright, ps, lw) {// y = open low high close
 	if (x[3] > x[0]) {
 	    ctx.strokeStyle = '#ff0000'; // red
 	}
-	stick(x[1], y, x[2], y);
+	stick(x[1], y - lw, x[2], y - lw);
 	xb = x[0];
 	yb = y - half;
 	boxwidth = x[3] - xb;
@@ -360,7 +360,7 @@ function plotha(x, y, upright, ps, lw) {// y = open low high close
 	if (verbose) {
 	    console.log('vertical H-A', x, y);
 	}
-	stick(x, y[1], x, y[2]);
+	stick(x - lw, y[1], x - lw, y[2]);
 	xb = x - half;
 	yb = y[0];
 	boxwidth = barwidth;

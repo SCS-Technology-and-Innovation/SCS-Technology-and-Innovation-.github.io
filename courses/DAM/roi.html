@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Return on investment</title>
+    <style>      
+          canvas {
+              background-color: black;
+          }
+
+          table,
+          td,
+          th {
+              border: 1px solid;
+              padding: 3px;
+          }
+          td {
+              text-align: right;
+          }
+	  .controlbox {
+	      float: left;
+	      margin: 20px;
+	  }
+	</style>
+  </head>
+  <body>
+    <h1>Buy, sell, hold</h1>
+    <h2>Stock-market, continued</h2>
+    <p>
+      <ol>
+	<li>Find a company the stock of which you'd like to
+	  "fake trade".</li>
+	<li>Like in the previous module, download the historical data from
+       <a href="https://ca.finance.yahoo.com/">Yahoo Finance</a>.</li>
+	<li>Select and then process the data below.</li>
+	<li>Press space bar to advance to the next day.</li>
+	<li>Press <code>b</code> to buy.</li>
+	<li>Press <code>s</code> to sell.</li>
+	<li>Transactions are all-or-nothing, for simplicity, and use the random price from the day's range.</li>
+	<li>Unrealistically, we assume your transaction to have no effect on the stock prices.</li>
+	</ol>
+    </p>
+    <p>
+    <label for="data">Select datafile</label>
+    <input type="file" id="data" name="data" accept=".csv">
+    </p>
+    <p>
+      Top-level ZZS threshold <input type="number" id="threshold" value="0.1">
+    </p>
+    <canvas id="canvas" width="10" height="10"></canvas>
+    <h3>Track record</h3>
+    <p id="track" align="center">
+    </p>
+    <script src="roi.js"></script>
+  </body>
+</html>
