@@ -211,7 +211,8 @@ function range(values) {
 		let v = values[i][j];
 		if (low == null || v < low) {
 		    low = v;
-		} else if (high == null || v > high) {
+		}
+		if (high == null || v > high) {
 		    high = v;
 		}
 	    }
@@ -219,7 +220,8 @@ function range(values) {
 	    let v = values[i];
 	    if (low == null || v < low) {
 		low = v;
-	    } else if (high == null || v > high) {
+	    }
+	    if (high == null || v > high) {
 		high = v;
 	    }
 	}

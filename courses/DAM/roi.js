@@ -149,17 +149,18 @@ function zigzag(t, v) {
     }
 }
 
-function range(values) {
+function range(values, from, to) {
     let low = null;
     let high = null;
-    for (let i = 0; i < values.length; i++) {
+    for (let i = from; i <= to; i++) {
 	if (values[i].constructor === Array) {
 	    let k = values[i].length;
 	    for (let j = 0; j < k; j++) {
 		let v = values[i][j];
 		if (low == null || v < low) {
 		    low = v;
-		} else if (high == null || v > high) {
+		}
+		if (high == null || v > high) {
 		    high = v;
 		}
 	    }
@@ -167,7 +168,8 @@ function range(values) {
 	    let v = values[i];
 	    if (low == null || v < low) {
 		low = v;
-	    } else if (high == null || v > high) {
+	    }
+	    if (high == null || v > high) {
 		high = v;
 	    }
 	}
@@ -227,7 +229,9 @@ function format(v, date) {
 	if (verbose) {
 	    console.log('Rounding', v, 'which is a', typeof v);
 	}
-	if (v < 1) {
+	if (v < 0.1) {
+	    return v.toFixed(3);	
+	} else if (v < 1) {
 	    return v.toFixed(2);
 	} else if (v > 10) {
 	    return v.toFixed(0);
@@ -270,7 +274,6 @@ function random(low, high) {
     return low + span * Math.random();
 }
 
-
 function transaction(purchase, moment) {
     let price = random(data['Low'][moment], data['High'][moment]);
     if (purchase) {
@@ -293,7 +296,11 @@ function step(event) {
     var name = event.key;
     var code = event.code;
     if (code == 'Space') {
-	upto(current++);
+	if (current < rowcount - 1) {
+	    upto(current++);
+	} else {
+	    alert('There is no more data available.');
+	}
     } else {
 	if (code == 'KeyB') {
 	    transaction(true, current);
@@ -306,56 +313,74 @@ function step(event) {
 }
 
 document.addEventListener('keypress', step);
-			  
-function upto(time) {
-    let xr = data['Date'][time];
-    let yr = (data['Close'][time] + data['Open'][time]) / 2; // midpointish
-    let x = scale(xr, xrange, wr, false);
-    let y = scale(yr, yrange, hr, true);
-    ctx.strokeStyle = '#00ff00'; // green
-    let xb = null;
-    let yb = null;
-    let ha = scale(data[lha][time], yrange, hr, true);
-    if (ha[3] > ha[0]) {
-	ctx.strokeStyle = '#ff0000'; // red	    
-    }
-    xb = x - bw;        
-    stick(xb, ha[1], xb, ha[2]);
-    yb = ha[0];
-    let bh = ha[3] - yb;
-    ctx.fillStyle = col;
-    ctx.beginPath();
-    ctx.rect(xb - lw, yb - lw, bw + lw, bh + lw);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    for (let t in labels) {
-	t = parseInt(t);
-	if (t == xr) {
-	    let k = labels[t];
-	    if (peak[t]) {
+
+const SPAN = 50;
+
+function upto(last) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);  
+    let start = Math.max(0, last - SPAN);
+    let xd = data['Date'];
+    let xrange = range(xd, start, last);
+    ticks(xrange, tcx, col, false, true);    
+    ylrange = range(data['Low'], start, last);
+    yhrange = range(data['High'], start, last);
+    let yrange = [ylrange[0], yhrange[1]];
+    ticks(yrange, tcy, col, true, false);
+    for (let time = start; time <= last; time++) {    
+	let xr = data['Date'][time];
+	let yr = (data['Close'][time] + data['Open'][time]) / 2; // midpointish
+	let x = scale(xr, xrange, wr, false);
+	let y = scale(yr, yrange, hr, true);
+	let xb = null;
+	let yb = null;
+	let ha = scale(data[lha][time], yrange, hr, true);
+	let yh = ha[3];
+	let yl = ha[0];
+	let bh = yh - yl;
+	ctx.fillStyle = col;	
+	if (bh > 0) {
+	    ctx.strokeStyle = '#ff0000'; // red
+	    stick(x, ha[1], x, ha[2]);
+	    ctx.beginPath();
+	    ctx.rect(x - hw, yl, bw, bh);
+	    ctx.closePath();
+	} else {
+	    ctx.strokeStyle = '#00ff00'; // green
+	    stick(x, ha[1], x, ha[2]);	    
+	    ctx.beginPath();
+	    ctx.rect(x - hw, yh, bw, -bh);
+	    ctx.closePath();
+	}
+	ctx.fill();
+	ctx.lineWidth = lw;
+	ctx.stroke();
+	if (labels.hasOwnProperty(xr)) {
+	    let k = labels[xr];
+	    if (peak[xr]) {
+		ctx.strokeStyle = '#009900';
 		ctx.fillStyle = '#009900';
 		k += '+';
 	    } else {
+		ctx.strokeStyle = '#ff0000';
 		ctx.fillStyle = '#ff0000';
 		k += '-';
 	    }
 	    ctx.textAlign = 'left';
 	    let x = null;
 	    let yc = null;
-	    if (peak[t]) {
+	    if (peak[xr]) {
 		yc = data['High'][time];
 	    } else {
 		yc = data['Low'][time];
 	    }
-	    x = scale(t, xrange, wr, false); 
+	    x = scale(xr, xrange, wr, false); 
 	    y = scale(yc, yrange, hr, true);
-	    if (peak[t]) {
+	    if (peak[xr]) {
 		y -= offset;
 	    } else {
 		y += offset;
 	    }
-	    ctx.textAlign = 'center';	    
+		ctx.textAlign = 'center';	    
 	    ctx.fillText(k, x, y);
 	}
     }
@@ -363,24 +388,19 @@ function upto(time) {
 
 function stick(xs, ys, xe, ye) {
     ctx.beginPath();
-    if (verbose) {
-	console.log('line from', xs, ys, 'to', xe, ye);
-    }
     ctx.moveTo(xs, ys);
     ctx.lineTo(xe, ye);
+    ctx.lineWidth = lw;    
     ctx.stroke(); 	
 }
 
-let xrange = null;
-let yrange = null;
-
-const lw = 2;
-ctx.lineWidth = lw;
-const bw = 2 * lw;
-const fs = 12;
+const lw = 3;
+const bw = 4 * lw;
+const hw = bw / 2;
+const fs = 14;
 const col = '#00ffff'; // cyan
 
-let offset = 8;
+let offset = 15;
 
 let w = null;
 let h = null;
@@ -393,37 +413,21 @@ let record = document.getElementById('track');
 
 function prep() {
     record.innerHTML += 'At the beginning, you have ' + budget + ' dollars and ' + holdings + ' stocks.';        
-    w = rowcount * 2 * bw;
+    w = SPAN * 3 * bw;
     h = 0.6 * window.innerHeight;
     canvas.width = w;
     canvas.height = h;
-    margin = Math.ceil(0.05 * h); // margin
+    margin = Math.ceil(0.07 * h); // margin
     let t = 2 * margin; // space for ticks
     tcx = Math.floor(w / t / 2);
     let fontsize = Math.ceil(t / 7); // tick font size
     ctx.font = 'bold ' + fontsize + 'px Courier';	    
     wr = [margin + t, w - margin - t];
     hr = [margin + t, h - margin - t];    
-    let xlabel = 'Date';
-    let ylabel = 'Price';
-
-    let xd = data['Date'];
-    xrange = range(xd);
-    if (verbose) {
-	console.log('Horizontal range is', xrange);
-    }
-    ticks(xrange, tcx, col, false, true);
-    
-    ylrange = range(data['Low']);
-    yhrange = range(data['High']);
-    yrange = [ylrange[0], yhrange[1]] 
-    console.log('Vertical range is', yrange);
-    ticks(yrange, tcy, col, true, false);
-    
     let xs = [];
     let ys = [];
     for (let i = 0; i < rowcount; i++) {
-	let xr = xd[i];
+	let xr = data['Date'][i];
 	xs.push(xr);	
 	let yr = (data['Close'][i] + data['Open'][i]) / 2; // midpointish
 	ys.push(data['Close'][i]); // use the closing price for zz
@@ -433,7 +437,7 @@ function prep() {
 }
 
 
-
 let wr = null;
 let hr = null;
 let margin = null;
+    
