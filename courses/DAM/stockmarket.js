@@ -10,6 +10,34 @@ const drawbutton = document.getElementById("draw");
 
 const lha = 'HeikenAshi';
 
+function cor(xv, yv) {
+    let n = Math.min(xv.length, yv.length);
+    console.log('Computing correlation for', n, 'data points');
+    let xm = 0;
+    let ym = 0;
+    for (let i = 0; i < n; i++) {
+	xm += xv[i];
+	ym += yv[i];
+    }
+    xm /= n;
+    ym /= n;
+    let xd = 0;
+    let yd = 0;
+    let xy = 0;    
+    for (let i = 0; i < n; i++) {
+	let dx = xv[i] - xm;	
+	let dy = yv[i] - ym;
+	xd += (dx * dx);	
+	yd += (dy * dy);
+	xy += (dx * dy);
+    }
+    if (n > 0) {
+	console.log(xy, xd, yd);
+	return (xy / Math.sqrt(xd * yd)).toFixed(3);
+    }
+    return 'N/A';
+}
+
 file.onchange = e => {
     if (verbose) {
 	console.log('A file has been chosen');
@@ -404,7 +432,7 @@ function draw(event) {
     let timeseries = false;
     if ((xlabel == 'Date' && ylabel != 'Date') || (ylabel == 'Date' && xlabel != 'Date')) {
 	timeseries = true;
-    }
+    } 
     if (xlabel == lha || ylabel == lha) {
 	if ((xlabel == lha && ylabel != 'Date') || (ylabel == lha && xlabel != 'Date')) {
 	    alert('Heiken-Ashi candles are only viable when the other axis is the date.');
@@ -469,7 +497,8 @@ function draw(event) {
 	if (p >= 0 && p < n) {
 	    let xr = dataset[xsrc][xlabel][p]; 
 	    let yr = dataset[ysrc][ylabel][i];
-	    if (zzs) { // use raw data for zigzags
+	    // console.log(xlabel, xr, ylabel, yr);
+	    if ((!timeseries) || zzs) { // use raw data for correlation and zigzags
 		if (ha)  {
 		    if (!ht) { // time is not horizontal
 			xs.push((xr[1] + xr[2]) / 2);
@@ -526,11 +555,14 @@ function draw(event) {
 	    py = yc;
 	}
     }
+    if (!timeseries) {
+	console.log(xlabel, xs);
+	console.log(ylabel, ys);
+	document.getElementById('correlation').innerHTML = cor(xs, ys);
+    } else {
+	document.getElementById('correlation').innerHTML = 'N/A';
+    }
     if (zzs) {
-	if (verbose) {
-	    console.log(xlabel, xs);
-	    console.log(ylabel, ys);
-	}
 	let thr = parseFloat(document.getElementById('threshold' + chosen).value);        	
 	if (!ht) {
 	    zigzag(ys, xs, pointsize, thr, true);
