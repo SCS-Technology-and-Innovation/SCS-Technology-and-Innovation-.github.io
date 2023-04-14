@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Lease</title>
+    <style>      
+      canvas {
+              background-color: black;
+          }
+
+          table,
+          td {
+              border: 1px;
+              padding: 1px;
+          }
+          th {
+              border: 1px;
+              padding: 1px;
+          }
+	</style>
+  </head>
+  <body>
+    <h1>Being a landlord</h1>
+    <h2>When will I make money off of this?</h2>
+    <h3>Obtaining real estate</h3>
+    <p>
+      Asset cost ($):
+      <input type="number" min="100000" step="10000" id="assetcost" value="500000">
+      <small>(how much does the place cost to purchase in the first place)</small>
+    </p>
+    <h3>Paying for it</h3>
+    <p>
+      Loan coverage (%):
+      <input type="number" min="0" step="10" id="loan" value="80">
+      <small>(how much of the purchase cost is covered by a loan from a bank, as a percentage)</small>
+    </p>
+    <p>
+      Monthly loan payment ($):
+      <input type="number" min="0" step="10" id="payment" value="1000">
+      <small>(how much is payed per month, not including the interest)</small>      
+    <p>
+      Annual loan interest (%):
+      <input type="number" min="1" step="1" id="interest" value="5">
+      <small>(how much interest is paid on the loan, as a fixed percentage)</small>
+    </p>
+    <h3>Charging rent</h3>
+    <p>
+      Monthly rent ($):
+      <input type="number" min="500" step="100" id="rent" value="2100">
+      <small>(the monthly amount of rent to charge the first year)</small>
+    </p>
+    <p>
+      Rent increase (%):
+      <input type="number" min="1" step="1" id="increase" value="5">
+      <small>(how much the rent is increased each year, as a fixed percentage)</small>
+    </p>    
+    <h3>Paying taxes</h3>
+    <p>
+      Tax rate (%):
+      <input type="number" min="10" step="10" id="tax" value="40">
+      <small>(how much the tax is paid on the rent received, as a fixed percentage)</small>
+    </p>
+    <h3>Ending it all</h3>
+    <p>
+      Years of operation:
+      <input type="number" min="10" step="1" id="duration" value="15">
+      <small>(for how many years to keep the place)</small>
+    </p>    
+    <p>
+      Sale price ($):
+      <input type="number" min="100000" step="10000" id="sale" value="600000">
+      <small>(for how much does the place sell at the end</small>
+    </p>
+    <p>
+      <button id="calc" onclick="compute()">Calculate</button>
+    </p>    
+    <h2>Cash flow</h2>
+    <table id="flow">
+      <thead>
+	<th>M / Y</th>
+	<th>Real estate</th>
+	<th>Rent income</th>
+	<th>Rent tax</th>
+	<th>Inflow</th>	
+	<th>Pending debt</th>
+	<th>Debt payment</th>
+	<th>Interest</th>
+	<th>Outflow</th>
+	<th>Balance</th>
+	<th>Total</th>		
+      </thead>
+      <tbody>
+      </tbody>
+    </table>    
+    <script src="lease.js"></script>
+  </body>
+</html>
