@@ -12,6 +12,7 @@
           td {
               border: 1px;
               padding: 1px;
+	      text-align: right;
           }
           th {
               border: 1px;
@@ -63,27 +64,29 @@
     <h3>Ending it all</h3>
     <p>
       Years of operation:
-      <input type="number" min="10" step="1" id="duration" value="15">
+      <input type="number" min="10" step="1" id="duration" value="20">
       <small>(for how many years to keep the place)</small>
     </p>    
     <p>
       Sale price ($):
-      <input type="number" min="100000" step="10000" id="sale" value="600000">
+      <input type="number" min="100000" step="10000" id="sale" value="750000">
       <small>(for how much does the place sell at the end</small>
     </p>
     <p>
       <button id="calc" onclick="compute()">Calculate</button>
     </p>    
     <h2>Cash flow</h2>
+    <span id="first"></span>
     <table id="flow">
       <thead>
-	<th>M / Y</th>
-	<th>Real estate</th>
-	<th>Rent income</th>
-	<th>Rent tax</th>
+	<th>Month</th>
+	<th>Year</th>
+	<th>Real estate</th>		
+	<th>Rent</th>
+	<th>Tax</th>
 	<th>Inflow</th>	
-	<th>Pending debt</th>
-	<th>Debt payment</th>
+	<th>Debt</th>
+	<th>Payment</th>
 	<th>Interest</th>
 	<th>Outflow</th>
 	<th>Balance</th>
