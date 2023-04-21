@@ -270,12 +270,14 @@ function ticks(range, count, fontcolor, vertical) {
 }
 
 function random(low, high) {
-    let span = (high + 1) - low;
+    let span = high - low;
     return low + span * Math.random();
 }
 
 function transaction(purchase, moment) {
+    console.log(data['Low'][moment], data['High'][moment]);
     let price = random(data['Low'][moment], data['High'][moment]);
+    console.log(price);
     if (purchase) {
 	let count = Math.floor(budget / price); // how many can we afford
 	budget -= count * price; // we might have some pennies left over
@@ -297,7 +299,7 @@ function step(event) {
     var code = event.code;
     if (code == 'Space') {
 	if (current < rowcount - 1) {
-	    upto(current++);
+	    upto(++current);
 	} else {
 	    alert('There is no more data available.');
 	}
@@ -328,7 +330,10 @@ function upto(last) {
     ticks(yrange, tcy, col, true, false);
     for (let time = start; time <= last; time++) {    
 	let xr = data['Date'][time];
-	let yr = (data['Close'][time] + data['Open'][time]) / 2; // midpointish
+	let yr = (data['Low'][time] + data['High'][time]) / 2; // midpointish
+	if (time == last) {
+	    curr.innerHTML = 'Current price from ' + data['Low'][time] + '  to ' + data['High'][time] + " (low and high).";
+	}
 	let x = scale(xr, xrange, wr, false);
 	let y = scale(yr, yrange, hr, true);
 	let xb = null;
@@ -410,6 +415,7 @@ let budget = 10000;
 let holdings = 0;
 
 let record = document.getElementById('track');
+let curr = document.getElementById('current');
 
 function prep() {
     record.innerHTML += 'At the beginning, you have ' + budget + ' dollars and ' + holdings + ' stocks.';        
