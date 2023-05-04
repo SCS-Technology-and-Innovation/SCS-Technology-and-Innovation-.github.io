@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Rent</title>
+    <style>
+      canvas {
+          background-color: black;
+      }      
+      #number {
+	  width: 3em;
+      }      
+      table,
+      td {
+          border: 1px;
+          padding: 1px;
+	  text-align: right;
+      }
+      th {
+          border: 1px;
+          padding: 1px;
+	  text-align: center;	  
+          }
+    </style>
+  </head>
+  <body>
+    <h1>Worth it or not</h1>
+    <h2>Location might be everything</h2>
+    <h3>How much rent is an okay amount</h3>
+    <table id="data">
+      <thead>
+	<th>Cost of real-estate</th>
+	<th>Monthly rent</th>		
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <button id="more" onclick="addRow()">+</button>
+    <p>
+      <button id="prep" onclick="prep()">Prepare a model</button>
+    </p>
+    <canvas id="plot" width="800" height="600"></canvas>    
+    <p>
+      Property value: <input id="worth" type="number">
+      <button id="query" onclick="query()" disabled>Consult the model</button>      
+    </p>
+    <p>
+      <span id="result"></span>
+    </p>
+    <script src="rent.js"></script>
+  </body>
+</html>
