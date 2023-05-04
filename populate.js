@@ -1,4 +1,5 @@
 async function grab() {
+    console.log(course, module, element);
     const url = "https://scs-technology-and-innovation.github.io/Content/CCCS" + course + '/M' + module + '/' + element + '.html';
     console.log(url);
     content.innerHTML = await (await fetch(url)).text();
