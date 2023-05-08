@@ -50,10 +50,10 @@ for course in titles:
                 print(f'<item identifier="{iid}" identifierref="{ref}"><title>{item}</title></item>', file = target)
             print('</item>', file = target)
         print(secondinter, file = target)
-        print(f'<resource identifier="glossary_R" type="webcontent"><file href="{course}/Glossary.html" /></resource>', file = target)
+        print(f'<resource identifier="glossary_R" type="webcontent"><file href="Glossary.html" /></resource>', file = target)
         for m in range(1, 13):
             module = f'{m:02}'
             for item in items:
                 ref = f'{course}M{module}{item}_R'            
-                print(f'<resource identifier="{ref}" type="webcontent"><file href="{course}/M{module}/{item}.html" /></resource>', file = target)
+                print(f'<resource identifier="{ref}" type="webcontent"><file href="M{module}/{item}.html" /></resource>', file = target)
         print('</resources></manifest>', file = target);
