@@ -8,9 +8,9 @@ async function grab() {
     const surl = "https://scs-technology-and-innovation.github.io/Content/CCCS" + course + '/M' + module + '/code.js';
     var script= document.createElement("script");
     let code = await (await fetch(surl)).text();
-    script.innerhtml = '<script>' + code  + '</script>';
+    script.innerHTML = code; 
     document.body.appendChild(script);
-    console.log('Script loaded from ' + surl + ": " + code);
+    console.log('Script loaded from ' + surl + " : " + code);
 }
 var link = document.createElement('a');
 link.style.display = 'none'; 
