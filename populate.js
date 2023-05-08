@@ -1,7 +1,7 @@
 async function grab() {
     console.log('request:', course, module, element);
     const url = "https://scs-technology-and-innovation.github.io/Content/CCCS" + course + '/M' + module + '/' + element + '.html';
-    console.log(url);
+    console.log('Populating from ' + url);
     const content = document.getElementById("content");
     content.innerHTML = await (await fetch(url)).text();
 
@@ -11,6 +11,7 @@ async function grab() {
     var inside  = await (await fetch(surl)).text();
     script.innerhtml = '<script>' + inside + '</script>';
     content.appendChild(script);
+    console.log('Script loaded');
     
 }
 var link = document.createElement('a');
@@ -19,6 +20,6 @@ link.setAttribute('href', '#');
 link.setAttribute('onclick', 'grab()'); 
 document.body.appendChild(link);
 link.click(); 
-
+console.log('Reload complete');
 
 
