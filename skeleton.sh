@@ -14,7 +14,7 @@ do
 	el=${elements[$i]};
 	et=${eltags[$i]};
 	echo $el $et
-	cont="<html><h1>CCCS "$c"</h1><h2>Module "$j"</h2><h3>"$el"</h3><div id='content'></div><script>var course = '"$course"';var module = '"$m"';var element = '"$et"';</script>"$closing
+	cont="<html><h1>CCCS "$c"</h1><h2>Module "$j"</h2><h3>"$el"</h3><div id='content'></div><script>var course = '"$"';var module = '"$m"';var element = '"$et"';</script>"$closing
 	touch Import/CCCS${c}/Module${m}/${el}.html
 	echo $cont > Import/CCCS${c}/Module${m}/${el}.html
     done
