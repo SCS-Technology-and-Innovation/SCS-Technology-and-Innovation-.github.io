@@ -10,7 +10,7 @@ async function grab() {
     var script= document.createElement("script");
     var inside  = await (await fetch(surl)).text();
     script.innerhtml = '<script>' + inside + '</script>';
-    content.appendChild(script);
+    document.body.appendChild(script);
     console.log('Script loaded from ' + surl);    
 }
 var link = document.createElement('a');
