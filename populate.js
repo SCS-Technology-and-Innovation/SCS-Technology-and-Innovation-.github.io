@@ -6,12 +6,11 @@ async function grab() {
     content.innerHTML = await (await fetch(url)).text();
 
     const surl = "https://scs-technology-and-innovation.github.io/Content/CCCS" + course + '/M' + module + '/code.js';
-    
     var script= document.createElement("script");
-    var inside  = await (await fetch(surl)).text();
-    script.innerhtml = '<script>' + inside + '</script>';
+    let code = await (await fetch(surl)).text();
+    script.innerhtml = '<script>' + code  + '</script>';
     document.body.appendChild(script);
-    console.log('Script loaded from ' + surl);    
+    console.log('Script loaded from ' + surl + ": " + code);
 }
 var link = document.createElement('a');
 link.style.display = 'none'; 
