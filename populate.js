@@ -8,7 +8,8 @@ async function grab() {
     const surl = "https://scs-technology-and-innovation.github.io/Content/CCCS" + course + '/M' + module + '/code.js';
     
     var script= document.createElement("script");
-    script.innerhtml = await (await fetch(surl)).text();
+    var inside  = await (await fetch(surl)).text();
+    script.innerhtml = '<script>' + inside + '</script>';
     content.appendChild(script);
     
 }
