@@ -11,6 +11,20 @@ function dump() {
 
 dump();
 
+function status() {
+    document.getElementById("method").disabled = !training();
+    document.getElementById("ab").disabled = training();    
+}
+
+status();
+
+
+function reset() {
+    document.getElementById("veredict").innerHTML = '';
+    document.getElementById("input").value = '';
+    console.log('Cleared');
+}
+
 function erase() {
     data = {};
     var methods = document.getElementById('method');
@@ -18,17 +32,12 @@ function erase() {
 	let method = methods[m].value;
 	data[method] = {}; // empty object
     }
+    document.getElementById("stage").value = 'train';
+    reset();
+    status();
 }
 
 erase();
-
-function status() {
-    document.getElementById("method").disabled = !training();
-    document.getElementById("ab").disabled = training();    
-}
-
-
-status();
 
 function currentStage() {
     return document.getElementById("stage").value;
@@ -66,12 +75,6 @@ function analyze() {
     }
     result += ']';
     document.getElementById("veredict").innerHTML = 'Based on ' + n + ' keystrokes, the typing method is ' + result;
-}
-
-function reset() {
-    document.getElementById("veredict").innerHTML = '';
-    document.getElementById("input").value = '';
-    console.log('Cleared');
 }
 
 // sume of squared differences
