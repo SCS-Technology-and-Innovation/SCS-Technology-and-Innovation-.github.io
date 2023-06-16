@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Good combination</title>
+    <style>
+      canvas {
+          background-color: black;
+      }      
+      #number {
+	  width: 3em;
+      }      
+      table,
+      td {
+          border: 1px;
+          padding: 1px;
+	  text-align: right;
+      }
+      th {
+          border: 1px;
+          padding: 1px;
+	  text-align: center;	  
+          }
+    </style>
+  </head>
+  <body>
+    <h1>Good combination</h1>
+    <h2>Quantifying similarity</h2>
+    <p>
+      Click on the canvas to place data points. Click on the "Refresh"
+      button to switch into a new color-size family. When done, click
+      on the "Cluster" button to run <em>k</em>-means clustering on
+      the data.
+    </p>
+    <p>
+      <button onclick="next()">Refresh</button>
+      <span id="sample"><strong>Color</strong></span>
+    </p>      
+    <canvas id="draw" width="700" height="700"></canvas>
+    <p>
+      <button onclick="kmeans()">Cluster</button>
+      <span id="changes"></span>      
+    <p>
+      <em>k</em> = 
+      <input type="number" min="2" step="1" id="k"value="3">
+    </p>    
+      
+    </p>
+    <script src="cluster.js"></script>
+  </body>
+</html>
