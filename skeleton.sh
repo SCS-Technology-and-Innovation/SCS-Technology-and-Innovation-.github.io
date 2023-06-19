@@ -1,7 +1,9 @@
+term=F23
 c=610
 mkdir -p Import
-mkdir Import/CCCS${c}
-cp gtest.html Import/CCCS${c}/Glossary.html # attach the glossary outside as a separate entity
+mkdir -p Import/${term}
+mkdir -p Import/${term}/CCCS${c}
+cp gtest.html Import/${term}/CCCS${c}/Glossary.html # attach the glossary outside as a separate entity
 elements=("Recap" "Introduction" "Interaction" "Assessment" "Preview")
 eltags=("recap" "intro" "interact" "assessment" "nextup")
 closing="<script src='https://scs-technology-and-innovation.github.io/populate.js'></script></body></html>"
@@ -14,8 +16,8 @@ do
 	el=${elements[$i]};
 	et=${eltags[$i]};
 	echo $el $et
-	cont="<html><h1>CCCS "$c"</h1><h2>Module "$j"</h2><h3>"$el"</h3><div id='content'></div><script>var course = '"$"';var module = '"$m"';var element = '"$et"';</script>"$closing
-	touch Import/CCCS${c}/Module${m}/${el}.html
-	echo $cont > Import/CCCS${c}/Module${m}/${el}.html
+	cont="<html><h1>CCCS "$c" &mdash; Term "${term}"</h1><h2>Module "$j"</h2><h3>"$el"</h3><div id='content'></div><script>var term='"$term"'var course = '"$c"';var module = '"$m"';var element = '"$et"';</script>"$closing
+	touch Import/${term}/CCCS${c}/Module${m}/${el}.html
+	echo $cont > Import/${term}/CCCS${c}/Module${m}/${el}.html
     done
 done	  
