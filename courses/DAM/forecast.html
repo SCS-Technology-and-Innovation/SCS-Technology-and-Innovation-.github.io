@@ -31,7 +31,7 @@
     <p>
       <strong>Seasonality</strong>:
       active <input type="checkbox" id="season" name="season" checked>
-      period <input type="number" min="2" step="1" id="period" value="2">
+      period <input type="number" min="2" step="1" id="period" value="7">
     </p>    
     <p>
       <strong>Linear trend</strong>: slope <input type="number" step="1" id="trend" value="0">
@@ -44,10 +44,20 @@
     <p>
       Press any key on the keyboard to generate data.
     </p>
-    <canvas id="canvas" width="800" height="600"></canvas>
+    <canvas id="timeseries" width="800" height="600"></canvas>
+    <h3>ARIMA parameters</h3>
     <p>
-      <button onclick="forecast()">Forecast</button>  (not implemented yet)
+      <em>p</em> <input type="number" min="0" step="1" id="p" value="7"> AR: lag order, based on the autocorrelations<br>
+      <em>d</em> <input type="number" min="0" max="1" step="1" id="d" value="1"> I: differencing degree, limited to 0/1<br>
+      <em>q</em> <input type="number" min="0" step="1" id="q" value="3"> MA: error-window size; weight factor <input type="number" min="0" id="weight" value="0.05">
     </p>
+    <h4>Autocorrelations</h4>
+    <p>
+      Threshold: <input type="number" id="thr" value="0.5"> 
+    </p>
+    <p>
+     <span id="autocor"></span>
+      </p>
     <script src="forecast.js"></script>
   </body>
 </html>
