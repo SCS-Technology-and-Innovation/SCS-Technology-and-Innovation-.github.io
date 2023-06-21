@@ -26,8 +26,27 @@
   <body>
     <h1>Crystal ball</h1>
     <h2>The math of seeing the future</h2>
+
+    <h3>Generation parameters</h3>
     <p>
-      <button onclick="generate()">Generate data</button>      
+      <strong>Seasonality</strong>:
+      active <input type="checkbox" id="season" name="season" checked>
+      period <input type="number" min="2" step="1" id="period" value="2">
+    </p>    
+    <p>
+      <strong>Linear trend</strong>: slope <input type="number" step="1" id="trend" value="0">
+    </p>
+    <p>
+      <strong>Normally distributed noise</strong>:
+      mean <input type="number" min="0" step="1" id="mean" value="0">
+      std.dev. <input type="number" min="0" step="1" id="sd" value="0">      
+    </p>    
+    <p>
+      Press any key on the keyboard to generate data.
+    </p>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <p>
+      <button onclick="forecast()">Forecast</button>  (not implemented yet)
     </p>
     <script src="forecast.js"></script>
   </body>
