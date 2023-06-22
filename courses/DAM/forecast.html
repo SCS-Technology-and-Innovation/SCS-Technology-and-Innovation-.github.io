@@ -31,15 +31,15 @@
     <p>
       <strong>Seasonality</strong>:
       active <input type="checkbox" id="season" name="season" checked>
-      period <input type="number" min="2" step="1" id="period" value="7">
+      period <input type="number" min="2" step="1" id="period" value="6">
     </p>    
     <p>
-      <strong>Linear trend</strong>: slope <input type="number" step="1" id="trend" value="0">
+      <strong>Linear trend</strong>: slope <input type="number" step="1" id="trend" value="0" onchange="setlevel()">
     </p>
     <p>
       <strong>Normally distributed noise</strong>:
       mean <input type="number" min="0" step="1" id="mean" value="0">
-      std.dev. <input type="number" min="0" step="1" id="sd" value="0">      
+      std.dev. <input type="number" min="0" step="1" id="sd" value="1">      
     </p>    
     <p>
       Press any key on the keyboard to generate data.
@@ -49,7 +49,7 @@
     <p>
       <em>p</em> <input type="number" min="0" step="1" id="p" value="7"> AR: lag order, based on the autocorrelations<br>
       <em>d</em> <input type="number" min="0" max="1" step="1" id="d" value="1"> I: differencing degree, limited to 0/1<br>
-      <em>q</em> <input type="number" min="0" step="1" id="q" value="3"> MA: error-window size; weight factor <input type="number" min="0" id="weight" value="0.05">
+      <em>q</em> <input type="number" min="0" step="1" id="q" value="3"> MA: error-window size; weight factor <input type="number" min="0" id="weight" step="0.01" value="0.05">
     </p>
     <h4>Autocorrelations</h4>
     <p>
