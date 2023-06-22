@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Branches</title>
+    <style>
+      canvas {
+          background-color: black;
+      }      
+      #number {
+	  width: 3em;
+      }      
+      table,
+      td {
+          border: 1px;
+          padding: 1px;
+	  text-align: right;
+      }
+      th {
+          border: 1px;
+          padding: 1px;
+	  text-align: center;	  
+          }
+    </style>
+  </head>
+  <body>
+    <h1>Branches</h1>
+    <h2>Best not to fill the earth, though</h2>
+    <p>
+      Branching rate <input type="number" min="1" step="0.5" max="10" id="rate" value="2"><br>
+      Cooling rate <input type="number" min="0" step="0.05" max="1" id="cool" value="0.9"><br>
+      Maximum depth <input type="number" min="1" step="1" max="20" id="maxdepth" value="10"><br>
+      Maximum total size <input type="number" min="10" step="10" max="1000" id="maxsize" value="100"><br>
+      <button onclick="grow()">Grow</button>    
+    </p>    
+    <canvas id="tree" width="0" height="0"></canvas>
+    <p>
+      <span id="note"></span>
+      </p>
+    <script src="branches.js"></script>
+  </body>
+</html>
