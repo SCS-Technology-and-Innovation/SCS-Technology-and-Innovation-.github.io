@@ -233,7 +233,7 @@ function setlevel() {
 	    level /= 2; // a smoothness hack
 	}
 	t = newt;
-	console.log('Level now at', level);
+	// console.log('Level now at', level);
     }
 }
 
@@ -243,16 +243,15 @@ function generate() {
 	p = parseFloat(document.getElementById("period").value);
     }
     let i = data.length;
-    let r = 0;
+    let m = parseFloat(document.getElementById("mean").value);
+    let s = parseFloat(document.getElementById("sd").value);    
+    let r = normal(m, s); // add the noise        
     if (p != null) { // season
 	if (i > p) {
 	    let old = raw[i - p];
-	    r = old; // as simple as possible: repeat history
+	    r += old; // as simple as possible: repeat history
 	}
     }
-    let m = parseFloat(document.getElementById("mean").value);
-    let s = parseFloat(document.getElementById("sd").value);    
-    r += normal(m, s); // add the noise        
     raw.push(r);
     r += ((i - change) * t) + level; // add the trend
     data.push(r);
