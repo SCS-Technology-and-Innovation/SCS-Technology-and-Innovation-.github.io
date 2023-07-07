@@ -88,6 +88,15 @@ function heikenashi() {
 let labels = null;
 let peak = null;
 
+function reset() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);      
+    current = 0;
+    budget = 10000;
+    holdings = 0;
+    document.getElementById('track').innerHTML = 'You have reset the simulation.';
+    document.getElementById('current').innerHTML = '';
+}
+
 function zigzag(t, v) {
     let top = parseFloat(document.getElementById('threshold').value);        	    
     let threshold = {};
