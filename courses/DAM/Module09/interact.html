@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sunshine</title>
+    <style>
+      canvas {
+          background-color: black;
+      }      
+      #number {
+	  width: 3em;
+      }      
+      table,
+      td {
+          border: 1px;
+          padding: 1px;
+	  text-align: right;
+      }
+      th {
+          border: 1px;
+          padding: 1px;
+	  text-align: center;	  
+          }
+    </style>
+  </head>
+  <body>
+    <h1>Where the sun does shine</h1>
+    <h2>Solar panel installation</h2>
+    <p>
+      HydroQuebec has
+      a <a href="https://www.hydroquebec.com/solar/costs.html">calculator</a>
+      much like the one we are working on.  Ours differs from their in
+      the sense that we are using weather data and simulated
+      consumption data in our calculations.
+    </p>
+    
+    <h3>Cost of electricity</h3>
+    
+    <P>The cost of electricity depends on the total daily consumption
+      (see <a href="https://www.cer-rec.gc.ca/en/data-analysis/energy-commodities/electricity/report/canadian-residential-electricity-bill/quebec.html">Canada
+      Energy Regulator</a> for additional details): consumption
+      exceeding a threshold is billed at a higher rate. We assume in
+      this simulator that excess energy produced is sold to the grid
+      at the cost associated to regular consumption (note that this
+      not actually how it works in practice; credits are issued
+      instead and there are fixed costs involved). 
+    </p>
+    
+    <p>
+      Threshold between regular and high consumption:
+      <input type="number" min="0" step="5" id="threshold" value="40">
+      <small>(as kWh per day)</small>           
+    </p>
+    
+    <p>
+      Cost of regular consumption:
+      <input type="number" min="0" max="100" step="1" id="regular" value="6.08">
+      <small>(as Canadian cents per kWh)</small>           
+    </p>
+    
+    <p>
+      Cost of excess consumption:
+      <input type="number" min="0" max="100" step="1" id="excess" value="9.38">
+      <small>(as Canadian cents per kWh)</small>           
+    </p>
+    
+    <h3>Panel properties</h3>
+    
+    <p>
+      Instead of computing the
+      global <a href="https://help.valentin-software.com/pvsol/en/calculation/irradiation/irradiation-onto-inclined-plane/">irradiation
+	onto an inclined plane</a>, we simplify and only work with
+      direct radiation. In reality, the radiation arriving at the
+      panel surface would also
+      include <a href="https://www.e-education.psu.edu/eme812/node/644">reflected
+	and diffuse radiation</a> so it would be somewhat higher than
+      estimated in these calculations.
+    </p>
+    
+    <p>
+      Number of panels:
+      <input type="number" min="0" step="5" id="count" value="5">
+    </p>
+    <p>
+      Surface area of each individual panel:
+      <input type="number" min="1" id="surface" value="1.64">
+      <small>(in square meters)</small>
+    </p>
+    <p>
+      Panel inclination:
+      <input type="number" min="0" max="180" step="5" id="angle" value="10">
+      <small>(elevation angle from horizontal in degrees)</small>           
+    </p>
+    <p>
+      Conversion effiency:
+      <input type="number" min="0" max="100" step="2" id="eff" value="20">
+      <small>(as a percentage)</small>     
+    </p>
+    <p>
+      Panel lifetime
+      <input type="number" min="5" max="50" step="5" id="lifetime" value="20">
+      <small>(in years)</small>     
+    </p>
+    
+    <h3>System costs</h3>
+    <p>
+      Purchase cost of each individual panel:
+      <input type="number" min="100" id="price" value="800">
+  <small>(in CAD)</small>
+    </p>
+    <p>
+      Initial installation cost:
+      <input type="number" min="100" id="install" value="500">
+      <small>(in CAD for the whole system)</small>
+    </p>
+    <p>
+      System maintenance cost:
+      <input type="number" min="100" max="1500" step="10" id="maintain" value="300">
+      <small>(in CAD)</small>     
+    </p>
+    
+    <p>
+      System maintenance interval:
+      <input type="number" min="6" max="36" step="6" id="interval" value="12">
+      <small>(in months)</small>     
+    </p>
+    
+    <p>
+      Probability of snow removal:
+      <input type="number" min="0" max="100" step="10" id="snow" value="50">
+      <small>(as a percentage)</small>     
+    </p>
+    
+    <h3>Consumption</h3>
+    <p>
+      The kWh consumed by a household
+      to <a href="https://doi.org/10.1016/j.eneco.2022.106023">depends on
+	the weather, the time of day, and the month</a>, among other
+      factors. We work with a simplified model, very loosely based on the
+      findings of the Irish study linked above:
+      <ul>
+	<li>The higher the temperature, the less energy is consumed: -X% per Celsius when above a threshold.</li>
+	<li>When it rains or snows, Y% more energy is consumed.</li>
+	<li>Wind does not affect energy consumption.</li>
+	<li>Consumption between March and October (Spring, Summer, and Fall) is Z% lower than
+	  between November and February (Winter).</li>
+      </ul>
+    </p>
+    <p>
+      We use binary indicators for whether it is raining (no/yes) and
+      snowing (yes/no), for simplicity,
+      although <a href="https://collaboration.cmc.ec.gc.ca/cmc/climate/Engineer_Climate/CWEEDS_FMCEG/CWEEDS_FMCEG_v_2020/CWEEDS-FMCEG_by_par_prov.CSV/readme.pdf">the
+	data itself contains more precise information</a>.
+    </p>
+
+    <p>
+      Value for X
+      <input type="number" min="0" max="10" step="1" id="xval" value="1">
+      <small>(see the above list for what X stands for)</small>     
+    </p>
+    <p>
+      Value for Y
+      <input type="number" min="0" max="10" step="1" id="yval" value="4">
+      <small>(see the above list for what Y stands for)</small>     
+    </p>
+    <p>
+      Value for Z
+      <input type="number" min="0" max="10" step="1" id="zval" value="3">
+      <small>(see the above list for what Z stands for)</small>     
+    </p>
+    <p>
+      Temperature threshold
+      <input type="number" min="0" max="50" step="5" id="temp" value="15">
+      <small>(in Celsius)</small>     
+    </p>
+    <p>
+      Mean household consumption
+      <input type="number" min="0.8" max="2.2" step="0.1" id="cons" value="1.5">
+      <small>(in kWh during the winter)</small>     
+    </p>
+    <p>
+      Standard deviation for household consumption
+      <input type="number" min="0.0" max="1.0" step="0.1" id="sd" value="0.2">
+      <small>(in kWh, assuming normal distribution)</small>     
+    </p>
+    <p>
+      Although the Irish model distinguises between times of day (eight
+      periods), our simplified model ignores these nuances. By using times
+      of day, their model is also able to distinguish between workdays,
+      weekends, and holidays, which we also ignore. 
+    </p>
+    
+    
+    <h3>Weather data</h3>
+    <p>
+      Download the compressed file for the province of your interest
+      from
+      the <a href="https://collaboration.cmc.ec.gc.ca/cmc/climate/Engineer_Climate/CWEEDS_FMCEG/CWEEDS_FMCEG_v_2020/CWEEDS-FMCEG_by_par_prov.CSV/">CWEEDS
+      2020</a> dataset. Uncompress the file and then choose one of the
+      resulting location-specific CSV files to use as input.
+    </p>
+    <p>
+      <em>If you
+      make any changes to the above parameters, please <strong>reload</strong> the
+      dataset to see the effects of the changes.</em>
+    </p>
+    
+    <p>
+      <label for="weather">Weather data</label>
+      <input type="file" id="weather" name="weather" accept=".csv">
+    </p>
+    <canvas id="canvas" width="1000" height="800"></canvas>
+    <script src="script.js"></script>
+  </body>
+</html>

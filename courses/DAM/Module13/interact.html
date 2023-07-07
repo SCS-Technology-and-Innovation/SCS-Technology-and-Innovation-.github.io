@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Branches</title>
+    <style>
+      canvas {
+          background-color: black;
+      }      
+      #number {
+	  width: 3em;
+      }      
+      table,
+      td {
+          border: 1px;
+          padding: 1px;
+	  text-align: right;
+      }
+      th {
+          border: 1px;
+          padding: 1px;
+	  text-align: center;	  
+          }
+    </style>
+  </head>
+  <body>
+    <h1>Branches</h1>
+    <h2>Best not to fill the earth, though</h2>
+    <p>
+      Branching rate
+      <input type="number" min="1" step="0.5" max="10" id="rate" value="2"><br>
+      Change factor
+      <input type="number" min="0" step="0.05" id="cool" value="0.9"><br>
+      Maximum height
+      <input type="number" min="1" step="1" max="20" id="maxdepth" value="10"><br>
+      Maximum total size
+      <input type="number" min="10" step="10" max="1000" id="maxsize" value="100"><br>
+      <button onclick="grow()">Grow</button>    
+    </p>    
+    <canvas id="tree" width="0" height="0"></canvas>
+    <p>
+     <label for="label">Node label</label>
+      <select name="label" id="label" onchange="show()">
+	<option value="N">None</option>	
+	<option value="D">Depth</option>
+	<option value="H">Height</option>
+	<option value="W">Width</option>
+	<option value="C">Degree</option>
+      </select>
+      </p>
+    <p>
+      <span id="internal"></span>
+    </p>
+    <p>
+      <span id="leaves"></span>
+    </p>
+    <p>
+      <span id="total"></span>
+      <span id="tnote" style="color:red"></span>
+    </p>
+    <p>
+      <span id="height"></span>
+      <span id="hnote" style="color:red"></span>      
+    </p>
+    <p>
+      <span id="width"></span>
+    </p>
+    <script src="script.js"></script>
+  </body>
+</html>

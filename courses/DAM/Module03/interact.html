@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Doctors</title>
+    <style>      
+          canvas {
+              background-color: black;
+          }
+
+          table,
+          td,
+          th {
+              border: 0px;
+              padding: 0px;
+          }
+	</style>
+  </head>
+  <body>
+    <h1>What kind of diagnostics need to be done?</h1>
+    <h2>Which staff members have the expertise for that?</h2>
+
+    <p>
+      Number of patients:
+      <input type="number" min="2" step="1" id="npat" value="7">
+    </p>
+    <p>
+      Number of diagnostic methods:
+      <input type="number" min="2" step="1" id="nopt" value="7">
+    </p>    
+    <p>
+      Number of doctors:
+      <input type="number" min="2" step="1" id="ndoc" value="5">
+    </p>
+    <h3>Pseudo-random data entry</h3>
+    <p>
+    <label for="fill">Populate</label>
+    <input type="checkbox" id="fill" name="fill" checked>    
+    </p>
+    <p>
+      Patient requirement probability <input type="range" min="1" max="100" value="30" class="slider" id="prate">
+    </p>
+    <p>
+      Doctor expertise probability <input type="range" min="1" max="100" value="60" class="slider" id="drate">
+    </p>
+    <p>
+      Minimum doctor capacity:
+      <input type="number" min="1" step="1" id="cmin" value="2">
+    </p>
+    <p>
+      Maximum doctor capacity:
+      <input type="number" min="1" step="1" id="cmax" value="4">
+    </p>
+    </p>
+    <p>
+      <button id="prep" onclick="prep()">Prepare data tables</button>
+    </p>
+    <h2>Patient needs</h2>
+    <p>Which diagnostic methods does each patient require?</p>
+    <table id="dpat">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <h2>Doctor skills</h2>
+    <p>Which diagnostic methods does each doctor master? How many patients can they receive?</p>
+    <table id="ddoc">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <p>
+      <button id="vis" onclick="visualize()">Update network model</button> <small>(based on the populated tables)</small>
+    </p>
+    <canvas id="network" width="800" height="600"></canvas>
+    <p>
+      <button id="compute" onclick="report()">Update assignment</button> <small>(based on the populated tables)</small>
+    </p>
+    <h2>Assignment</h2>
+    <p>Which doctors will each patient see? Do they need more than one appointment?</p>
+    <table id="result">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>    
+    <script src="script.js"></script>
+  </body>
+</html>
