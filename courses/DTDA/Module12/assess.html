@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<HTML lang="en">
+  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>Assessment / Module 12 / CCCS 610</TITLE>
+  </HEAD>
+  <BODY>
+    <h2>Hands-on option</h2>
+    <h3>Basic stage for the hands-on option</h3>
+    <p>
+      Modify the example code so that edges are no longer directed but
+      instead undirected (like pipes in which liquid flows); this
+      means that the flow along an edge may proceed in one direction
+      or the other, but not both. Verify that the algorithm still
+      computes a valid maximum flow and that you are able to visualize
+      the result.
+    </p>
+    <p> Then, modify the edge capacities are no longer integers but
+      positive values with decimal places. Verify again that the
+      algorithm still computes a valid maximum flow and that the
+      visualization remains reasonable.
+    </p>
+    <p>
+      Then, instead of assigning the edge capacities uniformly at
+      random, use normally distributed non-negative capacities, with
+      mean and standard deviation as adjustable parameters (crop all
+      would-be negative values to be zero instead and remove those
+      edges from the graph).  Verify once more that the algorithm
+      still computes a valid maximum flow and that you can still
+      visualize it.
+    </p>
+    <h3>In-depth stage for the hands-on option</h3>
+    <p>
+      With the modified model from the basic stage, design and execute
+      an experiment to detemine the effect of the following factors on
+      the average maximum flow over all possible source-target pairs
+      in the undirected, weighted graph:
+    </p>
+    <ol>
+      <li>graph density (ratio of edges to potential edges)</li>
+      <li>the mean of the edge-capacity distribution</li>
+      <li>the standard deviation of the edge-capacity distribution</li>
+    </ol>
+    <p>
+      For each factor, determine whether or not an increase in it also
+      produces an increase in the average maximum flow over all
+      pairs.
+    </p>
+    <h2>Conceptual option</h2>
+    <h3>Basic stage for the conceptual option</h3>
+    <p>
+     When electricity flows in a circuit, the same basic rules apply
+     as in the network flow of the example code: no flow may be stored
+     at any vertex, and sum of the incoming flow must match the sum of
+     the outgoing flow in any vertex except the source and the
+     target. These laws of physics are called the Kirchhoff laws.
+    </p>
+    <p>
+      Read the Kirchhoff laws and about other phenomena in which a
+      substance of some kind flows through an infrastructure of some
+      kind. What are the attributes of the model? What kind of rules
+      do the models obey?
+    </p>
+    <p>
+      Then, think back on the propagation models discussed in Week 10
+      when we spoke of epidemic spreading. In your own words, with
+      your own illustrations, attempt to clarify the difference
+      between flow and propagation as phenomena, indicating a handful
+      of examples of each.
+    </p>
+    <p>
+      Finally, describe at least a couple of real-world situations
+      that are a mixture of flow and propagation, situations in which
+      a proper model of what is happening would have to combine
+      aspects of the two.
+    </p>
+    <h3>In-depth stage for the conceptual option</h3>
+    <p>
+      When the flow is electricity, liquid, or gas, no explicit
+      turn-taking, coordination, or synchronization is needed for the
+      elements to pass. This is <em>not</em> the case in pedestrian or
+      vehicular transit or when products progress on a production line
+      in a factory or suitcases traverse the airport luggage logistics
+      from the plane to the traveler.
+    </p>
+    <p>
+      Think about (or read about) how the model would need to be
+      adjusted to work with a phenomenon that <em>does</em> involve
+      turn-taking of sorts. Write down and illustrate your ideas,
+      citing your sources (if any).
+    </p>
+  </body>
+</html>
