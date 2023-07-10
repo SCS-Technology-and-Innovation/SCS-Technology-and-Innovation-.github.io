@@ -6,9 +6,96 @@
   <BODY>
     <h2>Hands-on option</h2>
     <h3>Basic stage for the hands-on option</h3>
+    <p>
+      Based on the in-class discussion of how the AR and MA
+      regressions work and what the differentiation does (when
+      active), explore the combinations of generation parameters and
+      ARIMA parameters to experimentally discover some rules of thumb
+      on what seems to work well and what seems to be a horrible idea
+      in terms of forecasting precision.
+    </p>
+    <p>
+      Organize your writings in a report that briefly explains what
+      each parameter appears to control and how it seems to interact with
+      the other parameters, if at all.
+    </p>
+    <p>
+      There is no need to read any reference materials, but if you run
+      out of ideas and need to consult external sources, please cite
+      the sources clearly in your report."
+    </p>
+
     <h3>In-depth stage for the hands-on option</h3>
+    <p>
+      Pen and paper time: either pick a real-world open dataset (for
+      example
+      from <a href="https://open.canada.ca/en/open-data">open.canada.ca</a>)
+      with a time series or just come up with some numbers whichever
+      way you please. Pick a small interval of the time series (10 to
+      20 data points is perfectly sufficient) and plot it (completely
+      by hand, no matter hough roughly, or with some computer software
+      of your choice).
+    </p>
+    <p>
+      Then, mimic step by step the simplied ARIMA process we studied
+      in class, with some simple values of the
+      parameters <em>p</em>, <em>d</em>, and <em>q</em>. Avoid making
+      the calculations for the regression lines and instead just draw
+      approximate regression lines (freehand) on your plot and on an
+      auxiliary plot of the forecast errors you will end up
+      making. Note that if you chose a non-zero value of
+      <em>d</em>, you should also prepare a difference plot
+      separately. Try to carry out at least five forecasts, no matter
+      how rough approximates they end up being.
+    </p>
+    <p>
+      Include in your report photos or screenshots of different stages
+      of your handicrafted ARIMA. Once you feel that you have
+      understood what happens in each step, express that in writing as
+      clearly as you can. if you notice that you made a mistake early
+      on, no need to start over: just document what happened and
+      continue with your new and improved understanding in the steps
+      to come.
+    </p>
     <h2>Conceptual option</h2>
     <h3>Basic stage for the conceptual option</h3>
+    <p>
+      Consider the following three hypothetical scenarios and their impact
+      on how mathematical forecasting methods might be able to cope with
+      such situations. Instead of typing in a search engine, try to just
+      think about how the method we studied together worked and what and how
+      could be tweaked to adjust for the proposed scenarios.
+    </p>
+    <ol>
+      <li>What if the trend changes over time, sometimes slower,
+      sometimes faster, or even changes direction altogether from time
+      to time?</li>
+      <li>What if the noise distribution changes over time, either in
+      terms of the values of its parameters (like mean and standard
+      deviation) or becomes a different distribution?</li>
+      <li>What if there are multiple different seasonalities (daily, weekly,
+	monthly, etc.) instead of just one? This is very common in any data
+	that associates to human behaviour and/or natural phenomena.</li>
+      <li>What if we need to forecast more than one data point into
+      the future? What could we do with what we studied in class?</li>
+    </ol>
+    <p>
+      Express your thoughts in writing. If you consulted any sources,
+      please cite them clearly, but since this is a thought
+      experiment, you are encouraged to just think instead of looking
+      things up.
+    </p>
     <h3>In-depth stage for the conceptual option</h3>
+    <p>
+      What kind of forecast methods do climate scientists use to study
+      global warming? Find and browse peer-reviewed scientific
+      publications. Discuss your findings in writing, with particular
+      attention to what kind of seasonalities, sources of noise, and
+      trends are present.
+    </p>
+    <p>
+      Remember to clearly cite your sources and share interesting
+      findings with other participants.
+    </p>
   </body>
 </html>
