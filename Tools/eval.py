@@ -65,9 +65,9 @@ for filename in os.listdir('.'):
                         image_ext = base_image["ext"]
                         image = Image.open(io.BytesIO(image_bytes))
                         text = pytesseract.image_to_string(image)
-                        if 'trong' in text: # just some match (less is more for OCR)
+                        if 'tron' in text: # just some match (less is more for OCR)
                             values = {} # start looking for the counts
-                            text = text.replace('\n', '')
+                            text = text.replace('\n', ' ')
                             check = False
                             category = None
                             strongly = False
@@ -181,8 +181,8 @@ def output(labels, values, target):
             f = [ when, what, who, q, ' '.join([ str(i) for i in s]), status ]
             print(';'.join(f), file = target) # semicolon separated file
     
-for filename in scores:
+for filename in dataset:
+    assert filename in scores
     complete(filename)
-    assert filename in dataset
     with open('dataset.txt', 'w') as target:
         output(dataset[filename], scores[filename], target)
