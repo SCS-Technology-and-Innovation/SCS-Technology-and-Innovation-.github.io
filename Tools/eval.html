@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>Course evaluations</title>
+  </head>
+  <body>
+    <h1>Course evaluations</h1>
+    <p>
+      In order to use this tool with real data, you need to extract
+      the data from the PDFs downloaded from Mercury into a CSV file
+      with <a href="">this script</a>. No data is ever uploaded
+      anywhere, all processing is done locally. The data shown when
+      this page loads is artificially generated so you can explore the
+      visualization before extracting and using the real data for your
+      unit.
+    </p>
+    <p>Term: <select id="term" onchange="term()"></select></p>
+    <div id="listing"></div>
+    <p>
+      <canvas id="draw" width="1000" height="800"/>
+    </p>
+    <p>
+      Each axis of the spiderweb is the scale of the corresponding
+      question in the course evaluation.
+      <ol>
+	<li>Strongly disagree</li>
+	<li>Disagree</li>
+	<li>Neutral</li>
+	<li>Agree</li>
+	<li>Strongly agree</li>
+      </ol>
+    </p>
+    <p>
+      The color code of the filling of the spiderweb is as follows:
+    </p>
+    <p style="line-height:2;color:#cccccc;background-color:#7b241c">&nbsp;Minimum (0 %)</p>
+    <p style="line-height:2;color:#bbbbbb;background-color:#a04000">&nbsp;First quartile (25 %)</p>
+    <p style="line-height:2;color:#666666;background-color:#f1c40f">&nbsp;Median (50 %)</p>
+    <p style="line-height:2;color:#bbbbbb;background-color:#1e8449">&nbsp;Third quartile (75 %)</p>
+    <p style="line-height:2;color:#bbbbbb;background-color:#2471a3">&nbsp;Maximum (100 %)</p>
+  </body>
+  <script src="eval.js"></script>
+</html>
