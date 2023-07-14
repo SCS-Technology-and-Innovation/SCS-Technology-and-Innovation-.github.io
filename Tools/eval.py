@@ -199,11 +199,9 @@ def output(labels, values, target):
         if data is not None:
             s = [ data.get(v, 0) for v in range(1, 6) ]
             s = [ v if v is not None else 0 for v in s ]
-            diff = sum(s) - data.get(0, 0) 
-            status = 'consistent' if diff == 0 else f'off by {diff}' 
-            f = [ when, what, who, q, ' '.join([ str(i) for i in s]), status ]
-            print(';'.join(f), file = target) # semicolon separated file
-
+            if sum(s) == data.get(0, 0): # skip the inconsistent ones
+                f = [ when, what, who, q, ';'.join([ str(i) for i in s]) ]
+                print(';'.join(f), file = target) # semicolon separated file
 
 labels = {}
 scores = {}            
