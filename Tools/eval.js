@@ -1,6 +1,6 @@
 var AXISLEN = 320;
 var TEXTSEP = 50;
-var COLORS = {"0": "#7b241c" , "25": "#a04000", "50": "#f1c40f", "75": "#1e8449", "100": "#2471a3", "hl": "#ff00ff"};
+var COLORS = {"0": "#e0e1dd" , "25": "#778da9", "50": "#415a77", "75": "#a04668", "100": "#eba6a9"};
 
 var terms = []
 var courses = [];
@@ -29,34 +29,19 @@ function data(t, c, i, q, p, k) {
     }
 }
 
-function selected(value, listing) {
-    let chosen =  Array.from(listing.selectedOptions);
-    if (chosen.length == 0) { // selecting nothing means selecting everything
-	return true;
-    }
-    for (let i = 0; i < chosen.length; i++) {
-	let op = chosen[i];
-	if (op.value == value) {
-	    return true;
-	}
-    }
-    return false;
-}
-
 function active(d) {
-    if (!selected(d.term, tlist)) {
+    if (!selected(d.term, tchosen)) {
 	return false;
     }
-    if (!selected(d.instructor, ilist)) {
+    if (!selected(d.instructor, ichosen)) {
 	return false;
     }
-    if (!selected(d.term, tlist)) {
+    if (!selected(d.course, cchosen)) {
 	return false;
     }
     return true;
 }
     
-
 file.onchange = e => {
     var r = new FileReader();
     r.readAsText(file.files[0] ,'UTF-8');
@@ -120,8 +105,64 @@ file.onchange = e => {
     }
 }
 
+let cchosen = [];
+let tchosen = [];
+let ichosen = [];
+
+
+function selected(value, chosen) {
+    if (chosen.length == 0) { // selecting nothing means selecting everything
+	return true;
+    }
+    for (let i = 0; i < chosen.length; i++) {
+	let op = chosen[i];
+	if (op.value == value) {
+	    return true;
+	}
+    }
+    return false;
+}
+
+function filter() {
+    let choices = '';
+    tchosen =  Array.from(tlist.selectedOptions);    
+    if (tchosen.length == 0) {
+	choices += 'Showing all terms.<br>';
+    } else {
+	let plural = 's';
+	if (tchosen.length == 1) {
+	    plural = '';
+	}
+	choices += 'Showing ' + tchosen.length + ' term' + plural + '.<br>';
+    }
+    cchosen =  Array.from(clist.selectedOptions);
+    if (cchosen.length == 0) {
+	choices += 'Showing all courses.<br>';
+    } else {
+	let plural = 's';
+	if (cchosen.length == 1) {
+	    plural = '';
+	}	
+	choices += 'Showing ' + cchosen.length + ' course' + plural + '.<br>';
+    }    
+    ichosen =  Array.from(ilist.selectedOptions);
+    if (ichosen.length == 0) {
+	choices += 'Showing all instructors.<br>';
+    } else {
+	let plural = 's';
+	if (ichosen.length == 1) {
+	    plural = '';
+	}	
+	choices += 'Showing ' + ichosen.length + ' instructor' + plural + '.<br>';
+    }    
+
+    var p = document.getElementById("shown");
+    p.innerHTML = choices;
+}
+
 var quartiles = {};
-function prep() { 
+function prep() {
+    filter();
     quartiles = {}; // prepare according to filters
     for (const q of questions) {
 	let n = scores[q].length;
@@ -133,7 +174,6 @@ function prep() {
 	    }
 	}
 	values.sort();
-	console.log(values);
 	var k = values.length;
 	quartiles[q] = {"0": values[0],
 			"25": values[Math.floor(k / 4)],
@@ -144,8 +184,9 @@ function prep() {
     redraw();
 }
 
-let hl = null; 
+
 function redraw() {
+    filter();
     var c = document.getElementById("draw");
     var ctx = c.getContext("2d");
     c.width = 800;
@@ -198,36 +239,5 @@ function redraw() {
 	ctx.fillStyle = "#000000";
 	ctx.fillText("Q" + (i + 1), tx, ty);		
     }
-    
-    if (hl === null) {
-	return; // nothing more to draw
-    }
-    /* PENDING ctx.strokeStyle = COLORS["hl"];
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    var fields = results[selected];
-    for (var i = 0; i < n; i++) {
-	var angle = i * increment;
-	var value = 0;
-	if (!(fields[i] === "NA")) {
-	    value = parseFloat(fields[i]);
-	}
-	var dist = (value / maxscore) * AXISLEN;
-	var x = MIDPT + Math.cos(angle) * dist;
-	var y = MIDPT + Math.sin(angle) * dist;
-	if (i == 0) { 
-	    ctx.moveTo(x, y);
-	} else {
-	    ctx.lineTo(x, y);	    
-	} 
-    }
-    ctx.closePath();
-    ctx.stroke();
-    */
-}
-
-function highlight() {
-    selected = document.getElementById("instructors").options[document.getElementById("instructors").selectedIndex].value;
-    redraw();
 }
 
