@@ -624,7 +624,7 @@ function report() {
 	let received = 0;
 	let requested = 0;
 	let missing = '';
-	for (let j = 1; j < nopt; j++) {
+	for (let j = 1; j <= nopt; j++) {
 	    let ml = 'M' + j;
 	    let wants = false;
 	    if (network.hasOwnProperty(vl[pl] + ',' + vl[ml])) {
