@@ -28,9 +28,7 @@ embed = {
     <html>
     <body>
     <iframe src="https://scs-technology-and-innovation.github.io/Glossary/TI.html" 
-        allowfullscreen="allowfullscreen" 
-        width="800" 
-        height="1200" 
+        allowfullscreen="allowfullscreen" style="width:100%;height:100%;"
         frameborder="0">
 </iframe>
 </body>
@@ -40,8 +38,7 @@ embed = {
     <body>
     <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/overview.html" 
     allowfullscreen="allowfullscreen" 
-    width="1200" 
-    height="1200" 
+    style="width:100%;height:100%;"
     frameborder="0">
 </iframe>
 </body>
@@ -52,8 +49,7 @@ embed = {
 <body>
 <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/Module#MODULE#/#PART#.html" 
         allowfullscreen="allowfullscreen" 
-        width="1200" 
-        height="1200" 
+    style="width:100%;height:100%;"
         frameborder="0">
 </iframe>
 </body>
@@ -68,7 +64,7 @@ the Jupyter Notebook file to interact on your local computer</a>
 the necessary software</a>).
 </p>
 <iframe src="https://nbviewer.org/github/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb" 
-allowfullscreen="allowfullscreen" width="800" height="1200" frameborder="0">
+allowfullscreen="allowfullscreen" style="width:100%;height:100%;" frameborder="0">
 </iframe>
 </body>
 </html>''' }
@@ -170,7 +166,7 @@ with open('imsmanifest.xml', 'w') as target:
                     if '#NOTEBOOK#' in content:
                         content = content.replace('#NOTEBOOK#', notebook[m]);
                     else: # COURSE MODULE PART
-                        content = content.replace('#COURSE#', course);
+                        content = content.replace('#COURSE#', folder[course]);
                         content = content.replace('#MODULE#', module);
                         content = content.replace('#PART#', pairs[item]);
                     print(content, file = html)
