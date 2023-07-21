@@ -1,0 +1,400 @@
+/*========= Empty CSS file for client to add custom CSS ==========*/
+H1 {
+  font-size: 2rem;
+  line-height: 2.4rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  text-align: left;
+  margin-top: 7px;
+}
+H2 {
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  text-align: left;
+}
+H3 {
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-align: left;
+}
+H4 {
+  font-size: 1.0rem;
+  line-height: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-align: left;
+}
+H1.mainTitle {
+  text-align: center;
+  padding-left: 60px;
+}
+figure {
+  border: none;
+}
+/** Tables **/
+.table > tbody > tr > td, .table > tbody > tr > th {
+  padding: 10px;
+  border: none;
+}
+/** Bootstrap 4 - Renamed .table-condensed to .table-sm for consistency **/
+.table-sm > tbody > tr > td, .table-sm > tbody > tr > th, .table-striped > tbody > tr > td, .table-striped > tbody > tr > th {
+  padding-left: 10px;
+  padding-bottom: 0px;
+  padding-top: 10px;
+}
+.table > thead > tr > th, .table-sm > thead > tr > th, .table-striped > thead > tr > th {
+  height: 20px;
+  line-height: 2em;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  border: none;
+}
+.table-responsive caption, .table caption {
+  vertical-align: middle;
+  min-height: 15px;
+  text-align: right;
+  background-color: white;
+  font-size: small;
+  font-style: italic;
+  font-weight: lighter;
+  color: #666666;
+  caption-side: bottom;
+  padding-right: 10px;
+  border: none;
+}
+.hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+/** Footer **/
+footer {
+  font-size: 0.85rem;
+}
+/* Icon Lists */
+/* Boostrap 4 - Dropped the Glyphicons icon font; add Font Awesome 5 Free, works only with font-weight: 900;*/
+ol, ul {
+  margin-left: 40px;
+  position: relative;
+  line-height: 1.6rem;
+  padding-bottom: 0px;
+}
+.icon-list-check {
+  overflow: hidden;
+  list-style-type: none;
+  padding-right: 15px;
+  padding-left: 0;
+}
+.icon-list-check li {
+  margin-left: 40px;
+  position: relative;
+  line-height: 1.6rem;
+  padding-bottom: 10px;
+}
+.icon-list-check li:before {
+  content: '\f00c';
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.0em;
+  color: #024f6d;
+  font-weight: 900;
+  line-height: 1.6rem;
+  margin: .25em .5em 1em 0;
+  margin-left: -40px;
+  position: absolute;
+  top: -6px;
+  -webkit-font-smoothing: antialiased;
+}
+.icon-list-hand {
+  overflow: hidden;
+  list-style-type: none;
+  padding-right: 15px;
+  padding-left: 0;
+}
+.icon-list-hand li {
+  margin-left: 40px;
+  position: relative;
+  line-height: 1.6rem;
+  padding-bottom: 10px;
+}
+.icon-list-hand li:before {
+  content: "\f0a4";
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.1em;
+  color: #024f6d;
+  font-weight: 400;
+  line-height: 1.0;
+  margin: .2em .75em 1em 0;
+  margin-left: -40px;
+  position: absolute;
+  top: -1px;
+  -webkit-font-smoothing: antialiased;
+}
+.icon-list-link {
+  overflow: hidden;
+  list-style-type: none;
+  padding-right: 15px;
+  padding-left: 0;
+}
+.icon-list-link li {
+  margin-left: 40px;
+  position: relative;
+  line-height: 1.6rem;
+  padding-bottom: 10px;
+}
+.icon-list-link li:before {
+  content: '\f0c1';
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.1em;
+  color: #024f6d;
+  font-weight: 900;
+  line-height: 1.0rem;
+  margin: .4em .5em 1.0em 0;
+  margin-left: -40px;
+  position: absolute;
+  top: -4px;
+  -webkit-font-smoothing: antialiased;
+}
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  height: 30px;
+  width: 30px;
+  outline: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-size: 100%, 100%;
+  border-radius: 10%;
+  border: 1px solid white;
+}
+.carousel-control-prev, .carousel-control-next {
+  align-items: flex-start;
+  ;
+  width: 10%;
+}
+/*
+
+.carousel-control-prev,
+.carousel-control-next{
+      bottom: 75%;
+	width: 10%;
+}
+*/
+a {
+  border-bottom: 0px dotted #006fbf
+}
+a, a:active, a:focus, a:hover {
+  color: #006fbf;
+  text-decoration: none;
+}
+a:active, a:focus, a:hover {
+  border-bottom: 1px solid #006fbf;
+}
+#liveTitle {
+  border-radius: 15px;
+  border: 2px solid #337ab7;
+  padding: 5px;
+  width: 95%;
+  background-color: #337ab7;
+  color: white;
+  font-size: 1.5em;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+#liveTitle2 {
+  padding: 5px;
+  width: 95%;
+  color: #9E0918;
+  font-size: 1.8em;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+/* new styles to add to main page  to fix mobile display */
+.intersect-wrapper .intersect-content h1 {
+  margin-top: 10px;
+}
+.overlay-content.pb-5.pr-5.pl-5 .card-deck .card .card-body h2 {
+  font-size: 1.8em;
+  text-align: left;
+  margin-top: 10px;
+}
+.intersect-wrapper {
+  margin-top: -25%;
+}
+.intersect-wrapper .intersect-content {
+  background-color: #FFFFFF;
+  padding: 30px;
+}
+/* less padding around the card content. -sr */
+.card-graphic .card-body {
+  padding: 0.875rem
+}
+/* to center text in card  */
+@media screen and (min-width: 768px) {
+  .card-body .card-text p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+}
+/* make accordion body white  */
+.accordion .card-body {
+  border: 1px solid #cdd5dc;
+  /* background-color: #ffffff; */
+}
+/* align the text center with the numbers  */
+ol.large-number li {
+  list-style: none;
+  margin-bottom: 0.0rem;
+  position: relative;
+  line-height: 1.9rem
+}
+/* general helper classes -sr */
+.no-border {
+  border: none;
+}
+.morePadding {
+  padding: 5px;
+}
+.increaseLeftMargin {
+  margin-left: 4rem;
+}
+.no-margin {
+  margin: 0px;
+}
+/* ******************** */
+/* specific to FACEMT program  */
+.didYouKnow {
+  font-style: italic;
+  width: 85%;
+  border-style: solid;
+  border-width: 0px 1px;
+  border-color: #9E0918;
+  margin-bottom: 30px;
+}
+.didYouKnow h2 {
+  color: #494c4e;
+}
+.didYouKnow p {
+  font-style: italic;
+  font-size: 1.25rem;
+}
+/* Icon links */
+a[target='_blank']::after {
+  content: ' \f35d';
+  white-space: pre;
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.1em;
+  font-weight: 900;
+}
+a.openPDF[target='_blank']::after {
+  /*  background: transparent url("../facemt_images/icons/btnDoc.png") center right no-repeat;
+    padding-right: 25px;*/
+  /*content: url("../facemt_images/icons/btnDoc.png") ; */
+  content: ' \f1c1';
+  white-space: pre;
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.1em;
+  font-weight: 900;
+}
+a.openVideo[target='_blank']::after {
+  /* background: transparent url("../facemt_images/icons/btnVideo.png") center right no-repeat;
+    padding-right: 36px;*/
+  /* content: url("../facemt_images/icons/btnVideo.png") ;*/
+  content: ' \f03d';
+  white-space: pre;
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.1em;
+  font-weight: 900;
+}
+a.download::after {
+  content: ' \f019';
+  white-space: pre;
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: 1.1em;
+  font-weight: 900;
+}
+/* End of Icon links */
+/*  styles for accordion2  */
+.accordion2 .card-header {
+  background-color: white;
+  color: black;
+
+}
+.accordion2 .card-header .card-link {
+  background-color: white;
+  color: #212529;
+}
+.accordion2 .card-header .card-link :after {
+  content: ' \f068';
+  float: right;
+  white-space: pre;
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: .9 em;
+  font-weight: 900;
+}
+.accordion2 .card-header .collapsed.card-link :after {
+  /* symbol for "collapsed" panels */
+  content: ' \f067';
+  white-space: pre;
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-size: .9em;
+  font-weight: 900;
+}
+#accordion .accordion2.card {
+  padding: 0;
+}
+
+
+/*  end of styles for accordion2  */
+/*  added as of March 15  
+
+1. helper Class:   .no-margin
+2. accordion2  :  icon at the end, auto-collapse, white.
+
+Strugling with Download icon... as a test I disabled it from styles.css and put them here in custom.
+
+/* I find the titles too big  */
+H1 {
+  font-size: 1.8rem;
+}
+/* fix 'hand alignment' so I modified this under:
+.icon-list-hand li:before {
+ top: -1px;
+}
+*/
+
+
+
+/* note:  new experience in D2L is 865px wide  */
+@media screen and (min-width: 865px) {
+    
+      .fullscreen-splash {
+    padding-top: 2.0rem;
+    padding-bottom: 2.81rem
+  }
+ @media screen and (min-width: 900px) {
+    
+      .fullscreen-splash {
+    padding-top: 5.313rem;
+    padding-bottom: 12.81rem
+  }   
+}
+}

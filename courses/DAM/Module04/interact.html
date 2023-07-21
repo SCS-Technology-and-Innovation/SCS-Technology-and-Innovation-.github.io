@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Interaction / Module 4 / CCCS 620</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Interaction / Module 4 / CCCS 620</title>
     <style>      
           canvas {
               background-color: black;
@@ -16,9 +16,9 @@
           }
 	</style>
   </head>
-  <body>
-    <h1>When will the doctor see the patient?</h1>
-    <h2>Which room as the right equipment for what they need to do?</h2>
+  <body class="content" role="document"><section class="bg-"><div class="container-fluid">
+    <h1>When will the doctor see the patient?</h1><div class="info-box-grid row"><div class="info-left">&#9432;</div><div class="info-right"><p>This module is <strong>synchronous</strong> during class session, but recorded for <em>asynchronous viewing</em>.</p></div></div>
+    <h2 class="topic-heading">Which room as the right equipment for what they need to do?</h2>
 
     <p>
       Number of patients:
@@ -81,7 +81,7 @@
     <p>
       <button id="prep" onclick="prep()">Prepare data tables</button>
     </p>
-    <h2>Room equipment</h2>
+    <h2 class="topic-heading">Room equipment</h2>
     <p>Which types of rooms are equipped with which diagnostic equipment?</p>
     <table id="drooms">
       <thead>
@@ -89,7 +89,7 @@
       <tbody>
       </tbody>
     </table>
-    <h2>Appointment needs</h2>
+    <h2 class="topic-heading">Appointment needs</h2>
     <p>Which patient needs to see which doctor(s) and which diagnostic
       equipment will they utilize at each appointment?<br>
       <small>(Note that the same pair of people may need to meet more
@@ -101,7 +101,7 @@
       <tbody>
       </tbody>
     </table>
-    <h2>Doctor availability</h2>
+    <h2 class="topic-heading">Doctor availability</h2>
     <p>
       Which doctors are available at each time slot?<br>
       <small>(Also medical
@@ -120,7 +120,7 @@
     <p>
       <button id="compute" onclick="allocate()">Craft a proposed assignment</button> <small>(with a slow, greedy allocation)</small>
     </p>
-    <h2>Schedule</h2>
+    <h2 class="topic-heading">Schedule</h2>
     <p>Which appointment will take place in which room at what time?</p>
     <table id="result">
       <thead>
@@ -141,5 +141,5 @@
 
     <script src="../palette.js"></script>
     <script src="script.js"></script>
-  </body>
+  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
 </html>

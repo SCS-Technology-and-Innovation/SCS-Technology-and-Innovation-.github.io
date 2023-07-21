@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Interaction / Module 3 / CCCS 620</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Interaction / Module 3 / CCCS 620</title>
     <style>      
           canvas {
               background-color: black;
@@ -16,9 +16,9 @@
           }
 	</style>
   </head>
-  <body>
-    <h1>What kind of diagnostics need to be done?</h1>
-    <h2>Which staff members have the expertise for that?</h2>
+  <body class="content" role="document"><section class="bg-"><div class="container-fluid">
+    <h1>What kind of diagnostics need to be done?</h1><div class="info-box-grid row"><div class="info-left">&#9432;</div><div class="info-right"><p>This module is <strong>synchronous</strong> during class session, but recorded for <em>asynchronous viewing</em>.</p></div></div>
+    <h2 class="topic-heading">Which staff members have the expertise for that?</h2>
 
     <p>
       Number of patients:
@@ -55,7 +55,7 @@
     <p>
       <button id="prep" onclick="prep()">Prepare data tables</button>
     </p>
-    <h2>Patient needs</h2>
+    <h2 class="topic-heading">Patient needs</h2>
     <p>Which diagnostic methods does each patient require?</p>
     <table id="dpat">
       <thead>
@@ -63,7 +63,7 @@
       <tbody>
       </tbody>
     </table>
-    <h2>Doctor skills</h2>
+    <h2 class="topic-heading">Doctor skills</h2>
     <p>Which diagnostic methods does each doctor master? How many patients can they receive?</p>
     <table id="ddoc">
       <thead>
@@ -78,7 +78,7 @@
     <p>
       <button id="compute" onclick="report()">Update assignment</button> <small>(based on the populated tables)</small>
     </p>
-    <h2>Assignment</h2>
+    <h2 class="topic-heading">Assignment</h2>
     <p>Which doctors will each patient see? Do they need more than one appointment?</p>
     <table id="result">
       <thead>
@@ -87,5 +87,5 @@
       </tbody>
     </table>    
     <script src="script.js"></script>
-  </body>
+  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
 </html>
