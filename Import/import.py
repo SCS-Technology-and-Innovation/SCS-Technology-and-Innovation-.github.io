@@ -1,5 +1,9 @@
 ﻿# http://www.imsglobal.org/cc/index.html
 
+folder = { 'CCCS610': 'DTDA',
+           'CCCS620': 'DAM',
+           'CCCS660': 'COIN' }
+
 notebook = {
     3: 'antennas',
     6: 'canopy',
@@ -27,6 +31,18 @@ embed = {
 </iframe>
 </body>
 </html>''',
+    'overview': '''<!DOCTYPE html>
+    <html>
+    <body>
+    <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/overview.html" 
+    allowfullscreen="allowfullscreen" 
+    width="1200" 
+    height="1200" 
+    frameborder="0">
+</iframe>
+</body>
+</html>''',
+    
     'CCCS620': '''<!DOCTYPE html>
 <html>
 <body>
@@ -74,8 +90,8 @@ closing = '''
     </resources>
 </manifest>'''
 
-titles = { 'CCCS610': 'Digital Thinking for Data Analysis',
-           'CCCS620': 'Data Analysis and Modeling' }
+titles = { 'CCCS 610': 'Digital Thinking for Data Analysis',
+           'CCCS 620': 'Data Analysis and Modeling' }
 
 items = [ 'Recap', 'Introduction', 'Interaction', 'Assessment', 'Preview' ]
 files = [ 'recap', 'intro', 'interact', 'assess', 'next' ]
@@ -84,46 +100,62 @@ pairs = dict(zip(items, files))
 
 import os
 
-for course in titles:
-    title = titles[course]
-    number = course[:-3]
-    with open('imsmanifest.xml', 'w') as target:
-        print(opening, file = target)
-        print(f'''
-                <imsmd:title>
-                    <imsmd:langstring xml:lang="en-ca">{course}</imsmd:langstring>
-                </imsmd:title>
-                <imsmd:keyword>
-                    <imsmd:langstring xml:lang="en-ca">{course}</imsmd:langstring>
-                </imsmd:keyword>''', file = target)
-        print(intermediate, file = target)
+idcounter = 1
+refs = []
+
+cert = 'DACS-DDDM'
+
+with open('imsmanifest.xml', 'w') as target:
+    print(opening, file = target)
+    print(f'''
+    <imsmd:title>
+    <imsmd:langstring xml:lang="en-ca">{cert}</imsmd:langstring>
+    </imsmd:title>
+    <imsmd:keyword>
+    <imsmd:langstring xml:lang="en-ca">{cert}</imsmd:langstring>
+    </imsmd:keyword>''', file = target)
+    print(intermediate, file = target)
+    
+    # include glossary 
+    print(f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="2" d2l_2p0:resource_code="McG-4050458" description="" completion_type="2"><title>Glossary</title></item>', file = target)
+    # create the embed file
+    with open('glossary.html', 'w') as html:
+        print(embed['glossary'], file = html)
+    # reference the embed file
+    refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="glossary.html" title="" />')
+    idcounter += 1            
+
+    for coursefull in titles:
+        title = titles[coursefull]
+        course = coursefull.replace(' ', '')
+        number = course[:-3]
+
+        # include course overview 
+        print(f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="2" d2l_2p0:resource_code="McG-4050458" description="" completion_type="2"><title>Overview &mdash; {coursefull}</title></item>', file = target)
+        # create the embed for the overview
+        with open(f'{course}-overview.html', 'w') as html:
+            content = embed['overview']
+            content = content.replace('#COURSE#', folder[course]);
+            print(content, file = html)        
+            # reference the created embed
+            refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="{course}-overview.html" title="" />')
+            idcounter += 1
+
+        # include the modules
         for m in range(1, 14):
+            # create the logical module
             module = f'{m:02}'
-            gid = number + '00' # glossary
-            print(f'<item identifier="{module}" identifierref="{module}R" d2l_2p0:id="m{module}" description="" completion_type="2">', file = target)
-            print(f'<title>Module {m}</title>', file = target)
-            i = 0
+            print(f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" description="" completion_type="2">', file = target)
+            print(f'<title>Module {m} &mdash; {coursefull}</title>', file = target)
+            refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="contentmodule" d2l_2p0:link_target="" href="" title="" />')
+            idcounter += 1
+            # create the elements
             for item in pairs:
-                iid = number + module + f'{i}'
-                ref = iid + 'R'
-                print(f'''
-                <item identifier="{iid}" identifierref="{ref}" d2l_2p0:id="m{module}_{item}" d2l_2p0:resource_code="McG-4012723" description="" completion_type="2">
-                    <title>{item}</title>
-                </item>''', file = target)
-                i += 1
-            print('</item>', file = target)
-                
-        print(secondinter, file = target)
-        print(f'<resource identifier="{number}" type="webcontent" d2l_2p0:material_type="contentmodule" d2l_2p0:link_target="" href="" title="" />', file = target)
-        print(f'<resource identifier="{gid}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="glossary.html" title="" />', file = target)        
-        for m in range(1, 14):
-            module = f'{m:02}'
-            i = 0
-            for item in pairs:
-                ref = number + module + f'{i}' + 'R'
+                # create the submodule
+                s = f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" d2l_2p0:resource_code="McG-4012723" description="" completion_type="2"><title>{item} &mdash; Module {m} &mdash; {coursefull}</title></item>'
+                print(s, file = target)
+                # create the embed file
                 htmlfilename = f'{course}-M{module}-{item}.html'
-                print(f'<resource identifier="{ref}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="{htmlfilename}" title="" />', \
-                      file = target)
                 with open(htmlfilename, 'w') as html:
                     content = embed[course]
                     if '#NOTEBOOK#' in content:
@@ -133,5 +165,12 @@ for course in titles:
                         content = content.replace('#MODULE#', module);
                         content = content.replace('#PART#', pairs[item]);
                     print(content, file = html)
-                i += 1
-        print(closing, file = target);
+                refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="{htmlfilename}" title="" />')
+                idcounter += 1
+            print('</item>', file = target)
+            
+    # spit out the refs after all content has been listed
+    print(secondinter, file = target)
+    for r in refs:
+        print(r, file = target)        
+    print(closing, file = target);
