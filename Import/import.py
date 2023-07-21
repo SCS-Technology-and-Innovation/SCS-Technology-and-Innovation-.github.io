@@ -3,6 +3,10 @@
 folder = { 'CCCS610': 'DTDA',
            'CCCS620': 'DAM',
            'CCCS660': 'COIN' }
+jupyter = set()
+
+for m in range(1, 14):
+    jupyter.add(('CCCS610', m, 'Interaction'))
 
 notebook = {
     3: 'antennas',
@@ -43,7 +47,7 @@ embed = {
 </body>
 </html>''',
     
-    'CCCS620': '''<!DOCTYPE html>
+    'html': '''<!DOCTYPE html>
 <html>
 <body>
 <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/Module#MODULE#/#PART#.html" 
@@ -54,7 +58,7 @@ embed = {
 </iframe>
 </body>
 </html>''',
-    'CCCS610': '''<!DOCTYPE html>
+    'notebook': '''<!DOCTYPE html>
 <html>
 <p>
 <a href="https://github.com/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/epidemic.ipynb">Download 
@@ -162,7 +166,7 @@ with open('imsmanifest.xml', 'w') as target:
                 # create the embed file
                 htmlfilename = f'{course}-M{module}-{item}.html'
                 with open(htmlfilename, 'w') as html:
-                    content = embed[course]
+                    content = embed['notebook'] if (course, m, item) in jupyter else embed['html']
                     if '#NOTEBOOK#' in content:
                         content = content.replace('#NOTEBOOK#', notebook[m]);
                     else: # COURSE MODULE PART
