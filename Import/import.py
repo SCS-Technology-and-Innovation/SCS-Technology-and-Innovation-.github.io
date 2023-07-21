@@ -98,7 +98,7 @@ files = [ 'recap', 'intro', 'interact', 'assess', 'next' ]
 
 pairs = dict(zip(items, files))
 
-import os
+from sys import argv
 
 idcounter = 1
 refs = []
@@ -115,44 +115,49 @@ with open('imsmanifest.xml', 'w') as target:
     <imsmd:langstring xml:lang="en-ca">{cert}</imsmd:langstring>
     </imsmd:keyword>''', file = target)
     print(intermediate, file = target)
-    
-    # include glossary 
-    print(f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="2" d2l_2p0:resource_code="McG-4050458" description="" completion_type="2"><title>Glossary</title></item>', file = target)
-    # create the embed file
-    with open('glossary.html', 'w') as html:
-        print(embed['glossary'], file = html)
-    # reference the embed file
-    refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="glossary.html" title="" />')
-    idcounter += 1            
 
     for coursefull in titles:
         title = titles[coursefull]
         course = coursefull.replace(' ', '')
-        number = course[:-3]
-
-        # include course overview 
-        print(f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="2" d2l_2p0:resource_code="McG-4050458" description="" completion_type="2"><title>Overview &mdash; {coursefull}</title></item>', file = target)
+        number = course[-3:]
+        if number in argv:
+            print(f'Importing {coursefull} as requested')
+        else:
+            print(f'Omitting {coursefull} since it was not requested')
+            continue
+        
+        # create the logical front matter
+        print(f'<item identifier="I{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" description="" completion_type="2">', file = target)
+        print(f'<title>{coursefull}</title>', file = target)
+        refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="contentmodule" d2l_2p0:link_target="" href="" title="" />')
+        idcounter += 1
+        
+        # include course overview into the front matter
+        print(f'<item identifier="I{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="2" d2l_2p0:resource_code="McG-4050458" description="" completion_type="2"><title>Overview | {coursefull}</title></item>', \
+              file = target)
         # create the embed for the overview
         with open(f'{course}-overview.html', 'w') as html:
             content = embed['overview']
             content = content.replace('#COURSE#', folder[course]);
             print(content, file = html)        
-            # reference the created embed
-            refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="{course}-overview.html" title="" />')
-            idcounter += 1
+        # reference the created embed
+        refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="{course}-overview.html" title="" />')
+        idcounter += 1
+        # close the logical front matter
+        print('</item>', file = target)
 
         # include the modules
         for m in range(1, 14):
             # create the logical module
             module = f'{m:02}'
-            print(f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" description="" completion_type="2">', file = target)
-            print(f'<title>Module {m} &mdash; {coursefull}</title>', file = target)
+            print(f'<item identifier="I{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" description="" completion_type="2">', file = target)
+            print(f'<title>Module {m} | {coursefull}</title>', file = target)
             refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="contentmodule" d2l_2p0:link_target="" href="" title="" />')
             idcounter += 1
             # create the elements
             for item in pairs:
                 # create the submodule
-                s = f'<item identifier="{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" d2l_2p0:resource_code="McG-4012723" description="" completion_type="2"><title>{item} &mdash; Module {m} &mdash; {coursefull}</title></item>'
+                s = f'<item identifier="I{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" d2l_2p0:resource_code="McG-4012723" description="" completion_type="2"><title>{item} | Module {m} | {coursefull}</title></item>'
                 print(s, file = target)
                 # create the embed file
                 htmlfilename = f'{course}-M{module}-{item}.html'
@@ -167,7 +172,22 @@ with open('imsmanifest.xml', 'w') as target:
                     print(content, file = html)
                 refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="{htmlfilename}" title="" />')
                 idcounter += 1
+            # close the logical module
             print('</item>', file = target)
+
+    # create the logical glossary
+    print(f'<item identifier="I{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="{idcounter}" description="" completion_type="2">', file = target)
+    idcounter += 1                
+    # include glossary content
+    print(f'<item identifier="I{idcounter}" identifierref="R{idcounter}" d2l_2p0:id="2" d2l_2p0:resource_code="McG-4050458" description="" completion_type="2"><title>Glossary</title></item>', file = target)
+    # create the embed file
+    with open('glossary.html', 'w') as html:
+        print(embed['glossary'], file = html)
+    # reference the embed file of the glossary
+    refs.append(f'<resource identifier="R{idcounter}" type="webcontent" d2l_2p0:material_type="content" d2l_2p0:link_target="" href="glossary.html" title="" />')
+    idcounter += 1            
+    # close the logical glossary
+    print('</item>', file = target)
             
     # spit out the refs after all content has been listed
     print(secondinter, file = target)
