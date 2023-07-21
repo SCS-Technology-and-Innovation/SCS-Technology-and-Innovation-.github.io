@@ -28,7 +28,7 @@ embed = {
     <html>
     <body>
     <iframe src="https://scs-technology-and-innovation.github.io/Glossary/TI.html" 
-        allowfullscreen="allowfullscreen" style="width:100%;height:100%;"
+        allowfullscreen="allowfullscreen" height="2000px" style="width:100%;"
         frameborder="0">
 </iframe>
 </body>
@@ -38,7 +38,7 @@ embed = {
     <body>
     <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/overview.html" 
     allowfullscreen="allowfullscreen" 
-    style="width:100%;height:100%;"
+    height="2000px" style="width:100%;"
     frameborder="0">
 </iframe>
 </body>
@@ -48,10 +48,7 @@ embed = {
 <html>
 <body>
 <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/Module#MODULE#/#PART#.html" 
-        allowfullscreen="allowfullscreen" 
-    style="width:100%;height:100%;"
-        frameborder="0">
-</iframe>
+        allowfullscreen="allowfullscreen" height="2000px" style="width:100%;" frameborder="0"></iframe>
 </body>
 </html>''',
     'notebook': '''<!DOCTYPE html>
@@ -64,7 +61,7 @@ the Jupyter Notebook file to interact on your local computer</a>
 the necessary software</a>).
 </p>
 <iframe src="https://nbviewer.org/github/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb" 
-allowfullscreen="allowfullscreen" style="width:100%;height:100%;" frameborder="0">
+allowfullscreen="allowfullscreen" height="2000px" style="width:100%;" frameborder="0">
 </iframe>
 </body>
 </html>''' }
