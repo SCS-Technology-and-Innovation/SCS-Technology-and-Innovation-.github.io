@@ -594,7 +594,10 @@ function controls(label) {
     l.htmlFor = xv.id;
     l.innerHTML = ' Horizontal ';
     p.appendChild(l);        
-    p.appendChild(xv);    
+    p.appendChild(xv);
+
+    p.appendChild(document.createElement("br"));    
+
     var yv = document.createElement('select');
     yv.id = 'y' + label;
     l = document.createElement('label');
@@ -602,6 +605,7 @@ function controls(label) {
     l.innerHTML = ' &nbsp;Vertical ';    
     p.appendChild(l);            
     p.appendChild(yv);
+
     d.appendChild(p);
 
     p = document.createElement('p');
@@ -617,7 +621,8 @@ function controls(label) {
     l.innerHTML = 'Horizontal tick count ';
     p.appendChild(l);
     p.appendChild(i);
-
+    p.appendChild(document.createElement("br"));
+    
     i = document.createElement('input');
     i.type = 'number';
     i.value = 0;
@@ -630,6 +635,7 @@ function controls(label) {
     l.innerHTML = ' &nbsp;Vertical tick count ';
     p.appendChild(l);
     p.appendChild(i);
+
     d.appendChild(p);
     
     p = document.createElement('p');
