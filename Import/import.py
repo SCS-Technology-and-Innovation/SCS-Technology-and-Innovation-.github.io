@@ -54,7 +54,7 @@ embed = {
     'notebook': '''<!DOCTYPE html>
 <html>
 <p>
-<a href="https://github.com/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/epidemic.ipynb">Download 
+<a href="https://github.com/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb">Download 
 the Jupyter Notebook file to interact on your local computer</a> 
 (requires 
 <a href="https://jupyter.org/install">installing 
