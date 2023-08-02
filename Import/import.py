@@ -27,7 +27,7 @@ embed = {
     'glossary': '''<!DOCTYPE html>
     <html>
     <body>
-    <iframe src="https://scs-technology-and-innovation.github.io/Glossary/TI.html" 
+    <iframe src="https://scs-technology-and-innovation.github.io/courses/TI.html" 
         allowfullscreen="allowfullscreen" height="2000px" style="width:100%;"
         frameborder="0">
 </iframe>

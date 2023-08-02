@@ -1,2 +1,7 @@
-python3 import.py 610 620
-zip -r import.zip *.html *.xml
+rm *.html *.xml
+python3 import.py 610 
+zip -r CCCS610.zip *.html *.xml
+rm *.html *.xml
+python3 import.py 620 
+zip -r CCCS620.zip *.html *.xml
+rm *.html *.xml
