@@ -90,7 +90,7 @@ closing = '''
 titles = { 'CCCS 610': 'Digital Thinking for Data Analysis',
            'CCCS 620': 'Data Analysis and Modeling' }
 
-items = [ 'Recap', 'Introduction', 'Interaction', 'Assessment', 'Preview' ]
+items = [ 'Recap', 'Introduction', 'Interaction', 'Assessment', 'Continuation' ]
 files = [ 'recap', 'intro', 'interact', 'assess', 'next' ]
 
 pairs = dict(zip(items, files))
