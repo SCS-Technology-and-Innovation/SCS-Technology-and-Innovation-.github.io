@@ -1,1 +1,1 @@
-document.write('If money makes your world go round, check out the Graduate Certificate in >a href="https://www.mcgill.ca/continuingstudies/areas-study/scs-graduate-certificate-financial-technology">Financial Technology</a>.');
+document.write('<p>If money makes your world go round, check out the Graduate Certificate in <a href="https://www.mcgill.ca/continuingstudies/areas-study/scs-graduate-certificate-financial-technology">Financial Technology</a>.</p>');
