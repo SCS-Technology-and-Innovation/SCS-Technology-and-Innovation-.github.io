@@ -1,0 +1,1 @@
+document.write('<p>There are plans in motion about increased health-technology offerings. Please reach out to <a href="https://www.mcgill.ca/continuingstudies/scs-future-students/advising/career-advising-cats/program-and-academic-advising">our program advisors</a> for more information. </p>');

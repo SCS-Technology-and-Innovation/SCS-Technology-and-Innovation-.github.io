@@ -1,0 +1,1 @@
+document.write('<p>CCCS 670 <em>Information Visualization</em> is a complementary course of both <a href="https://www.mcgill.ca/continuingstudies/areas-study/data-analysis-complex-systems">DACS</a> and <a href="https://www.mcgill.ca/continuingstudies/areas-study/scs-data-driven-decision-making">DDDM</a> that will also discuss geo-referenced data.</p>');

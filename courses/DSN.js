@@ -1,0 +1,1 @@
+document.write('<p>If you are interested in logistics, the Graduate Certificate in <em><a href="https://www.mcgill.ca/continuingstudies/areas-study/scs-graduate-certificate-dynamic-supply-networks">Dynamic Supply Networks</em></a> would make a good choice for a road ahead.</p>');

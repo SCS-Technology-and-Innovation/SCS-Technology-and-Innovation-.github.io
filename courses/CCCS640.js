@@ -1,0 +1,1 @@
+document.write('<p>CCCS 640 <em>Applied Decision Science</em> is a mandatory course of the Graduate Certificate in <em><a href="https://www.mcgill.ca/continuingstudies/areas-study/scs-data-driven-decision-making">Data-Driven Decision Making</a></em> that is built specifically around the question of how to optimize. </p>');
