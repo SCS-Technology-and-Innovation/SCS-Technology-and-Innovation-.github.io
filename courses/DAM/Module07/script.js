@@ -77,7 +77,10 @@ let b = null;
 function query() {
     let x = parseFloat(document.getElementById("worth").value);
     let y = a * x + b;
-    document.getElementById("result").innerHTML = "Recommended rent is " + y.toFixed(0);
+    var result = "Recommended rent is " + y.toFixed(0);
+    result += '<br><small>Model parameters: slope ' + a.toFixed(5)
+	+ ' and intercept ' + b.toFixed(5) + '</small>';
+    document.getElementById("result").innerHTML = result;
 }
    
 
@@ -155,5 +158,5 @@ function prep() {
     let x2 = scale(xh, xl, xh, canvas.width, true);
     let y2 = scale(yend, yl, yh, canvas.height, false);
     line(x1, y1, x2, y2); // line from (x1, y1) to (x2, y2)
-    document.getElementById('query').disabled = false;
+    document.getElementById('consult').disabled = false;
 }
