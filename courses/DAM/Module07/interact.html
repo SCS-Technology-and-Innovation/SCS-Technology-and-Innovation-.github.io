@@ -30,14 +30,19 @@
     <table id="data">
       <thead>
 	<tr>
-	<th>Cost of real-estate</th>
-	<th>Monthly rent</th>
+	<th>Property value <em>x</em></th>
+	<th>Monthly rent <em>y</em></th>
 	</tr>
       </thead>
       <tbody>
       </tbody>
     </table>
     <button id="more" onclick="addRow()">+</button>
+    <p>
+      The property value is treated as the <em>x</em> coordinate
+      (horizontal, higher values to the right) and the monthly rent as the <em>y</em> coordinate
+      (vertical, higher values towards the top)
+    </p>
     <p>
       <button id="prep" onclick="prep()">Prepare a model</button>
     </p>
@@ -50,5 +55,8 @@
       <span id="result"></span>
     </p>
     <script src="script.js"></script>
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+    </section>
+    <footer>
+      <p>
+	Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
 </html>

@@ -131,15 +131,15 @@ function prep() {
 	}
     }
     // add some margin to the ranges
-    xl *= 0.85; // 15% of minimum beneath it
+    xl *= 0.85; // 15% of minimum beneath
     yl *= 0.85;
-    xh *= 1.1; // 10% of maximum above it
+    xh *= 1.1; // 10% of maximum above
     yh *= 1.1;
     for (let i = 0; i < rc; i++) {
 	let x = parseFloat(document.getElementById('x' + i).value);
 	let y = parseFloat(document.getElementById('y' + i).value);
-	let xp = scale(x, xl, xh, canvas.width, false);
-	let yp = scale(y, yl, yh, canvas.height, true);
+	let xp = scale(x, xl, xh, canvas.width, true);
+	let yp = scale(y, yl, yh, canvas.height, false);
 	dot(xp, yp);
     }
     // regression line
@@ -150,11 +150,10 @@ function prep() {
     // y = a * x + b
     let ystart = a * xl + b;
     let yend = a * xh + b;
-    let x1 = scale(xl, xl, xh, canvas.width, false);
-    let y1 = scale(ystart, yl, yh, canvas.height, true);
-    let x2 = scale(xh, xl, xh, canvas.width, false);
-    let y2 = scale(yend, yl, yh, canvas.height, true);
-    console.log(x1, y1, x2, y2);
+    let x1 = scale(xl, xl, xh, canvas.width, true);
+    let y1 = scale(ystart, yl, yh, canvas.height, false);
+    let x2 = scale(xh, xl, xh, canvas.width, true);
+    let y2 = scale(yend, yl, yh, canvas.height, false);
     line(x1, y1, x2, y2); // line from (x1, y1) to (x2, y2)
     document.getElementById('query').disabled = false;
 }
