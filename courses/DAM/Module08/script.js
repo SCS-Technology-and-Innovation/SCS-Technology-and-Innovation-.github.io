@@ -16,9 +16,13 @@ function compute() {
     let profitable = false;
     let table = document.getElementById('flow');
     let s = table.getElementsByTagName('tbody')[0];
-    s.textContent = '';    
+    s.textContent = '';
+
+    // how much do we owe the bank
     let debt = ploan * cost;
-    let inv = debt - cost;
+    let inv = debt - cost; // downpayment (negative)
+
+    // auxiliary variables
     let r = 0;
     let c = 0;
     let aint = 0;
@@ -27,15 +31,38 @@ function compute() {
     let exp = 0;
     let balance = 0;
     let total = 0;
+    let howmany = 0;
+
+    // cover the year span
     for (let y = 0; y < years; y++) {
-	aint = (lint * debt) / 12; // monthly part of annual interest
-	taxp = taxrate * rent; // tax on present rent
+	if (pay > 0) {
+	    aint = (lint * debt); // annual interest
+	    howmany = Math.ceil(debt / pay);
+	    if (howmany > 12) {
+		aint /= 12 // all months have loan payments
+	    } else {
+		aint /= howmany // not all of the year has loan payments anymore
+	    }
+	}
+	
+	taxp = taxrate * rent; // tax on present rent (simplification)
+
 	profit = rent - taxp; // rent we get to keep after tax
+	
 	for (let m = 0; m < 12; m++) { // each month
 	    balance = 0; // monthly balance
 	    balance += profit; // we get some rent income
+
+	    // accumulation of total money flow
 	    total += profit;
-	    debt -= pay; // we reduce the outstanding debt
+
+	    if (debt <= pay) {
+		pay = debt; // remaining debt, ending here
+		debt = 0;
+	    } else {
+		debt -= pay; // we reduce the outstanding debt
+	    }
+
 	    r = s.insertRow(m + 12 * y);
 	    c = r.insertCell(0);
 	    c.innerHTML = (m + 1);
@@ -52,30 +79,36 @@ function compute() {
 		total += sale;
 		pay += debt;  // pay off any remaining debt
 	    }
-	    exp = pay + aint; // total debt payment per month
-	    balance -= exp; // this is an expense
-	    total -= exp;
+	    if (m >= howmany) { // this month is beyond the end of the loan payments
+		aint = 0;
+		exp = 0;
+	    } else {
+		exp = pay + aint; // total debt payment per month
+		balance -= exp; // this is an expense
+		total -= exp;
+	    }
 	    c = r.insertCell(3);		
-	    c.innerHTML = rent.toFixed(2);	    
+	    c.innerHTML = color(rent.toFixed(2), 'blue');
 	    c = r.insertCell(4);
-	    c.innerHTML = taxp.toFixed(2);
+	    c.innerHTML = color(taxp.toFixed(2), 'red');
 	    c = r.insertCell(5);
-	    c.innerHTML = profit.toFixed(2);
+	    c.innerHTML = color(profit.toFixed(2), 'green');
 	    c = r.insertCell(6);			    
-	    c.innerHTML = debt.toFixed(2);
+	    c.innerHTML = color(debt.toFixed(2), 'blue');
 	    c = r.insertCell(7);	
-	    c.innerHTML = pay.toFixed(2);
+	    c.innerHTML = color(pay.toFixed(2), 'orange');
 	    c = r.insertCell(8);		
-	    c.innerHTML = aint.toFixed(2);
+	    c.innerHTML = color(aint.toFixed(2), 'orange');
 	    c = r.insertCell(9);		
-	    c.innerHTML = exp.toFixed(2);
+	    c.innerHTML = color(exp.toFixed(2), 'red');
 	    c = r.insertCell(10);
 	    if (balance < 0) {
 		c.innerHTML = color(balance.toFixed(2), "red");
 	    } else {
 		if (!profitable) {
-		    document.getElementById('first').innerHTML = "First profit on " + (m + 1) + " of year " + (y + 1);
-		    profitable = true;
+		    document.getElementById('first').innerHTML =
+			"First profit on " + (m + 1) + " of year " + (y + 1);
+		    profitable = true; // lift the flag
 		}
 		c.innerHTML = color(balance.toFixed(2), "green");
 	    }
