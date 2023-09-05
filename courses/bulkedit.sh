@@ -52,10 +52,10 @@
 
 #find . -type f -iname "*.html" -exec sed -i.bak 's#<script src="bootstrap.min.js"></script>#<script src="../../bootstrap.min.js"></script></ul>#' '{}' +
 
-find . -type f -iname "*.html" -exec sed -i.bak 's#</script></ul><script#</script><script#' '{}' +
+#find . -type f -iname "*.html" -exec sed -i.bak 's#</script></ul><script#</script><script#' '{}' +
+
+#find . -type f -iname "*.html" -exec sed -i.bak 's#<a href=#<a target="_blank" href=#' '{}' +
 
 
-
-						
 
 #https://mycourses2.mcgill.ca/content/enforced/631816-Elisa_Schaeffer_Sandbox/scs_template_v5/pages/?ou=631816
