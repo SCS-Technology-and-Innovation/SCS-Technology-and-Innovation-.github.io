@@ -54,10 +54,10 @@ embed = {
     'notebook': '''<!DOCTYPE html>
 <html>
 <p>
-<a href="https://github.com/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb">Download 
+<a href="https://github.com/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb" target="_blank">Download 
 the Jupyter Notebook file to interact on your local computer</a> 
 (requires 
-<a href="https://jupyter.org/install">installing 
+<a href="https://jupyter.org/install" target="_blank">installing 
 the necessary software</a>).
 </p>
 <iframe src="https://nbviewer.org/github/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb" 
