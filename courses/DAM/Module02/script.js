@@ -295,6 +295,7 @@ function updateStats() {
     r.cells[6].innerHTML = maximum(wait);
 }
 
+
 function data() {
     let stat = wt.getElementsByTagName('tbody');    
     let tb = stat[0];
@@ -442,9 +443,17 @@ function step() {
     }
 }
 
+function reset() {
+    for (const c of workers) {
+	c.idle = 0;
+	c.busy = 0;
+	c.served = 0;
+    }
+}
+
 function simulate() {
     button.disabled = true;    
-    // reset
+    reset();
     ordered = (document.getElementById('policy').value == 'longest');
     if (ordered) {
 	console.log('The coiffeur who has been idle the longest has priority');
