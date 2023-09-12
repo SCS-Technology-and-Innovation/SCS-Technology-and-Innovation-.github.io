@@ -1,3 +1,4 @@
+// JavaScript
 var canvas = document.getElementById('draw');
 var ctx = canvas.getContext('2d');
 ctx.textAlign = 'center';
@@ -382,17 +383,23 @@ function step() {
 	console.log('Client', c, 'arrives')
 	let present = false;
 	for (const p of pending) {
-	    if (p == c) {
+	    if (p.label == c) {
 		console.log('Client', c, 'is already waiting');
 		present = true;
 		break;
+	    } else {
+		console.log(p, 'is waiting');
 	    }
 	}
 	for (const w of workers) {
-	    if (!!w.occupant && w.occupant.label == c) {
-		console.log('Client', c, 'is already being served');
-		present = true;
-		break;		
+	    if (!!w.occupant) {
+		if (w.occupant.label == c) {
+		    console.log('Client', c, 'is already being served');
+		    present = true;
+		    break;		
+		} else {
+		    console.log(w.occupant.label, 'is being served');
+		}
 	    }
 	}
 	if (!present) {
