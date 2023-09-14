@@ -449,6 +449,7 @@ function reset() {
 	c.busy = 0;
 	c.served = 0;
     }
+    setup();    
 }
 
 function simulate() {
