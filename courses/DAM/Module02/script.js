@@ -444,11 +444,6 @@ function step() {
 }
 
 function reset() {
-    for (const c of workers) {
-	c.idle = 0;
-	c.busy = 0;
-	c.served = 0;
-    }
     setup();    
 }
 
