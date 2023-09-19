@@ -653,7 +653,7 @@ function report() {
 	    }
 	    c.innerHTML = (100 * received / requested).toFixed(0) + '%';
 	} else {
-	    c.innerHTML = 'N/A';
+	    c.innerHTML = 'nothing was requested';
 	}
 	c = r.insertCell(ndoc + 2);
 	c.innerHTML = missing;
