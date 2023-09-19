@@ -132,7 +132,8 @@ const cpat = '#669900'; // patient
 const copt = '#999999'; // diagnostic 
 const cdoc = '#0000ff'; // doctor 
 const ce = '#dddddd'; // edge (req)
-const cf = '#ff0000'; // edge (used)
+const cf = '#ff9900'; // edge (used but not maxed)
+const cm = '#ff0000'; // edge (maxed out)
 const cs = '#999900'; // source node
 const ct = '#009999'; // sink node
 
@@ -230,8 +231,13 @@ function line(start, end, sl, el, w) {
     ctx.lineWidth = w * LW;    
     let edge = sl + ',' + el;
     if (flow[edge] > 0) {
-	ctx.fillStyle = cf;
-	ctx.strokeStyle = cf;
+	if (flow[edge] == network[edge]) {
+	    ctx.fillStyle = cm;
+	    ctx.strokeStyle = cm;
+	} else {
+	    ctx.fillStyle = cf;
+	    ctx.strokeStyle = cf;
+	}
     } else {
 	ctx.fillStyle = ce;
 	ctx.strokeStyle = ce;
