@@ -178,7 +178,7 @@ function nodes() {
     }
     // place diagnostics    
     dy = Math.floor((h - 2 * M) / nopt);
-    let dim = Math.floor(dy / 2);
+    let dim = Math.floor(dy / 3);
     let half = Math.floor(dim / 2);
     fs = Math.floor(2 * dim / 5);
     x += dx 
@@ -223,15 +223,19 @@ function reset() {
 	let vertices = edge.split(',');
 	let from = vertices[0];
 	let to = vertices[1];
+	let redge = to + ',' + from;
 	flow[edge] = 0;
+	flow[redge] = network[edge];	
     }
 }
 
 function line(start, end, sl, el, w) {
     ctx.lineWidth = w * LW;    
     let edge = sl + ',' + el;
-    if (flow[edge] > 0) {
-	if (flow[edge] == network[edge]) {
+    let amount = flow[edge];
+    let limit = network[edge];
+    if (amount > 0) {
+	if (amount == limit) {
 	    ctx.fillStyle = cm;
 	    ctx.strokeStyle = cm;
 	} else {
@@ -267,8 +271,8 @@ function edges() {
 		count++;
 	    }
 	}
+	network[vl['s'] + ',' + vl[pl]] = count; // source to pl	
 	line(sp, ip, vl['s'], vl[pl], count);
-	network[vl['s'] + ',' + vl[pl]] = count; // source to pl
     }
     let tp = pos['t'];
     for (let i = 0; i < ndoc; i++) {
@@ -459,7 +463,9 @@ function match() {
 		    let prev = step.from;		    
 		    let e = prev + ',' + curr;
 		    let edge = prev + ',' + curr;
+		    let redge = curr + ',' + prev;		    
 		    flow[edge] += incr;
+		    flow[redge] -= incr;		    
 		    curr = prev; // keep going backwards
 		}
 	    }
