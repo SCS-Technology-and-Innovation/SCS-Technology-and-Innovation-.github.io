@@ -370,13 +370,19 @@ function show() {
     }
 }
 
-function visualize() {
+function draw() {
+    console.log('Visualizing the flow');            
     nodes();
     canvas.width = w;
     canvas.height = h;
     ctx.clearRect(0, 0, w, h);
     edges();
     show();
+}
+
+function visualize() {
+    reset();
+    draw();
 }
 
 const verbose = false;
@@ -591,8 +597,7 @@ function report() {
     reset();
     console.log('Computing the maximum flow');
     match();
-    console.log('Visualizating the flow');        
-    visualize();
+    draw();
     console.log('Recovering the assignment');    
     backtrack();
     // result table header
@@ -667,10 +672,11 @@ function report() {
 }
 
 function prep() {
+    reset();
     network = {};
     tabulate(); // prep the tables
     vertexlabels();
-    visualize();
+    draw();
 }
 
 function everything() {
@@ -679,5 +685,3 @@ function everything() {
 }
 
 everything();
-
-
