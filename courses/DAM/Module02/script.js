@@ -88,7 +88,7 @@ function tickLounge() {
 			console.log('Coiffeur', chosen.label, 'is up next');
 		    } else {
 			console.log(available);
-			let r = randint(1, available.length - 1);
+			let r = randint(0, available.length - 1);
 			console.log('Picked position', r, 'from', available.length);
 			chosen = workers[available[r]];
 			console.log('Coiffeur', chosen.label, 'was picked at random');
