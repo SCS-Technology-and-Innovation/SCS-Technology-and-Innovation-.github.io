@@ -280,12 +280,20 @@ function transaction(purchase, moment) {
     let price = random(data['Low'][moment], data['High'][moment]);
     console.log(price);
     if (purchase) {
-	let count = Math.floor(budget / price); // how many can we afford
-	budget -= count * price; // we might have some pennies left over
-	holdings = count;
+	if (holdings > 0) {
+	    alert('You can only sell, you already hold stocks.');
+	} else {
+	    let count = Math.floor(budget / price); // how many can we afford
+	    budget -= count * price; // we might have some pennies left over
+	    holdings = count;
+	}
     } else {
-	budget += holdings * price;
-	holdings = 0;
+	if (holdings < 1) {
+	    alert('You can only buy, you hold no stocks at present.');	    
+	} else {
+	    budget += holdings * price;
+	    holdings = 0;
+	}
     }
     let former = record.innerHTML;
     let added = 'On ' + format(data['Date'][moment], true) 
