@@ -4,11 +4,11 @@ const seconds = 60 * 60; // seconds in an hour
 const file = document.getElementById('weather');
 
 // data storage
-let winter = []; // 1/0 to whether the month is between Nov-Feb or not
+let winter = [];
 let output = []; 
-let above = []; // how many degrees above the threshold the temperature is
-let rainsnow = []; // 1/0 to whether is snows/rains or not
-let snowcover = []; // 1/0 to whether there is a snow cover or no 
+let above = [];
+let rainsnow = [];
+let snowcover = [];
 
 // column indices
 const idxdate = 2;
@@ -21,7 +21,14 @@ const idxcover = 42; // snow cover
 let data = '';
 
 function calculate(input) {
-    let parse = false; // skip until column header is found
+    // reset
+    winter = []; // 1/0 to whether the month is between Nov-Feb or not
+    output = []; 
+    above = []; // how many degrees above the threshold the temperature is
+    rainsnow = []; // 1/0 to whether is snows/rains or not
+    snowcover = []; // 1/0 to whether there is a snow cover or no 
+
+    let parse = false; // skip until column header is founde
     
     data = input;
     // Number of panels
