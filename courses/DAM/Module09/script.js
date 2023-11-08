@@ -18,76 +18,91 @@ const idxcond = 26; // present weather (flag)
 const idxambient = 30; // dry bulb temperature
 const idxcover = 42; // snow cover
 
+let data = '';
+
+function calculate(input) {
+    let parse = false; // skip until column header is found
+    
+    data = input;
+    // Number of panels
+    let panelcount = parseInt(document.getElementById('count').value);
+    
+    // Surface area of each individual panel in m2
+    let surface = parseFloat(document.getElementById('surface').value);
+    let totalm2 = panelcount * surface;
+    
+    // Panel inclination as angle of elevation from horizontal in degrees
+    let angle = parseFloat(document.getElementById('angle').value);
+    let rad = (angle / 360.0) * 2.0 * Math.PI; // in radians
+    let factor = Math.cos(rad);
+    
+    // Conversion effiency (given as perc, here as proportion)
+    let efficiency = parseFloat(document.getElementById('eff').value) / 100.0;
+    
+    // Temperature threshold for the tempdecr activation
+    let tempthr = parseInt(document.getElementById('temp').value);
+    
+    const rows = data.split('\n');
+    for (let row of rows) {
+	if (row.includes('ECCC station identifier')) {
+	    parse = true;
+	    let cols = row.split(',');
+	    let cc = cols.length;
+	    let rc = rows.length;
+	    console.log(rc + ' rows and ' + cc + ' columns')
+	    console.log(cols);
+	    continue;
+	}
+	if (parse) {
+	    let fields = row.split(',');
+	    if (fields.length >= idxcover) {
+		let date = fields[idxdate];
+		let month = date.substring(4, 6);
+		if (month == "11" || month == "12" || month == "01" || month == "02") {
+		    winter.push(true);
+		} else {
+		    winter.push(false);
+		}
+		let r = parseFloat(fields[idxirr]); // in kJ/m2, 1kW = 1 kJ/s
+		let s = parseInt(fields[idxshine]); // minutes of the hour
+		if (s > 60) { // 99 is an error flag of sorts
+		    s = 60; // assume complete sunshine when the minutes are not properly reported
+		}
+		let irradiance = (s / 60) * r * factor; // take into account the time proportion and the angle
+		let kilojoules = totalm2 * irradiance; // take into account the number of panels and their surface
+		let kWh = kilojoules / seconds;
+		output.push(kWh); // this MIGHT be horribly wrong, I hope someone bothers to check this
+		let t = fields[idxambient] / 10; // reported as 0.1 C
+		if (t > tempthr) {
+		    above.push(tempthr - t); // how much above the threshold the temperature is
+		} else {
+		    above.push(0); // not above the threshold
+		}
+		let w = fields[idxcond];
+		let rain = (w.charAt(1) != "0"); // ignore drizzle
+		let snow = (w.charAt(3) != "0");
+		rainsnow.push(rain || snow);
+		let c = fields[idxcover];
+		snowcover.push(parseInt(c));
+	    } 
+	}
+    }
+    simulate(panelcount);
+    document.getElementById("recalculate").disabled = false;
+    console.log("Recalculation enabled");
+}
+
+function redo() {
+    calculate(data);
+}
+
 file.onchange = e => {
     var r = new FileReader();
     var label = file.files[0].name;
     r.readAsText(file.files[0] ,'UTF-8');
-    let parse = false; // skip until column header is found
     r.onload = ev => {
-	// Number of panels
-	let panelcount = parseInt(document.getElementById('count').value);
-
-	// Surface area of each individual panel in m2
-	let surface = parseFloat(document.getElementById('surface').value);
-	let totalm2 = panelcount * surface;
-	
-	// Panel inclination as angle of elevation from horizontal in degrees
-	let angle = parseFloat(document.getElementById('angle').value);
-	let rad = (angle / 360.0) * 2.0 * Math.PI; // in radians
-	let factor = Math.cos(rad);
-	
-	// Conversion effiency (given as perc, here as proportion)
-	let efficiency = parseFloat(document.getElementById('eff').value) / 100.0;
-
-	// Temperature threshold for the tempdecr activation
-	let tempthr = parseInt(document.getElementById('temp').value);
-	
-	const rows = ev.target.result.split('\n');
-	for (let row of rows) {
-	    if (row.includes('ECCC station identifier')) {
-		parse = true;
-		let cols = row.split(',');
-		let cc = cols.length;
-		let rc = rows.length;
-		console.log(rc + ' rows and ' + cc + ' columns')
-		console.log(cols);
-		continue;
-	    }
-	    if (parse) {
-		let fields = row.split(',');
-		if (fields.length >= idxcover) {
-		    let date = fields[idxdate];
-		    let month = date.substring(4, 6);
-		    if (month == "11" || month == "12" || month == "01" || month == "02") {
-			winter.push(true);
-		    } else {
-			winter.push(false);
-		    }
-		    let r = parseFloat(fields[idxirr]); // in kJ/m2, 1kW = 1 kJ/s
-		    let s = parseInt(fields[idxshine]); // minutes of the hour
-		    if (s > 60) { // 99 is an error flag of sorts
-			s = 60; // assume complete sunshine when the minutes are not properly reported
-		    }
-		    let irradiance = (s / 60) * r * factor; // take into account the time proportion and the angle
-		    let kilojoules = totalm2 * irradiance; // take into account the number of panels and their surface
-		    let kWh = kilojoules / seconds;
-		    output.push(kWh); // this MIGHT be horribly wrong, I hope someone bothers to check this
-		    let t = fields[idxambient] / 10; // reported as 0.1 C
-		    if (t > tempthr) {
-			above.push(tempthr - t); // how much above the threshold the temperature is
-		    } else {
-			above.push(0); // not above the threshold
-		    }
-		    let w = fields[idxcond];
-		    let rain = (w.charAt(1) != "0"); // ignore drizzle
-		    let snow = (w.charAt(3) != "0");
-		    rainsnow.push(rain || snow);
-		    let c = fields[idxcover];
-		    snowcover.push(parseInt(c));
-		} 
-	    }
-	}
-	simulate(panelcount);
+	console.log("Data loaded");
+	calculate(ev.target.result);
     }
 }
 
