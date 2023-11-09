@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Website visits</title>
+  </head>
+  <body>
+    <div style="float:none">
+    <h1>Website visits</h1>
+    <p>
+      In order to use this tool with real data, you need to have on
+      your computer the monthly data exports from the central
+      dashboard, named <code>jan23.csv</code> (month with three
+      lowercase letters, year with two digits). <strong>No data is
+      ever uploaded anywhere or obtained from elsewhere, all
+      processing is done locally on your own computer based on the
+      files you have.</strong>
+    </p>
+    <p>
+      The horizontal axis of the plot shows the time (month /
+      year). The curve shown by default are the total visits. You can
+      hide that and/or add curves for selections of pages of your
+      choice and pick a color for each.
+      </p>
+    <p>
+      <label for="data">Select datafiles</label>
+      <input type="file" id="data" name="data" accept=".csv">
+    </p>
+    </div>
+    <div>
+      <div style="float:left; margin: 10px">    
+	<h2>Filters</h2>
+	Term: <select multiple id="term" style="vertical-align:text-top">
+	</select>
+	</select>
+	<p>
+	  <button onclick="prep()">Visualize</button>
+	<p>
+	<p id="shown"></p>		  
+	</div>
+    </div>
+    <div style="float:none">
+      <canvas id="draw" width="100" height="100">
+    </div>
+  </body>
+  <script src="visits.js"></script>
+</html>
