@@ -1,9 +1,9 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Website visits</title>
   </head>
   <body>
-    <div style="float:none">
     <h1>Website visits</h1>
     <p>
       In order to use this tool with real data, you need to have on
@@ -22,24 +22,25 @@
       </p>
     <p>
       <label for="data">Select datafiles</label>
-      <input type="file" id="data" name="data" accept=".csv">
+      <input type="file" id="files" accept=".csv" onChange="parse()" multiple>
     </p>
-    </div>
-    <div>
-      <div style="float:left; margin: 10px">    
-	<h2>Filters</h2>
-	Term: <select multiple id="term" style="vertical-align:text-top">
-	</select>
-	</select>
-	<p>
-	  <button onclick="prep()">Visualize</button>
-	<p>
-	<p id="shown"></p>		  
-	</div>
-    </div>
-    <div style="float:none">
-      <canvas id="draw" width="100" height="100">
-    </div>
+    <p>
+    <input id="pattern"></input>
+    <input id="tone" type="color"></input>
+    <button onclick="add()">Add to plot</button>
+    <button onclick="clear()">Clear plot</button>    
+    </p>
+    <p>
+      <canvas id="canvas" width="1200" height="600"></canvas>
+    </p>
+    Attribute:
+    <select id='attr'>
+      <option value='views'>Views</option>
+      <option value='users'>Total users</option>
+      <option value='duration'>Average session duration</option>
+    </select>
+    <button onclick="draw()">Draw</button>    
+    <div id="matches"></div>		  
+    <script src="visits.js"></script>
   </body>
-  <script src="visits.js"></script>
 </html>
