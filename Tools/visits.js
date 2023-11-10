@@ -266,7 +266,7 @@ function add() {
     }
 }
 
-function clear() {
+function startover() {
     document.getElementById('matches').innerHTML = 'Clear requested. All selections have been cleared.';
     sets = {};
     draw();
