@@ -1,4 +1,4 @@
-var values = {};
+var values = null;
 var contents = {};
 
 const prefix = '/continuingstudies/'
@@ -9,7 +9,7 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 ctx.textBaseline = 'middle';
 ctx.font = '9 px Courier';
-const margin = 100;
+const margin = 60;
 
 ctx.lineWidth = 4;
 
@@ -40,8 +40,9 @@ const nm = { 0 : 'jan',
 	     11 : 'dec' };
 
 
-let first = 3000;
-let last = 0;
+let first = null;
+let last = null;
+let span = null;
 
 function process(label, text) {
     contents[label] = []; // reset
@@ -60,13 +61,11 @@ function process(label, text) {
 	} else if (path.includes('404.html')) {
 	    continue; // skip the "not found" error code listings
 	} else {
-	    if (!contents.hasOwnProperty(path)) {
-		contents[path] = [];
-	    }
 	    let views = parseInt(col[1]);
 	    let users = parseInt(col[2]);
 	    let duration = parseFloat(col[3]);
-	    let item = { 'views' : views,
+	    let item = { 'path': path, 
+			 'views' : views,
 			 'users' : users,
 			 'duration' : duration };
 	    contents[label].push(item);
@@ -77,35 +76,49 @@ function process(label, text) {
 }
 
 function combine() {
+    first = null;
+    last = null;
     values = {}; // reset
+    let count = 0;
     for (const label in contents) {
 	let data = contents[label];
-	var month = label.substring(0, 3);
+
+	var month = mn[label.substring(0, 3)]; // 0 to 11
 	var year = parseInt('20' + label.substring(3, 5));
-	if (year < first) {
-	    first = year;
+	
+	t = time(month, year);
+	console.log(label, t);
+	if (first == null || t.getTime() < first.getTime()) {
+	    first = t;
 	}
-	if (year > last) {
-	    last = year;
+	if (last == null || t.getTime() > last.getTime()) {
+	    last = t;
 	}
-	let count = 0;
-	for (const path in data) {
-	    values[path] = { 'year' : year,
-			     'month' : month,
-			     'views' : data['views'],
-			     'users' : data['users'],
-			     'duration' : data['duration']};
+	for (let i = 0; i < data.length; i++) {
+	    let v = data[i];
+	    let p = v['path'];
+	    if (!values.hasOwnProperty(p)) {
+		values[p] = [];
+	    }
+	    let item = { 'year' : year,
+			 'month' : month,
+			 'views' : v['views'],
+			 'users' : v['users'],
+			 'duration' : v['duration']};
+	    values[p].push(item);
+	    count++;
 	}
     }
+    span = last.getMonth() - first.getMonth() + (12 * (last.getFullYear() - first.getFullYear())) + 1;
+    console.log('Combined', count, 'data points over', span, 'months');
 }
 
 function parse() {
-    console.log('Reading files...');
+    values = null; // erase
     contents = {}; // reset
     const f = document.getElementById('files').files;    
     Array.from(f).forEach(file => {
 	var label = file.name;
-	console.log('Processing', label);
 	var r = new FileReader();
 	r.addEventListener('load', (event) => {
 	    count = process(label, event.target.result);
@@ -113,14 +126,14 @@ function parse() {
 	});
 	r.readAsText(file, 'UTF-8');
     });
-    combine();
 }
 
 let sets = {} ;
 let high = 0;
 
-function time(year, month) {
-    return 12 * (year - first) + mn[month]; 
+
+function time(m, y) {
+    return new Date(y, m, 1);
 }
 
 function vticks(count) {
@@ -136,19 +149,22 @@ function vticks(count) {
     }
 }
 
-function hticks(st, et, y, m) {
-    ctx.textAlign = 'left';	
-    let yp = canvas.height - margin / 2;
-    let xp = margin;
-    let dx = canvas.width / (et - st + 1);
-    for (let p = st; p <= et; p++) {
-	let value = nm[m] + ' ' + (y - 2000); // just two digits
-	ctx.fillText(value, xp, yp);
-	xp += dx;
-	if (m == 11) {
-	    y += 1; // next year
-	}
-	m = (m + 1) % 12; // next month
+function advance(t) { // one month later
+    return new Date(t.setMonth(t.getMonth() + 1));
+}
+
+function repr(t) {
+    return nm[t.getMonth()] + (t.getFullYear() - 2000);
+}
+
+function hticks() {
+    ctx.textAlign = 'center';	
+    let y = canvas.height - margin / 2;
+    let t = new Date(first.getTime());
+    for (let p = 0; p < span; p++) {
+	x = scale(t.getTime(), first.getTime(), last.getTime(), margin, canvas.width - margin, false);
+	ctx.fillText(repr(t), x, y);
+	t = advance(t);
     }	
 }
 
@@ -164,7 +180,7 @@ function filter(a) {
 	    let p = pp[i]; // the path in the set
 	    let info = values[pp[i]];
 	    for (let j = 0; j < info.length; j++) {
-		let t = time(info[j]['year'], info[j]['month']);
+		let t = new Date(info[j]['year'], info[j]['month']);
 		let v = info[j][a];
 		if (!ts.hasOwnProperty(t)) {		
 		    ts[t] = v;
@@ -182,48 +198,52 @@ function filter(a) {
 }
 
 function scale(value, low, high, min, max, flip) {
-    let v = (value - low) / high;
+    let v = (value - low) / (high - low); // normalize from source range
     if (flip) {
 	v = 1 - v;
     }
-    return v * (max - min) + min;
+    return v * (max - min) + min; // normalize to target range
 }
 
-function plot(ts, c, xs, xe, ys, ye) {
+function plot(ts, c) {
     ctx.strokeStyle = c;
     ctx.beginPath();
-    let enable = false;
-    for (let x = xs; x <= xe; x++) {
-	y = 0;
-	if (ts.hasOwnProperty(x)) {
-	    y = ts[x];
+    let started = false;
+    let t = new Date(first.getTime());
+    for (let p = 0; p < span; p++) {    
+	v = 0; // default
+	if (ts.hasOwnProperty(t)) {
+	    v = ts[t];
 	}
-	px = scale(x, xs, xe, margin, canvas.width - margin, false);
-	py = scale(y, 0, high, margin, canvas.height - margin, true);
-	if (x == xs) {
-	    ctx.moveTo(px, py); // start position
+	x = scale(t.getTime(), first.getTime(), last.getTime(), margin, canvas.width - margin, false);
+	y = scale(v, 0, high, margin, canvas.height - margin, true);
+	if (!started) {
+	    ctx.moveTo(x, y); // start position
+	    started = true;
 	} else {
-	    ctx.lineTo(px, py); // connect to next data
+	    ctx.lineTo(x, y); // connect to next data
 	}
+	t = advance(t);
     }
     ctx.stroke(); 	
 }
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let st = time(first, 'jan');
-    let et = time(last, 'dec');
     let curves = filter(document.getElementById('attr').value);
     vticks(10);
-    hticks(st, et, first, 0)
+    hticks(); // all month-years present
     for (let i = 0; i < curves.length; i++) {
 	let color = curves[i]['color'];
 	let ts = curves[i]['timeseries'];
-	plot(ts, color, st, et, 0, high);
+	plot(ts, color);
     }
 }
 
 function add() {
+    if (values == null) {
+	combine();
+    }
     let selection = [];
     let color = document.getElementById('tone').value;
     var p = document.getElementById("pattern").value;
@@ -240,13 +260,14 @@ function add() {
 	sets[p] = selected;
 	legend += '</p>';
 	document.getElementById('matches').innerHTML += legend;
+	draw();
     } else {
 	alert('No matches found');
     }
 }
 
 function clear() {
-    document.getElementById('matches').innerHTML = '';
+    document.getElementById('matches').innerHTML = 'Clear requested. All selections have been cleared.';
     sets = {};
     draw();
 }

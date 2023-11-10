@@ -31,15 +31,14 @@
     <button onclick="clear()">Clear plot</button>    
     </p>
     <p>
-      <canvas id="canvas" width="1200" height="600"></canvas>
+      <canvas id="canvas" width="1200" height="500"></canvas>
     </p>
     Attribute:
-    <select id='attr'>
+    <select id='attr' onChange="draw()">
       <option value='views'>Views</option>
       <option value='users'>Total users</option>
       <option value='duration'>Average session duration</option>
     </select>
-    <button onclick="draw()">Draw</button>    
     <div id="matches"></div>		  
     <script src="visits.js"></script>
   </body>
