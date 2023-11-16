@@ -90,15 +90,15 @@ function compute() {
 	    c = r.insertCell(3);		
 	    c.innerHTML = color(rent.toFixed(2), 'blue');
 	    c = r.insertCell(4);
-	    c.innerHTML = color(taxp.toFixed(2), 'red');
+	    c.innerHTML = color('-' + taxp.toFixed(2), 'red');
 	    c = r.insertCell(5);
 	    c.innerHTML = color(profit.toFixed(2), 'green');
 	    c = r.insertCell(6);			    
-	    c.innerHTML = color(debt.toFixed(2), 'blue');
+	    c.innerHTML = color('-' + debt.toFixed(2), 'purple');
 	    c = r.insertCell(7);	
-	    c.innerHTML = color(pay.toFixed(2), 'orange');
+	    c.innerHTML = color('-' + pay.toFixed(2), 'orange');
 	    c = r.insertCell(8);		
-	    c.innerHTML = color(aint.toFixed(2), 'orange');
+	    c.innerHTML = color('-' + aint.toFixed(2), 'orange');
 	    c = r.insertCell(9);		
 	    c.innerHTML = color(exp.toFixed(2), 'red');
 	    c = r.insertCell(10);
@@ -112,8 +112,12 @@ function compute() {
 		}
 		c.innerHTML = color(balance.toFixed(2), "green");
 	    }
-	    c = r.insertCell(11);		
-	    c.innerHTML = total.toFixed(2);	    	    
+	    c = r.insertCell(11);
+	    if (total < 0) {
+		c.innerHTML = color(total.toFixed(2), "orange");
+	    } else {
+		c.innerHTML = color(total.toFixed(2), "green");		
+	    }
 	}
 	rent *= (1 + rinc); // annual rent increase
     }

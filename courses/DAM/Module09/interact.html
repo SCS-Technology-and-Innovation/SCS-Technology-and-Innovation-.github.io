@@ -48,7 +48,7 @@
     
     <p>
       Threshold between regular and high consumption:
-      <input type="number" min="0" step="5" id="threshold" value="40">
+      <input type="number" min="1" step="5" id="threshold" value="40">
       <small>(as kWh per day)</small>           
     </p>
     
@@ -208,6 +208,7 @@
     <p>
       <label for="weather">Weather data</label>
       <input type="file" id="weather" name="weather" accept=".csv">
+      <button id="recalculate" onclick="redo()" disabled>Recalculate with the same data</button>
     </p>
     <canvas id="canvas" width="1000" height="800"></canvas>
     <script src="script.js"></script>
