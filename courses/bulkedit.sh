@@ -56,6 +56,11 @@
 
 #find . -type f -iname "*.html" -exec sed -i.bak 's#<a href=#<a target="_blank" href=#' '{}' +
 
+#find . -type f -iname "*.html" -exec sed -i.bak 's#</head>##' '{}' + 
+
+#find . -type f -iname "*.html" -exec sed -i.bak 's#${repl}#<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script>#' '{}' +
 
 
-#https://mycourses2.mcgill.ca/content/enforced/631816-Elisa_Schaeffer_Sandbox/scs_template_v5/pages/?ou=631816
+find . -type f -iname "*.html" -exec sed -i.bak 's#WFY9N"); </script>#WFY9N"); </script></head>#' '{}' +
+
+
