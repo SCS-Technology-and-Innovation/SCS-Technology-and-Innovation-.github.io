@@ -26,6 +26,17 @@ notebook = {
 embed = {
     'glossary': '''<!DOCTYPE html>
     <html>
+    <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-F8SJ1WFY9N');
+</script>
+    </head>
     <body>
     <iframe src="https://scs-technology-and-innovation.github.io/courses/TI.html" 
         allowfullscreen="allowfullscreen" height="2000px" style="width:100%;"
@@ -35,6 +46,18 @@ embed = {
 </html>''',
     'overview': '''<!DOCTYPE html>
     <html>
+        <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-F8SJ1WFY9N');
+</script>
+    </head>
+
     <body>
     <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/overview.html" 
     allowfullscreen="allowfullscreen" 
@@ -46,6 +69,18 @@ embed = {
     
     'html': '''<!DOCTYPE html>
 <html>
+        <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-F8SJ1WFY9N');
+</script>
+    </head>
+
 <body>
 <iframe src="https://scs-technology-and-innovation.github.io/courses/#COURSE#/Module#MODULE#/#PART#.html" 
         allowfullscreen="allowfullscreen" height="2000px" style="width:100%;" frameborder="0"></iframe>
