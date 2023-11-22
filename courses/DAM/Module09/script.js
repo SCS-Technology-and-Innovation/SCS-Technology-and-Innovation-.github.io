@@ -78,7 +78,8 @@ function calculate(input) {
 		let irradiance = (s / 60) * r * factor; // take into account the time proportion and the angle
 		let kilojoules = totalm2 * irradiance; // take into account the number of panels and their surface
 		let kWh = kilojoules / seconds;
-		output.push(kWh); // this MIGHT be horribly wrong, I hope someone bothers to check this
+		let obtained = efficiency * kWh; // kudos adrian
+		output.push(obtained); // this MIGHT be horribly wrong, I hope someone bothers to check this
 		let t = fields[idxambient] / 10; // reported as 0.1 C
 		if (t > tempthr) {
 		    above.push(tempthr - t); // how much above the threshold the temperature is
