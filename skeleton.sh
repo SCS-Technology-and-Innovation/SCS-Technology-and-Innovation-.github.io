@@ -1,5 +1,5 @@
-term=F23
-c=610
+term=W24
+c=660
 mkdir -p Import
 mkdir -p Import/${term}
 mkdir -p Import/${term}/CCCS${c}
@@ -10,7 +10,7 @@ closing="<script src='https://scs-technology-and-innovation.github.io/populate.j
 for j in $(seq 1 13); # all the modules
 do
     m=$(echo $j | awk '{printf("%02d", $1)}')
-    mkdir -p Import/CCCS${c}/Module${m}
+    mkdir -p Import/${term}/CCCS${c}/Module${m}
     for i in ${!elements[@]};
     do
 	el=${elements[$i]};

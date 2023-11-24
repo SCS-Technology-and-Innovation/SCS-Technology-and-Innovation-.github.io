@@ -1,21 +1,119 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Assessment / Module 1 / CCCS 660</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
-    <h2 class="topic-heading">Hands-on option</h2>
-    <h3>Basic stage for the hands-on option</h3>
-    <p>
-    </p>
-    <h2 class="topic-heading">Conceptual option</h2>
-    <h3>Basic stage for the conceptual option</h3>
-    <p>
-    </p>
-    <h3>In-depth stage for the conceptual option</h3>
-    <p>
-    </p>
-    <p>
-    </p>
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Assessment / Module 1 / CCCS 660</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
+	<h1>Scenario A, phase 1</h1>
+
+	<p>
+	  The roads in your hometown are in poor condition, and budget
+	  limitations on repairs, as well as lack of staff and
+	  machinery, are making it hard to carry out all the repairs
+	  at once. Even finding out where repairs are needed is a
+	  problem. Riding around town looking for potholes is not
+	  efficient, and relying on volunteer residents to report
+	  potholes tends to produce biased claims about which holes
+	  should be prioritized.
+	</p>
+	<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/A_pothole_in_Dilova_Street_in_Kyiv.jpg/800px-A_pothole_in_Dilova_Street_in_Kyiv.jpg?20220726133620" width="800" alt="a pothole in the pavement">
+	<p><small>Photograph linked
+	from <a href="https://commons.wikimedia.org/wiki/File:A_pothole_in_Dilova_Street_in_Kyiv.jpg">Wikimedia</a>
+	and reused with Creative Commons licence.</small></p>
+	<p>
+	  You have an idea for a road-monitoring project. A small fleet of
+	  municipal vehicles, such as park maintenance vehicles and garbage
+	  trucks, is at your disposal. Postal delivery vehicles might also be
+	  available. You could equip these vehicles with a device that would
+	  gather data about the condition of the pavement and then feed the data
+	  into a semi-automated decision-support system. This system would
+	  advise on where and when to send pavement repair teams to fix potholes
+	  and cracks before anyone gets hurt.
+	</p>
+	<img width="600" src="https://github.com/SCS-Technology-and-Innovation/DDDM/blob/main/COIN/scenarios/phone01.png?raw=true" alt="Morning, team. We've gotten some complaints about the garbage trucks not picking up the garbage when passing while the truck was actually on its way to someplace else and not on route for pick-up. Could we work on updating the routes to minimize the chances of this happening?">
+	<p>
+	  Week after week, while trying to keep up with an
+	  ever-increasing workload, you keep thinking about your
+	  road-monitoring idea. Is there a way you can turn your idea
+	  into a concrete plan while also delivering solutions to the
+	  immediate needs that will satisfy your superiors?
+	</p>
+	<h2 class="topic-heading">Hands-on option</h2>
+	<h3>Basic stage for the hands-on option</h3>
+	<p>
+	  Propose a metaheuristic that will create weekly routes for a fleet of
+	  <em>k</em> vehicles that avoid transiting on streets where vehicles do
+	  <strong>not</strong> have designated pick-ups. It is
+	  preferable for vehicles to only use routes where they have
+	  pickups as much as possible. Sketch out a constructive phase
+	  for a feasible initial solution and a local-search phase for
+	  improved optimality.
+	</p>
+	<p>
+	  You do not have to implement anything in code (unless you really want
+	  to). You can use either text or pseudocode (or a combination of both)
+	  to describe your proposal.
+	</p>
+	<h3>In-depth stage for the hands-on option</h3>
+	<p>
+	  Explore and discuss possible <em>performance measures</em>
+	  for assessing whether the routes that the heuristic can
+	  produce are any good.
+	  </p>
+	
+	<h2 class="topic-heading">Conceptual option</h2>
+
+	<h3>Basic stage for the conceptual option</h3>
+	<p>
+	  Browse through a few chapters of
+	  <a href="https://mcgill.on.worldcat.org/oclc/1128">Smart
+	    Delivery Systems: Solving Complex Vehicle Routing
+	  Problems</a>.  Come up with a list of about a dozen terms
+	  that seem frequent or fundamental to formulating
+	  vehicle-fleet routing problems. Start by loosely defining
+	  the terms in your own words.
+	</p>
+	<h3>In-depth stage for the conceptual option</h3>
+	<p>
+	  Once you have completed your definitions, take a look at
+	  <a href="https://mcgill.on.worldcat.org/oclc/1226532200">Green
+	  Transportation and New Advances in Vehicle Routing
+	  Problems</a>. Compile a brief list of any additional aspects
+	  (additional, modified objectives or restrictions) relevant
+	  to the formulation of a vehicle-fleet routing problem while
+	  taking sustainability into consideration.
+	</p>
+    </section>
+    <footer>
+      <p>
+	Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
 </html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<HTML lang="en">
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Evaluation of Boolean expressions</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){
+          dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">
+</head>
+<body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">
+	<h1>Evaluation of Boolean expressions</h1>
+	<h3>Logical expression</h3>
+	<div contenteditable="true" id="expr">( a &and; b ) &or; &not; ( b &harr; a &rarr; &not; c ) &oplus; b</div>
+	<p>
+	  <button id="fr" onclick="freeze()">Fix</button>
+	</p>
+	<p>
+	  Name the <strong>variables</strong> using <em>lowercase
+	  letters</em> and use the below buttons to place the
+	  parenthesis and the operators:
+	<p>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_not">&not;</button>      
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_and">&and;</button>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_or">&or;</button>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_xor">&oplus;</button>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_impl">&rarr;</button>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_equi">&harr;</button>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_open">(</button>
+	  <button style="font-size:20px;height:32px;width:40px" onclick="putSymbol(event)" id="put_close">)</button>
+	</p>
+	<h3>Precedence</h3>
+	<p>
+	  Drag the operators into your desired order of precedence
+	  (highest up, lowest down). The parenthesis and the negation
+	  cannot be reordered.
+	</p>
+	<ul id="prec" style="list-style: none;">
+	  <li id="not" draggable="false">&not;</li>      
+	  <li id="and" draggable="true" ondragover="dragOver(event)" ondragstart="dragStart(event)">&and;</li>
+	  <li id="or" draggable="true" ondragover="dragOver(event)" ondragstart="dragStart(event)">&or;</li>
+	  <li id="xor" draggable="true" ondragover="dragOver(event)" ondragstart="dragStart(event)">&oplus;</li>
+	  <li id="impl" draggable="true" ondragover="dragOver(event)" ondragstart="dragStart(event)">&rarr;</li>
+	  <li id="equi" draggable="true" ondragover="dragOver(event)" ondragstart="dragStart(event)">&harr;</li>
+	  <li id="open" draggable="false">(</li>
+	  <li id="close" draggable="false">)</li>
+	</ul>
+	<h3>Assignment</h3>
+	<p>
+	  Select the variables that you wish to assign as
+	  true. Unselected variables will become false.
+	<p>
+	  <select multiple id='vars' size='5' onchange="clearTree()"></select>
+	</p>
+	<p>
+	  One the expression has been fixed, you can evaluate it for
+	  one or more assignments. Reload the page to start over with
+	  a new expression.
+	</p>
+	<p>
+	  <button id="eval" onclick="process()" disabled="true">Evaluate</button>
+	</p>
+	<div id="msg"></div>
+	<canvas id="draw" width="10" height="10"/>
+    </section>
+    <footer>
+      <p>
+        Copyright ©
+	<script>
+          document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="boolean.js"></script>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
+</html>
+
+
+
+
