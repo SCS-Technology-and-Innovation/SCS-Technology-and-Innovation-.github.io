@@ -8,20 +8,33 @@ jupyter = set()
 for m in range(1, 14):
     jupyter.add(('CCCS610', m, 'Interaction'))
 
+gitpath = { 'CCCS610': 'DACS/blob/main/DTDA/',
+            'CCCS660': 'DDDM/blob/main/COIN/' }
+    
 notebook = {
-    3: 'antennas',
-    6: 'canopy',
-    4: 'coloring',
-    10: 'epidemic',
-    12: 'flow',
-    5: 'roads',
-    9: 'sync',
-    2: 'territory',
-    7: 'words',
-    1: 'snowflake',
-    13: 'inventory',
-    11: 'resist',
-    8: 'compromise' } 
+    'CCCS610' : {
+        3: 'antennas',
+        6: 'canopy',
+        4: 'coloring',
+        10: 'epidemic',
+        12: 'flow',
+        5: 'roads',
+        9: 'sync',
+        2: 'territory',
+        7: 'words',
+        1: 'snowflake',
+        13: 'inventory',
+        11: 'resist',
+        8: 'compromise' },
+    'CSSS660':
+    {
+        1: 'heuristic',
+        3: 'towers',
+        6: 'perceptron',
+        7: 'neural'
+    }
+}
+    
 
 embed = {
     'glossary': '''<!DOCTYPE html>
@@ -89,7 +102,7 @@ embed = {
     'notebook': '''<!DOCTYPE html>
 <html>
 <p>
-<a href="https://github.com/SCS-Technology-and-Innovation/DACS/blob/main/DTDA/#NOTEBOOK#.ipynb" target="_blank">Download 
+<a href="https://github.com/SCS-Technology-and-Innovation/#GITPATH##NOTEBOOK#.ipynb" target="_blank">Download 
 the Jupyter Notebook file to interact on your local computer</a> 
 (requires 
 <a href="https://jupyter.org/install" target="_blank">installing 
@@ -123,7 +136,8 @@ closing = '''
 </manifest>'''
 
 titles = { 'CCCS 610': 'Digital Thinking for Data Analysis',
-           'CCCS 620': 'Data Analysis and Modeling' }
+           'CCCS 620': 'Data Analysis and Modeling',
+           'CCCS 660': 'Computational Intelligence' }
 
 items = [ 'Recap', 'Introduction', 'Interaction', 'Assessment', 'Continuation' ]
 files = [ 'recap', 'intro', 'interact', 'assess', 'next' ]
@@ -196,7 +210,8 @@ with open('imsmanifest.xml', 'w') as target:
                 with open(htmlfilename, 'w') as html:
                     content = embed['notebook'] if (course, m, item) in jupyter else embed['html']
                     if '#NOTEBOOK#' in content:
-                        content = content.replace('#NOTEBOOK#', notebook[m]);
+                        content = content.replace('#GITPATH#', gitpath[course]);
+                        content = content.replace('#NOTEBOOK#', notebook[course][m]);
                     else: # COURSE MODULE PART
                         content = content.replace('#COURSE#', folder[course]);
                         content = content.replace('#MODULE#', module);
