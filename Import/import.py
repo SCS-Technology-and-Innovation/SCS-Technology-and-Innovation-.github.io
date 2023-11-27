@@ -30,6 +30,7 @@ notebook = {
     {
         1: 'heuristic',
         3: 'towers',
+        4: 'commons',
         6: 'perceptron',
         7: 'neural'
     }
