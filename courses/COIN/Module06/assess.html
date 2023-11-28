@@ -1,24 +1,119 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Assessment / Module 6 / CCCS 660</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Assessment / Module 6 / CCCS 660</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
+	<h1> Scenario B<h1>
+	<p>
+	  You oversee the online discussion board of a nonprofit
+	  organization for which you volunteer on weekends. It is
+	  important to allow your target audience to interact, but you
+	  worry about hate speech and spam. Assigning volunteer staff
+	  to screen all posts and comments seems unfeasible, not only
+	  because of the workload but also because of the constant
+	  exposure to potential toxicity.
+	</p>
+	<img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Angry_mob_of_four.jpg" width="400" alt="Illustration of an angry mob">
+	<p>
+	  <small>
+	    Illustration by Robert Couse-Baker, 
+	    <a href="https://commons.wikimedia.org/wiki/File:Angry_mob_of_four.jpg">Wikimedia</a>,
+	     reused with Creative Commons licence.
+	  </small>
+	  <p>
+	<p>
+	  You have been talking to your colleagues at the organization
+	  about your plans at work for detecting pavement defects, and
+	  they encourage you to explore options that would employ
+	  computational intelligence to do the heavy lifting for you
+	  in this task as well.
+	</P>
+	<h1>Phase 1</h1>
+	<img width="600"
+	src="https://github.com/SCS-Technology-and-Innovation/DDDM/blob/main/COIN/scenarios/phone06.png?raw=true"
+	alt="The forum log you requested are attached for each posting
+	on the discussion board, indicating the author and the number
+	of upvotes. I got the volunteers to label some of the posts
+	either as spam or good and set the third column as none for
+	the posts nobody looked at. Let me know if you need anything
+	else. Cheers, Robin.">
+	<p>
+	  Robin has been supporting your data-analysis efforts and has
+	  helped clean up a dataset
+	  (<a href="https://scs-technology-and-innovation.github.io/casestudy/demo/logs.html">download
+	  the log file</a>) from the forum posts. Your current
+	  hypothesis is that people who post abnormally often and get
+	  few up-votes might be undesirable users.
+	</p>
+	<p>
+	  Authors are represented by their numerical user IDs since
+	  you do not want anyone to think ill of an individual just
+	  because your system might, at an early stage, imply that
+	  they are a spammer or a troll.
+	  </p>
+	
     <h2 class="topic-heading">Hands-on option</h2>
     <h3>Basic stage for the hands-on option</h3>
-    <p>
+	<p>
+	  With your preferred computational tool (the Python example
+	  from class is just fine), train a perceptron to label the
+	  posts that were not manually labelled (those that
+	  say <code>none</code> in the third column) into either spam
+	  or good. Remember that your training set can only contain
+	  data points that are manually labelled, and you might want
+	  to set a part of those aside for testing purposes. Discuss
+	  your code in writing and report the results of the
+	  model. Include a <em>confusion matrix</em>.
     </p>
     <h3>In-depth stage for the hands-on option</h3>
-    <p>
-    </p>    
-    <h2 class="topic-heading">Conceptual option</h2>
-    <h3>Basic stage for the conceptual option</h3>
-    <p>
-    </p>
+	<p>
+	  Select and compute at least three performance measures
+	  (either based on the confusion matrix or on some other
+	  aspect of the resulting model and/or of the training/testing
+	  calculations).
+	</p>    
+	<h2 class="topic-heading">Conceptual option</h2>
+	<h3>Basic stage for the conceptual option</h3>
+	<p>
+	  Read the first chapter of the online textbook
+	  <a href="http://neuralnetworksanddeeplearning.com/chap1.html">Neural
+	  Networks and Deep Learning (Nielsen, 2019)</a>, and then
+	  sketch a rudimentary illustrated glossary on the main
+	  components and elements of a simple neural network.
+	</p>
     <h3>In-depth stage for the conceptual option</h3>
-    <p>
-    </p>
-    <p>
-    </p>
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+	<p>
+	  Browse through the textbook
+	  <a href="https://mcgill.on.worldcat.org/oclc/37875698">An
+	  Introduction of Neural Networks (Gurney, 1997)</a> and write
+	  down any interesting advances, components, and elements that
+	  more complex neural networks can contain and apply.
+	</p>
+    </section>
+    <footer>
+      <p>Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
 </html>
