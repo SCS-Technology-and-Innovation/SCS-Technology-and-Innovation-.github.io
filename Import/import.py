@@ -31,8 +31,12 @@ notebook = {
         1: 'heuristic',
         3: 'towers',
         4: 'commons',
+        5: 'formation', 
         6: 'perceptron',
-        7: 'neural'
+        7: 'neural',
+        8: 'sentiment',
+        10: 'lanes',
+        12: 'shapley'
     }
 }
     
