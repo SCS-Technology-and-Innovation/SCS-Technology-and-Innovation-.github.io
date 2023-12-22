@@ -65,6 +65,9 @@ function regression(yv, xv) {
 
 let count = 0;
 
+// Source https://bit.ly/2neWfJ2 
+const every_nth = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
+
 function arima() { // as simplified as possible, nothing fancy
     let p = parseInt(document.getElementById("p").value); // for AR
     let d = parseInt(document.getElementById("d").value); // for I
@@ -84,7 +87,8 @@ function arima() { // as simplified as possible, nothing fancy
 	for (let i = last - p; i < last; i++) {
 	    pos.push(i);
 	}
-	let AR = regression(v.slice(last - p), pos);
+	let intoAR = v.slice(last - p); // delay of length p
+	let AR = regression(intoAR, pos);
 	let arpart = AR[0] * last + AR[1]; // the AR part
 	// console.log('AR gave', arpart, AR);
 	f += arpart;
