@@ -6,10 +6,22 @@ from PIL import Image
 import fitz
 from sys import stderr
 
+# 'CCCS 455  Intrusion Test & Secrty Assess - Lecture (Section 755  CRN 789) - Ahmad Radaideh (Summer 2022)_c6c4cf8c-1423-4062-8dfa-14786f3ce3b5en-US.pdf'
+
 def parse(line):
-    year = line.split()[-1][:-1][2:] # parenthesis and 20XX
-    instructor = ' '.join(line.split('-')[-1].split()[:-2])
-    return year, instructor
+    print(line)
+    lettercode = line[2:6]
+    numbercode = line[7:10]
+    tag = 'Section '
+    fop = line.index(tag) + len(tag)
+    section = line[fop:(fop + 3)]
+    op = line.rindex('(') + 1
+    ep = line.rindex(')')
+    dp = line.rindex(' - ') + 3
+    instructor = line[dp:(op - 2)]
+    year = line[op:ep].split()[-1]
+    term = 'F' if '(Fall ' in line else 'S' if '(Summer ' in line else 'W' if '(Winter ' in line else '?'
+    return (term, year, instructor, lettercode, numbercode, section)
 
 TOTAL = 0
 SDISAGREE = 1
@@ -118,7 +130,10 @@ def diagrams(filename):
                     q += 1
     return scores
 
+
+
 def textual(f):
+    
     reader = PdfReader(f)
     content = ''
     for page in reader.pages:
@@ -133,10 +148,25 @@ def textual(f):
     section = None
     prev = None
     listing = []
+    skip = False
     for line in content.split('\n'):
         line = line.strip().lstrip()
         if len(line) == 0:
             continue
+        if 'Department Mean' in line:
+            skip = False        
+        if not skip and 'omments' in line:
+            skip = True
+            continue
+        if skip:
+            continue
+        if 'Mercury Course Evaluation' in line:
+            continue
+        if 'Course Name ' in line:
+            fields = line.split()
+            lettercode = fields[2]
+            numbercode = fields[3][:-1] # colon
+            section = fields[-3][:-1] # comma
         if 'Mean' in line or 'Statistics' in line:
             question = False
             formulation = formulation.lstrip()
@@ -146,29 +176,13 @@ def textual(f):
             formulation = ''
             continue
         if (line[0] == 'Q' and 'Questionnaire' not in line) \
-           or 'In general' in line \
-           or (line[:4] == 'The ' and 'ratings' not in line):
-            question = True
+                   or 'In general' in line \
+                   or (line[:4] == 'The ' and 'ratings' not in line):
+                    question = True
         if question:
             if line not in formulation:
                 formulation += ' ' + line
-        if 'Mercury Course Evaluation' in line:
-            continue
-        if '(Fall' in line:
-            term = 'F'
-            year, instructor = parse(line)
-        elif '(Winter' in line:
-            term = 'W'
-            year, instructor = parse(line)
-        elif '(Summer' in line:
-            term = 'S'
-            year, instructor = parse(line)
-        if 'Course Name ' in line:
-            fields = line.split()
-            lettercode = fields[2]
-            numbercode = fields[3][:-1] # colon
-            section = fields[-3][:-1] # comma
-    return (term, year, lettercode, numbercode, section, instructor, listing)
+    return listing
         
 def complete(filename):
     for question, data in scores[filename].items():
@@ -187,11 +201,11 @@ def complete(filename):
             if total is not None:
                 data[key] = total - accum
             
-def output(labels, values, target):
-    when = labels[0] + labels[1]
-    what = labels[2] + labels[3]
-    who = labels[5]
-    questions = labels[6]
+def output(details, questions, values, target):
+    # (term, year, instructor, lettercode, numbercode, section)
+    when = details[0] + details[1][-2:]
+    what = details[3] + details[4]
+    who = details[2]
     qid = 1
     for q in questions:
         data = values.get(qid, None)
@@ -203,17 +217,21 @@ def output(labels, values, target):
                 f = [ when, what, who, q, ';'.join([ str(i) for i in s]) ]
                 print(';'.join(f), file = target) # semicolon separated file
 
+
+details = {}
 labels = {}
-scores = {}            
+scores = {}
 for filename in os.listdir('.'):
     if '.pdf' in filename:
         f = os.path.join('.', filename)
         if os.path.isfile(f):
             print(f'Processing {filename[:30]}...', file = stderr)
+            details[filename] = parse(f)
+            print(details[filename])
             scores[filename] = diagrams(f)
             labels[filename] = textual(f)
 
 with open('dataset.txt', 'w') as target:
     for filename in labels:
         complete(filename)
-        output(labels[filename], scores[filename], target)
+        output(details[filename], labels[filename], scores[filename], target)
