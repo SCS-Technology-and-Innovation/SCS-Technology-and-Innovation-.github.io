@@ -8,25 +8,73 @@
     <link rel="stylesheet" href="../../custom.css">
     <link rel="stylesheet" href="../../style-2022.css">
     <title>Introduction / Module 3 / CCCS 610</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
   <body class="content" role="document">
     <section class="bg-">
       <div class="container-fluid">    
 	<h1>Introduction</h1>
+	<p>
+	  We will continue leveraging the skills adquired in the first
+	  two modules, revising many of the concepts. This time our
+	  context is from telecommunications: how to place wireless
+	  antennas (such as cellphone towers), assuming a simplified
+	  mathematical model --- the town is a flat square and each
+	  antenna has a circular range of the same radius. We will
+	  delve deeper into the concept of <em>optimization</em>: how
+	  do the decisions we make affect things such as cost and
+	  quality?
+	</p>
+	<h2 class="topic-heading">Objectives</h2>
+	<p>
+	  In this module, you will have a (possibly first-ever) opportunity to...
+	  <ul class="action-items">
+	    <li>... do <em>rejection sampling</em> (Monte Carlo method: accept pseudorandom data that meets a certain condition) </li>
+	    <li>... <em>quantify</em> the consequences of our choices (total coverage of possibly overlapping antennas)</li>
+	    <li>... avoid symbolic mathematics by applying simple computation (think in terms of pixels instead of pigdeon-hole principles)</li>
+	    <li>... <em>normalize</em> values to the unit interval (i.e., make many numbers be from zero to one while maintaining their relative magnitudes)</li>
+	    <li>... identify alternative ways to arrive at the same result and pick the one that requires fewer calculations</li>
+	    <li>... work with two contradictory <em>objectives</em> simultaneously (maximize coverage, minimize the antenna count)</li>	    
+	  </ul>
+	</p>
 	<h2 class="topic-heading">Warm-up</h2>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/W1aMmCZ25fw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/W1aMmCZ25fw"
+		title="YouTube video player" frameborder="0"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	<h2 class="topic-heading">Concepts</h2>
+	<p>
+	  After this module, you should be familiar with the following concepts:
+	</p>
 	<ul class="flex-horizontal border-none">
-	  <li>Maximization</li>
-	  <li>Coverage</li>
-	  <li>Proportion</li>	  
-	  <li>Normalization</li>
-	  <li>Bi-objective</li>
+	  <li>maximization</li>
+	  <li>coverage</li>
+	  <li>proportion</li>	  
+	  <li>normalization</li>
+	  <li>bi-objective</li>
 	</ul>
+	<p>
+	  Remember that you can always look concepts up in the
+	  <a target="_blank"
+	     href="https://scs-technology-and-innovation.github.io/courses/TI.html">glossary</a>.
+	  Should anything be missing or insufficient,
+	  please <a target="_blank"
+		    href="https://forms.office.com/r/VZpfFrZhRu">report</a> it.
+	</p>
     </section>
     <footer>
       <p>
-	Copyright © <script>document.write(new Date().getFullYear());</script>
+	Copyright © <script>
+	  document.write(new Date().getFullYear());
+	</script>
 	McGill University
       </p>
     </footer>
