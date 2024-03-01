@@ -20,7 +20,7 @@ def parse(line):
     dp = line.rindex(' - ') + 3
     instructor = line[dp:(op - 2)]
     year = line[op:ep].split()[-1]
-    term = 'F' if '(Fall ' in line else 'S' if '(Summer ' in line else 'W' if '(Winter ' in line else '?'
+    term = '09' if '(Fall ' in line else '05' if '(Summer ' in line else '01' if '(Winter ' in line else '?'
     return (term, year, instructor, lettercode, numbercode, section)
 
 TOTAL = 0
@@ -203,7 +203,7 @@ def complete(filename):
             
 def output(details, questions, values, target):
     # (term, year, instructor, lettercode, numbercode, section)
-    when = details[0] + details[1][-2:]
+    when = details[1] + details[0]
     what = details[3] + details[4]
     who = details[2]
     qid = 1

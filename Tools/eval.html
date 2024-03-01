@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Course evaluations</title>
@@ -15,7 +16,7 @@
 	computer.</strong> 
     </p>
     <p>
-      Each axis of the spiderweb visualization corressponds to a
+      Each axis of the spiderweb visualization corresponds to a
       question in the course evaluation. The scale of all questions is:
       <ol>
 	  <li>Strongly disagree <em>(the innermost circle)</em></li>
@@ -34,7 +35,13 @@
       <span style="line-height:2;color:#bbbbbb;background-color:#a04668">&nbsp;Third quartile (75 %)</span>
       <span style="line-height:2;color:#444444;background-color:#eba6a9">&nbsp;Maximum (100 %)</span>
     </div>
-    
+    <p>
+      Seeing a lot of gray is a good thing, since it means that the
+      lowest scores were high ones. Seeing a wide span of colors means
+      that the scores were spread out. Each axis needs to be read like
+      a box-whiskers plot of the quantiles where instead of lines
+      there are colors.
+      </p>
     <p>
       <label for="data">Select datafile</label>
       <input type="file" id="data" name="data" accept=".txt">
@@ -60,6 +67,10 @@
     </div>
       <div style="float:left; margin: 10px">    
 	<h3>Questions</h3>
+	<p>Unselect checkboxes to exclude questions from the
+	visualization and then click on the button again to
+	  update the spiderweb to reflect the current selection.</p>
+	<p id="drawn"></p>		  	
 	<ol id="questions">
 	</ol>
       </div>    

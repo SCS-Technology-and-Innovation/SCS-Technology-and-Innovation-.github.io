@@ -41,7 +41,22 @@ function active(d) {
     }
     return true;
 }
-    
+
+
+function addQuestion(d, k, q) {
+    let cb = document.createElement('input');
+    let l = document.createElement('label');    
+    cb.type = 'checkbox';
+    cb.id = 'q' + k;
+    cb.name = cb.id;
+    l.htmlFor = cb.id;
+    cb.checked = true;
+    l.appendChild(document.createTextNode(q));
+    d.appendChild(cb);
+    d.appendChild(l);
+    console.log(cb.id);
+}
+
 file.onchange = e => {
     var r = new FileReader();
     r.readAsText(file.files[0] ,'UTF-8');
@@ -67,11 +82,10 @@ file.onchange = e => {
 	    let q = col[3];
 	    if (!questions.includes(q)) {
 		scores[q] = []; // prepare data storage
+		let li = document.createElement('li');
+		addQuestion(li, questions.length, q);		
+		qlist.appendChild(li);		
 		questions.push(q);
-		const li = document.createElement('li');
-		const t = document.createTextNode(q);
-		li.appendChild(t);
-		qlist.appendChild(li);
 	    }
 	    data(t, c, i, q, 1, parseInt(col[4]));
 	    data(t, c, i, q, 2, parseInt(col[5]));
@@ -79,6 +93,7 @@ file.onchange = e => {
 	    data(t, c, i, q, 4, parseInt(col[7]));
 	    data(t, c, i, q, 5, parseInt(col[8]));
 	}
+	terms.sort();	
 	for (let i = 0; i < terms.length; i++) {
 	    let o = document.createElement('option');
 	    o.value = terms[i];
@@ -184,6 +199,15 @@ function prep() {
     redraw();
 }
 
+function countActiveQuestions() {
+    let k = 0;
+    for (var i = 0; i < questions.length; i++) {
+	k += document.getElementById('q' + i).checked;
+    }
+    var p = document.getElementById("drawn");
+    p.innerHTML = 'Visualizing ' + k +  ' questions.';
+    return k;
+}
 
 function redraw() {
     filter();
@@ -193,21 +217,24 @@ function redraw() {
     c.height = 800;
     var MIDPT = 400;
     ctx.clearRect(0, 0, c.width, c.height);
-    var n = questions.length; // number of regular questions    
+    var n = countActiveQuestions();
     var increment = 2 * Math.PI / n;
     for (var qua = 100; qua >= 0; qua -= 25) { // quartiles
 	ctx.fillStyle = COLORS[qua];
 	ctx.beginPath();
-	for (var i = 0; i < n; i++) {		    
-	    var angle = i * increment;
-	    var value = quartiles[questions[i]][qua];
-	    var dist = (value / maxscore) * AXISLEN;
-	    var x = MIDPT + Math.cos(angle) * dist;
-	    var y = MIDPT + Math.sin(angle) * dist;
-	    if (i == 0) { 
-		ctx.moveTo(x, y);
-	    } else { 
-		ctx.lineTo(x, y);
+	let angle = 0;
+	for (var i = 0; i < questions.length; i++) {
+	    if (document.getElementById('q' + i).checked) {
+		angle += increment;
+		var value = quartiles[questions[i]][qua];
+		var dist = (value / maxscore) * AXISLEN;
+		var x = MIDPT + Math.cos(angle) * dist;
+		var y = MIDPT + Math.sin(angle) * dist;
+		if (i == 0) { 
+		    ctx.moveTo(x, y);
+		} else { 
+		    ctx.lineTo(x, y);
+		}
 	    }
 	}
 	ctx.closePath();
@@ -224,20 +251,23 @@ function redraw() {
 	ctx.stroke();
     }
     ctx.font="15px Verdana";
-    for (var i = 0; i < n; i++) { // axis on top
-	var angle = i * increment;
-	ctx.beginPath();
-	ctx.moveTo(MIDPT, MIDPT);
-	var x = MIDPT + Math.cos(angle) * AXISLEN;
-	var y = MIDPT + Math.sin(angle) * AXISLEN;
-	ctx.strokeStyle = '#000000';
-	ctx.lineWidth = 3;
-	ctx.lineTo(x, y);
-	ctx.stroke();
-	var tx = MIDPT + Math.cos(angle) * (AXISLEN + TEXTSEP);
-	var ty = MIDPT + Math.sin(angle) * (AXISLEN + TEXTSEP);
-	ctx.fillStyle = "#000000";
-	ctx.fillText("Q" + (i + 1), tx, ty);		
+    var angle = 0;
+    for (var i = 0; i < questions.length; i++) {
+	if (document.getElementById('q' + i).checked) {
+	    angle += increment;
+	    ctx.beginPath();
+	    ctx.moveTo(MIDPT, MIDPT);
+	    var x = MIDPT + Math.cos(angle) * AXISLEN;
+	    var y = MIDPT + Math.sin(angle) * AXISLEN;
+	    ctx.strokeStyle = '#000000';
+	    ctx.lineWidth = 3;
+	    ctx.lineTo(x, y);
+	    ctx.stroke();
+	    var tx = MIDPT + Math.cos(angle) * (AXISLEN + TEXTSEP);
+	    var ty = MIDPT + Math.sin(angle) * (AXISLEN + TEXTSEP);
+	    ctx.fillStyle = "#000000";
+	    ctx.fillText("Q" + (i + 1), tx, ty);
+	}
     }
 }
 
