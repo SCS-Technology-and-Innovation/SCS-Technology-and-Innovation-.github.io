@@ -1,35 +1,78 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Introduction / Module 11 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Introduction / Module 11 / CCCS 620</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
 	<h1>Introduction</h1>
-
 	<p>
+	  The previous module focused on supervised models: training
+	  data is accompanied by a human-provided label. This module
+	  is about a <em>non-supervised</em> model: no labels are
+	  given to the data. Instead, we computationally search for
+	  similarities within the provided data to group it into
+	  subgroups. Once the subgroups are constructed, we can then
+	  observe what a label for it would be ("the big purple ones
+	  at the top" versus "the small green ones in the bottom
+	  corner", for example). The task of finding groups of similar
+	  data points is called <em>clustering</em>. Our simulated
+	  data points have several attributes: two coordinates
+	  (horizontal and vertical), three color channels (RGB), and a
+	  radius.
 	</p>
 	<h2 class="topic-heading">Objectives</h2>
 	<p>
 	  In this module, you will have an opportunity to...
 	  <ul class="action-items">
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
+	    <li>... group data into clusters</li>
+	    <li>... vary model parameters to improve clustering results</li>
+	    <li>... visualize multi-attribute data</li>
+	    <li>... examine algorithmic convergence</li>
+	    <li>... adjust a model to new data</li>
 	  </ul>
 	  </p>
-	
-
 	<h2 class="topic-heading">Warm-up</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/pOp-qLLTMso" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    <h2 class="topic-heading">Concepts</h2>
-    <ul class="flex-horizontal border-none">
-      <li>quantitative</li>
-      <li>qualitative</li>
-      <li>clustering</li>
-    </ul>
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+	<iframe width="560" height="315"
+		src="https://www.youtube.com/embed/pOp-qLLTMso"
+		title="YouTube video player" frameborder="0"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<h2 class="topic-heading">Concepts</h2>
+	<ul class="flex-horizontal border-none">
+	  <li>quantitative</li>
+	  <li>qualitative</li>
+	  <li>clustering</li>
+	</ul>
+    </section>
+    <footer>
+      <p>
+	Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
 </html>

@@ -1,52 +1,89 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Introduction / Module 10 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Introduction / Module 10 / CCCS 620</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
 	<h1>Introduction</h1>
-
-		<p>
+	<p>
+	  When a computational system appears to be "intelligent", it
+	  is usually gathering and analyzing data behind the
+	  scenes. This module is focused on that: there is
+	  a <em>training</em> phase in which the user provides both
+	  data and a label for the data, after which there is
+	  a <em>testing</em> phase in which we provide the data and
+	  then have the system suggest a label to it. 
+	</p>
+	<p>
+	  The observed data in this case will be keystrokes the user
+	  types. What is stored is which key is pressed and at what
+	  time. This raw data is then processed by
+	  extracting <em>features</em> from it (the time between two
+	  consecutive keypresses and what were the two keys in
+	  question). The training records these intervals for the key
+	  pairs that are observed and stores them under the provided
+	  label (the method the user employs to type). Then, in the
+	  resting stage, the intervals are recorded again. A suggested
+	  label results from comparing the testing sample (with simple
+	  statistics) to the formerly provided training samples and
+	  picking the most similar one.
 	</p>
 	<h2 class="topic-heading">Objectives</h2>
 	<p>
 	  In this module, you will have an opportunity to...
 	  <ul class="action-items">
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
+	    <li>... train a supervised model</li>
+	    <li>... test a trained model</li>
+	    <li>... generate and label training data</li>
+	    <li>... explore model sensivity to evolving patterns in input data</li>
 	  </ul>
 	  </p>
-	
-
-
 	<h2 class="topic-heading">Warm-up</h2>
-    <p>
-      The pre-class activity is <strong>cursorial</strong> reading
-      (not in-depth by any means, skip anything you do not manage to
-      find interesting or comprehensible) of 
-      <a target="_blank" href="https://doi.org/10.1007/978-981-15-0324-5_13">a
-      scientific article</a>.
-    </p>
-
-
-    <h2 class="topic-heading">Concepts</h2>
-    <ul class="flex-horizontal border-none">
-      <li>artificial intelligence</li>
-      <li>machine learning</li>
-      <li>training data</li>
-      <li>test data</li>      
-      <li>evaluation</li>
-      <li>feature</li>
-      <li>similarity</li>
-    </ul>    
+	<p>
+	  The pre-class activity is <strong>cursorial</strong> reading
+	  (not in-depth by any means, skip anything you do not manage to
+	  find interesting or comprehensible) of 
+	  <a target="_blank"
+	    href="https://doi.org/10.1007/978-981-15-0324-5_13">a
+	    scientific article</a>.
+	</p>
+	<h2 class="topic-heading">Concepts</h2>
+	<ul class="flex-horizontal border-none">
+	  <li>artificial intelligence</li>
+	  <li>machine learning</li>
+	  <li>training data</li>
+	  <li>test data</li>      
+	  <li>evaluation</li>
+	  <li>feature</li>
+	  <li>similarity</li>
+	</ul>    
     </section>
     <footer>
-      <p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p>
+      <p>
+	Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
     </footer>
     <script src="../../jquery-3.3.1.slim.min.js"></script>
     <script src="../../popper.min.js"></script>

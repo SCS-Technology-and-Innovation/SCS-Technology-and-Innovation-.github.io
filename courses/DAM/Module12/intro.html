@@ -1,37 +1,88 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Introduction / Module 12 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Introduction / Module 12 / CCCS 620</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
 	<h1>Introduction</h1>
-
 	<p>
+	  When working with the financial data mid-course, we
+	  approached the question of forecasting: if we know at least
+	  a fragment of the past of a time series, will we be able to
+	  predict what the future values might be? This module exposes
+	  us to an ambitious mathematical construct called an ARIMA
+	  model that does three things at once: attempts to fit a
+	  regression on autocorrelations, calculates differences
+	  between consecutive values instead of looking at the values
+	  as such (possibly more than onces), and observes how model
+	  error evolves over time. With the combined (assumed) powers
+	  of these three elements, a single-point forecast can be
+	  produced. 
 	</p>
+	<p>
+	  Not all time series data is equally "predictable". There may
+	  be periodic (seasonal) variations, the values may be growing
+	  or shrinking over time, and there may be sources of noise,
+	  bias, or error in the measurement. The ARIMA model has three
+	  parameters that one can adjust to try to counter for such
+	  phenomena in the observed data. It is not a simple task,
+	  however, to find the best combination.
+	  </p>
 	<h2 class="topic-heading">Objectives</h2>
 	<p>
 	  In this module, you will have an opportunity to...
 	  <ul class="action-items">
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
-	    <li>...</li>
+	    <li>... generate artificial time series</li>
+	    <li>... examine the effect of seasonality in time series</li>
+	    <li>... examine the effect of linear trend in time series</li>
+	    <li>... examine the effect of noise in time series</li>
+	    <li>... adjust the parameters of a forecasting model</li>
+	    <li>... observe prediction error</li>
 	  </ul>
 	  </p>
-	
-
 	<h2 class="topic-heading">Warm-up</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/oBz-DV0LmIo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    <h2 class="topic-heading">Concepts</h2>
-    <ul class="flex-horizontal border-none">
-      <li>forecast</li>
-      <li>trend</li>
-      <li>seasonal</li>
-      <li>autoregression</li>
-      </ul>
-
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+	<iframe width="560" height="315"
+		src="https://www.youtube.com/embed/oBz-DV0LmIo"
+		title="YouTube video player" frameborder="0"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<h2 class="topic-heading">Concepts</h2>
+	<ul class="flex-horizontal border-none">
+	  <li>forecast</li>
+	  <li>trend</li>
+	  <li>seasonal</li>
+	  <li>autoregression</li>
+	</ul>
+    </section>
+    <footer>
+      <p>
+	Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
 </html>
