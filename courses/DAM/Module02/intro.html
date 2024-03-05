@@ -8,22 +8,68 @@
     <link rel="stylesheet" href="../../custom.css">
     <link rel="stylesheet" href="../../style-2022.css">
     <title>Introduction / Module 2 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag () {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
   <body class="content" role="document">
     <section class="bg-">
       <div class="container-fluid">    
 	<h1>Introduction</h1>
+	<p>
+	  The simulation in the first module was rather simple: one of
+	  the elevators arrives and that the entirely of a
+	  replica. Most real-world phenomena are a bit more complex
+	  than that. This module takes us into the world of queuing
+	  theory as we simulate a multi-server multi-client setting: a
+	  hair salon. One or more hair dresses have their individual
+	  work stations at which they can provide a service to one
+	  customer at a time. Customers may choose to wait for their
+	  turn in a lounge, but having to wait can lead to churn
+	  &mdash; a customer might just walk out without ever getting
+	  served. 
+	</p>
+	<p>
+	  A situation of this kind gives rise to many questions of
+	  interest: how long do the customers typically need to wait,
+	  what proportion of customers are lost to churn, are any of
+	  the hair dressers and their work stations idle? Gathering
+	  statistics over numerous replicas may again shed light on
+	  what to do: how many seats to provide in the lobby, how many
+	  hair dresses to employ simultaneously, and how to model
+	  service times and customer preferences?
+	</p>
+	<h2 class="topic-heading">Objectives</h2>
+	<p>
+	  In this module, you will have an opportunity to...
+	  <ul class="action-items">
+	    <li>... simulate a service</li>
+	    <li>... adjust the parameters of an arrival process</li>
+	    <li>... study the effect of capacity constraints, policies, and preferences</li>
+	    <li>... measure and analyze basic performance measures of a queueing model</li>
+	  </ul>
+	  </p>
 	<h2 class="topic-heading">Warm-up</h2>
-	<iframe width="560" height="315" src="https://www.youtube.com/embed/kczqj8t3ZDQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<iframe width="560" height="315"
+		src="https://www.youtube.com/embed/kczqj8t3ZDQ"
+		title="YouTube video player"
+		frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	<h2 class="topic-heading">Concepts</h2>
-    <ul class="flex-horizontal border-none">
-      <li>queue</li>
-      <li>service time</li>
-      <li>waiting time</li>
-      <li>capacity</li>
-      <li>arrival process</li>
-      <li>churn</li>
-    </ul>
+	<ul class="flex-horizontal border-none">
+	  <li>queue</li>
+	  <li>service time</li>
+	  <li>waiting time</li>
+	  <li>capacity</li>
+	  <li>arrival process</li>
+	  <li>churn</li>
+	</ul>
     </section>
     <footer>
       <p>

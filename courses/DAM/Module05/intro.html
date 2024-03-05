@@ -1,24 +1,89 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Introduction / Module 5 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
-    <h1>Introduction</h1><h2 class="topic-heading">Warm-up</h2>
-    <p>
-      A <a target="_blank" href="https://www.investopedia.com/timeline-of-stock-market-crashes-5217820">news
-      article</a> for pre-class reading.
-      
-    </p>
-    <h2 class="topic-heading">Concepts</h2>
-
-    <ul class="flex-horizontal border-none">
-      <li>stock price</li>
-      <li>time series</li>
-      <li>data visualization</li>
-      <li>scatter plot</li>
-      <li>correlation</li>
-      <li>autocorrelation</li>
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Introduction / Module 5 / CCCS 620</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
+  	<h1>Introduction</h1>
+	<p>
+	  From healthcare, we jump to finance. Scheduling was the task
+	  of deciding when things should happen, and we will get to
+	  the "decide when" part of finance in the next module. Before
+	  we can make decisions on financial matters, we first need to
+	  learn to interpret financial data. This module focuses on
+	  just that: time series analysis &mdash; how does data behave
+	  over time &mdash; and comparative analysis of two sets of
+	  data &mdash; do we gain any knowledge of one data set by
+	  studying another? 
+	</p>
+	<p>
+	  Another new flavor to this module is that we do <em>not</em>
+	  worth with simulated data. Instead, we download open
+	  datasets of historical records in CSV (comma-separated
+	  values) format which is a text file: each row is a record
+	  (moment in time) and each column is a measurement done at
+	  that moment. We practice these concepts through stock-price
+	  data, although the same approach would trivially generalize
+	  to weather data, for example. 
+	
+	<h2 class="topic-heading">Objectives</h2>
+	<p>
+	  In this module, you will have an opportunity to...
+	  <ul class="action-items">
+	    <li>... access and process open data </li>
+	    <li>... visualize time series data</li>
+	    <li>... interpret candlestick charts</li>
+	    <li>... interpret scatter plots</li>	    
+	    <li>... compute and interpret correlations between two data sets</li>
+	    <li>... compute and interpret auto-correlations</li>
+	  </ul>
+	</p>
+	<h2 class="topic-heading">Warm-up</h2>
+	<p>
+	  A <a target="_blank"
+	       href="https://www.investopedia.com/timeline-of-stock-market-crashes-5217820">news
+	    article</a> for pre-class reading.
+	</p>
+	<h2 class="topic-heading">Concepts</h2>
+	<ul class="flex-horizontal border-none">
+	  <li>time series</li>
+	  <li>data visualization</li>
+	  <li>candlestick plot</li>	  
+	  <li>scatter plot</li>
+	  <li>correlation</li>
+	  <li>autocorrelation</li>
     </ul>
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+    </section>
+    <footer>
+      <p>
+	Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
 </html>

@@ -8,15 +8,82 @@
     <link rel="stylesheet" href="../../custom.css">
     <link rel="stylesheet" href="../../style-2022.css">
     <title>Introduction / Module 7 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
   <body class="content" role="document">
     <section class="bg-">
       <div class="container-fluid">    
-  
-	<h1>Introduction</h1>
+  	<h1>Introduction</h1>
+	<p>
+	  The stock market is not the only finance market one should
+	  seek to understand. Real estate is another one that for many
+	  is closer to their daily lives. We all need a place to live,
+	  and whether to rent or buy is a decision that keeps popping
+	  up when one progresses through stages of life. 
+	</p>
+	<p>
+	  In Module 5 we explored the correlation of two time series
+	  (two different stock prices or the autocorrelation of a time
+	  series to a shifted version of itself) and how we will dig
+	  deeped into this concept and take it one step further by
+	  examining a <em>linear regression</em> model that emerges
+	  (largely as a happy side product) from the calculations we
+	  do to detemine the correlation.
+	</p>
+	<p>
+	  We also need to learn to be creative with our data
+	  sources. Assume we want to establish a relationship between
+	  what a residential property costs (if one should buy the
+	  property) versus what the monthly rent of that same property
+	  would be. Although some cross-list their real estate as "buy
+	  or rent", most properties are listed as either-or. Unless we
+	  are able to create a pair dataset of "sales price" versus
+	  "rent price", we cannot check for a correlation and &mdash;
+	  alas &mdash; cannot fit the regression model either. 
+	</p>
+	<p>
+	  One way to go about this dilemma is to seek out listings for
+	  similar properties (near one another, about the same size,
+	  roughly the same year of construction, etc.) and then
+	  "bucket" two or more listings into one, using the average
+	  sales price of the bucket together with the averare rent
+	  amount of the bucket to create a single data point for our
+	  analytics purposes. This module is an exercise in creativity
+	  to seek out data, compare it, group it, represent it and
+	  then build a model for it. Once the model is built, we can
+	  begin to pose questions such as "if a house costs this much,
+	  then what would it cost to rent one like it?". With some
+	  basic math, we can use the same model to pose a vice-versa
+	  question: "if this is how much rent is charged for an
+	  apartment like this, what would it cost to buy one?".
+	</p>
+	<h2 class="topic-heading">Objectives</h2>
+	<p>
+	  In this module, you will have an opportunity to...
+	  <ul class="action-items">
+	    <li>... identify potential data sources</li>
+	    <li>... combine data from multiple sources</li>
+	    <li>... fit a linear model to two-dimensional data</li>
+	    <li>... quantify the error of a fitted model</li>
+	    <li>... describe the quality of a fitted model</li>
+	    <li>... consult a fitted model</li>
+	    <li>... identify subgroups and outliers on a scatter plot</li>
+	    <li>... invert a fitted model to the opposite question</li>
+	  </ul>
+	  </p>
 	<h2 class="topic-heading">Warm-up</h2>
 	<p>
-	  An <a target="_blank" href="https://smartasset.com/mortgage/how-much-you-should-charge-for-rent">online
+	  An <a target="_blank"
+		href="https://smartasset.com/mortgage/how-much-you-should-charge-for-rent">online
 	    guide</a> is the pre-class reading for this module.
 	</p>
 	<h2 class="topic-heading">Concepts</h2>
@@ -32,7 +99,9 @@
     <footer>
       <p>
 	Copyright ©
-	<script>document.write(new Date().getFullYear());</script>
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
 	McGill University
       </p>
     </footer>

@@ -1,22 +1,83 @@
 <!DOCTYPE html>
 <HTML lang="en">
-  <HEAD>  <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="../../all.min.css"><link rel="stylesheet" href="../../styles.min.css"><link rel="stylesheet" href="../../custom.css"><link rel="stylesheet" href="../../style-2022.css"><title>Introduction / Module 4 / CCCS 620</TITLE>
-  <!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script></head><body class="content" role="document"><section class="bg-"><div class="container-fluid">    
-  
-    <h1>Introduction</h1><h2 class="topic-heading">Warm-up</h2>
-    <p>
-      Explore the <a target="_blank" href="http://waittimes.alberta.ca/">Alberta
-      hospital waiting-time site</a> for a bit to get started.
-    </p>
-    <h2 class="topic-heading">Concepts</h2>
-    <ul class="flex-horizontal border-none">
-      <li>scheduling</li>
-      <li>restriction</li>
-      <li>capacity</li>
-      <li>heuristic</li>
-      <li>greedy</li>
-      <li>suboptimal</li>
-    </ul>
-  </section><footer><p>Copyright © <script>document.write(new Date().getFullYear());</script> McGill University</p></footer><script src="../../jquery-3.3.1.slim.min.js"></script><script src="../../popper.min.js"></script><script src="../../bootstrap.min.js"></script><script src="../../scripts.min.js "></script></body>
+  <HEAD>
+    <META HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport"
+	  content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../all.min.css">
+    <link rel="stylesheet" href="../../styles.min.css">
+    <link rel="stylesheet" href="../../custom.css">
+    <link rel="stylesheet" href="../../style-2022.css">
+    <title>Introduction / Module 4 / CCCS 620</TITLE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+	  dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8SJ1WFY9N");
+    </script>
+  </head>
+  <body class="content" role="document">
+    <section class="bg-">
+      <div class="container-fluid">    
+  	<h1>Introduction</h1>
+	<p>
+	  Matching (Module 3) solves the problem of "who",
+	  whereas <em>scheduling</em>, our topic for the current
+	  module, adds the important element "when". We also throw
+	  into the mix the "where" part, remaining within our case
+	  study of ensuring proper and efficient healthcare to a set
+	  of patients with diverse needs while respecting doctor
+	  knowhow and capacity. If "when" and "where" weren't
+	  challenging enough, we will also add a question
+	  of <em>priority</em> &mdash; particularly in healthcare,
+	  some services are more critical than others since some
+	  patients are in life-threatening situations while others
+	  suffer from a minor inconvenience. A good scheduler would
+	  allow for each patient to receive care in a timely manner,
+	  while ensuring that those in most urgent need will be
+	  attended to first.
+	</p>
+	<h2 class="topic-heading">Objectives</h2>
+	<p>
+	  In this module, you will have an opportunity to...
+	  <ul class="action-items">
+	    <li>... solve a scheduling problem with a greedy heuristic</li>
+	    <li>... comply with multiple sets of restrictions</li>
+	    <li>... model two or more levels of priority</li>
+	    <li>... make resource decisions based on observed shortages</li>
+	  </ul>
+	  </p>
+	<h2 class="topic-heading">Warm-up</h2>
+	<p>
+	  Explore the <a target="_blank" href="http://waittimes.alberta.ca/">Alberta
+	    hospital waiting-time site</a> for a bit to get started.
+	</p>
+	<h2 class="topic-heading">Concepts</h2>
+	<ul class="flex-horizontal border-none">
+	  <li>scheduling</li>
+	  <li>restriction</li>
+	  <li>capacity</li>
+	  <li>heuristic</li>
+	  <li>greedy</li>
+	  <li>suboptimal</li>
+	</ul>
+    </section>
+    <footer>
+      <p>
+	Copyright ©
+	<script>
+	  document.write(new Date().getFullYear());
+	</script>
+	McGill University
+      </p>
+    </footer>
+    <script src="../../jquery-3.3.1.slim.min.js"></script>
+    <script src="../../popper.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../scripts.min.js "></script>
+  </body>
 </html>
