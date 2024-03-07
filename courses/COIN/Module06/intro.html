@@ -22,16 +22,50 @@
   <body class="content" role="document">
     <section class="bg-">
       <div class="container-fluid">    
-  
 	<h1>Introduction</h1>
+	<p>
+	  Many popular (and powerful) computational techniques are
+	  inspired by biology, physics, or chemistry. When the brain
+	  learns, the neurons (brain cells) adjust their synaptic
+	  connections to other neurons. A classic computational model
+	  that tries to capture the way in which neurons operate is
+	  called perceptron. It is a neat little mathematical
+	  representation where an input (represented by a vector) and
+	  the current "state of learning" of the perceptron
+	  (represented by another vector known as its weights) are
+	  combined with linear algebra (an inner product) to produce
+	  value that can then be fed into an activation function
+	  (often a threshold) to produce a yes/no output from it. One
+	  can "make the neuron learn" (train it) by providing inputs
+	  for which the desired outputs are known ahead of time, then
+	  compare the generated output with the desired one, and
+	  adjust the weights little by little until the perceptron
+	  systematically gets it right. Of course, the model being so
+	  simple, it cannot learn just anything &mdash; only linearly
+	  separable tw0-class problems &mdash; but if one combines
+	  many perceptrons (to build a brain instead of just a single
+	  cell), the possibilities become vast.
+	</p>
+	<h2 class="topic-heading">Objectives</h2>
+	<p>
+	  In this module, you will have an opportunity to...
+	  <ul class="action-items">
+	    <li>... understand the inner workings of a perceptron</li>
+	    <li>... train a perceptron by adjusting the weights upon errors</li>
+	    <li>... compute common performance measures for a perceptron</li>
+	    <li>... combine multiple perceptrons to create a layer of neurons</li>
+	    <li>... represent base 10 (decimal) class labels in base 2 (binary)</li>
+	  </ul>
+	</p>
 	<h2 class="topic-heading">Warm-up</h2>
 	<p>
 	  Our attempts to comprehend artificial brains benefit from a
 	  refresher on how our own brains operate. The below video
 	  might help.
 	</p>	  
-<iframe width="560" height="315" src="https://www.youtube.com/embed/6qS83wD29PY?si=5ZHSW8Y8Wk4W5Beb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/6qS83wD29PY?si=5ZHSW8Y8Wk4W5Beb"
+		title="YouTube video player" frameborder="0"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         <h2 class="topic-heading">Concepts</h2>
 	<ul class="flex-horizontal border-none">
 	  <li>classification</li>
@@ -42,7 +76,6 @@
 	  <li>error</li>
 	  <li>confusion matrix</li>	  	  
 	</ul>	
-	
     </section>
     <footer>
       <p>
