@@ -58,7 +58,7 @@
 
 #find . -type f -iname "*.html" -exec sed -i.bak 's#</head>##' '{}' + 
 
-#find . -type f -iname "*.html" -exec sed -i.bak 's#${repl}#<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8SJ1WFY9N"></script><script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "G-F8SJ1WFY9N"); </script>#' '{}' +
+#find . -type f -iname "*.html" -exec sed -i.bak 's#${repl}##' '{}' +
 
 
 find . -type f -iname "*.html" -exec sed -i.bak 's#WFY9N"); </script>#WFY9N"); </script></head>#' '{}' +
